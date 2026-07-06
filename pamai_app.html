@@ -469,7 +469,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
     </div>
 
     <!-- VENDOR DB -->
-    <div id="vdb" class="pane" id="vdb-pane" style="flex-direction:column;overflow:hidden">
+    <div id="vdb" class="pane" style="flex-direction:column;overflow:hidden">
       <div class="vdb-toolbar">
         <input class="sbox" id="vdb-q" placeholder="🔍 ค้นหาล็อค / ชื่อ / สินค้า / เบอร์..." oninput="renderVDB()" style="max-width:220px">
         <select class="fsel" id="vdb-zone" onchange="renderVDB()">
@@ -513,7 +513,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
     </div>
 
     <!-- ACTIVITY LOG -->
-    <div id="actlog" class="pane" id="actlog-pane" style="flex-direction:column;overflow:hidden;background:var(--bg)">
+    <div id="actlog" class="pane" style="flex-direction:column;overflow:hidden;background:var(--bg)">
       <div style="padding:10px 14px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap">
         <div style="font-size:.82rem;font-weight:800">📝 บันทึกกิจกรรมการใช้งาน</div>
         <select class="fsel" id="al-filter" onchange="renderActLog()">
@@ -1177,51 +1177,62 @@ function loadModule(id) {
   if (!src || loadedModules.has(id)) return;
   loadedModules.add(id);
 
-  // Method 1: Try iframe (works when files are co-located on server)
+  // Build the iframe once. It is appended to the DOM exactly one time —
+  // never removed and re-appended — because doing so forces browsers to
+  // discard and recreate the frame's browsing context, which re-triggers
+  // onload and caused an infinite reload loop (constant flicker) before.
+  pane.innerHTML = '';
+  pane.style.position = 'relative';
+
   const iframe = document.createElement('iframe');
   iframe.className = 'module-frame';
-  iframe.src = src;
   iframe.title = id;
 
-  // Detect if iframe loaded successfully
-  let loaded = false;
+  const loadingEl = document.createElement('div');
+  loadingEl.className = 'module-loading';
+  loadingEl.style.cssText = 'position:absolute;inset:0;background:var(--bg);';
+  loadingEl.innerHTML = '<div style="font-size:1.5rem">⏳</div><div>กำลังโหลด...</div>';
+
+  let settled = false;
+
+  function finish(ok) {
+    if (settled) return;
+    settled = true;
+    if (ok) {
+      loadingEl.remove();
+    } else {
+      pane.innerHTML = '';
+      showModuleFallback(pane, src, id);
+    }
+  }
+
   iframe.onload = function() {
     try {
-      // If we can access contentDocument, iframe loaded OK
+      // If we can access contentDocument, iframe loaded OK (same-origin)
       const doc = iframe.contentDocument || iframe.contentWindow.document;
       if (doc && doc.body && doc.body.innerHTML.length > 100) {
-        loaded = true;
-        pane.innerHTML = '';
-        pane.appendChild(iframe);
+        finish(true);
         return;
       }
     } catch(e) {}
-    // If iframe can't be read (cross-origin or file not found), show fallback
-    if (!loaded) showModuleFallback(pane, src, id);
+    finish(false);
   };
   iframe.onerror = function() {
-    showModuleFallback(pane, src, id);
+    finish(false);
   };
 
-  // Show iframe immediately (will trigger onload)
-  pane.innerHTML = '<div class="module-loading"><div style="font-size:1.5rem">⏳</div><div>กำลังโหลด...</div></div>';
   pane.appendChild(iframe);
+  pane.appendChild(loadingEl);
+  iframe.src = src;
 
   // Fallback timeout: if iframe doesn't load in 3s, show fallback
   setTimeout(() => {
-    if (!loaded && pane.querySelector('iframe')) {
-      try {
-        const doc = iframe.contentDocument || iframe.contentWindow.document;
-        if (!doc || !doc.body || doc.body.innerHTML.length < 100) {
-          showModuleFallback(pane, src, id);
-        } else {
-          loaded = true;
-          pane.innerHTML = '';
-          pane.appendChild(iframe);
-        }
-      } catch(e) {
-        showModuleFallback(pane, src, id);
-      }
+    if (settled) return;
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      finish(!!(doc && doc.body && doc.body.innerHTML.length > 100));
+    } catch(e) {
+      finish(false);
     }
   }, 3000);
 }
