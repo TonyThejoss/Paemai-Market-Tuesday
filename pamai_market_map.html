@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ผังตลาดแพไม้</title>
+<style>
+:root{--g:#1a3d2b;--gm:#2d6a4f;--gb:#40916c;--gl:#d8f3dc;--gll:#f0fff4;--r:#b91c1c;--rl:#fee2e2;--o:#c2410c;--ol:#fff7ed;--b:#2563eb;--bl:#dbeafe;--y:#f59e0b;--yl:#fef3c7;--pu:#7c3aed;--pul:#ede9fe;--bg:#f0f4f8;--sf:#fff;--sf2:#f8fafc;--bd:#e2e8f0;--bd2:#cbd5e0;--tx:#0f172a;--txm:#475569;--txl:#94a3b8;--sdw:0 4px 20px rgba(0,0,0,.09);--ease:cubic-bezier(.4,0,.2,1);--lkw:60px;--lkh:46px;}
+[data-theme="dark"]{--bg:#0d1117;--sf:#161b22;--sf2:#1c2333;--bd:#30363d;--bd2:#484f58;--tx:#e6edf3;--txm:#8b949e;--txl:#484f58;--gl:#132a1d;--gll:#0d1f14;--rl:#2d0a0a;--ol:#2d1200;--bl:#0d1b3e;--pul:#1e0f3d;--yl:#2d2000;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:13px;min-height:100vh;transition:background .3s,color .3s;}
+.topbar{background:linear-gradient(135deg,#0d2618,var(--g),var(--gm));color:#fff;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.4);}
+.topbar h1{font-size:.88rem;font-weight:800;}.topbar p{font-size:.65rem;opacity:.7;margin-top:1px;}
+.dm-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.dm-btn:hover{background:rgba(255,255,255,.22);}
+.zone-bar{background:var(--sf);border-bottom:1px solid var(--bd);display:flex;overflow-x:auto;position:sticky;top:49px;z-index:90;}
+.zone-bar::-webkit-scrollbar{display:none;}
+.ztab{padding:10px 18px;border:none;background:none;cursor:pointer;font-size:.75rem;font-weight:700;color:var(--txl);border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .18s;font-family:inherit;}
+.ztab.active{color:var(--gm);border-bottom-color:var(--gm);}
+.toolbar{padding:8px 16px;background:var(--sf2);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:4px;font-size:.66rem;color:var(--txl);cursor:pointer;padding:3px 8px;border-radius:16px;border:1.5px solid transparent;transition:all .14s;}
+.leg:hover,.leg.active{background:var(--sf);border-color:var(--bd2);}
+.leg-dot{width:10px;height:10px;border-radius:3px;}
+.sbox{padding:5px 10px;border:1.5px solid var(--bd);border-radius:7px;font-size:.74rem;background:var(--sf);color:var(--tx);outline:none;font-family:inherit;transition:border-color .18s;}
+.sbox:focus{border-color:var(--gm);}
+.stats-bar{margin-left:auto;display:flex;gap:12px;}
+.sm{text-align:center;}.sm .n{font-size:.9rem;font-weight:800;}.sm .l{font-size:.60rem;color:var(--txl);}
+.map-area{padding:16px;overflow:auto;position:relative;}
+.zone-map{display:none;}
+.zone-map.active{display:block;animation:fadeUp .25s var(--ease);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.sec-title{font-size:.72rem;font-weight:800;color:var(--txm);margin:0 0 7px;display:flex;align-items:center;gap:7px;padding:0 2px;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--bd);}
+.bld{border:2px solid var(--bd);border-radius:12px;background:var(--sf);padding:12px 14px;margin-bottom:14px;position:relative;box-shadow:var(--sdw);}
+.bld-label{position:absolute;top:-9px;left:12px;background:var(--sf);padding:1px 8px;font-size:.65rem;font-weight:800;color:var(--gm);border:1.5px solid var(--gm);border-radius:16px;white-space:nowrap;}
+.bld.out{border-color:var(--bl);background:rgba(37,99,235,.02);}
+.aisle{display:flex;align-items:center;justify-content:center;margin:5px 0;}
+.aisle-line{flex:1;height:1.5px;background:repeating-linear-gradient(90deg,var(--bd) 0,var(--bd) 5px,transparent 5px,transparent 10px);}
+.aisle-label{font-size:.58rem;color:var(--txl);padding:0 7px;white-space:nowrap;}
+.lrow{display:flex;gap:3px;margin-bottom:3px;align-items:flex-start;}
+.row-label{font-size:.55rem;color:var(--txl);font-weight:700;min-width:16px;text-align:right;margin-right:2px;padding-top:13px;}
+/* LOCK */
+.lk{width:var(--lkw);height:var(--lkh);border-radius:8px;border:1.5px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .14s var(--ease);position:relative;font-size:.58rem;font-weight:700;text-align:center;line-height:1.3;flex-shrink:0;user-select:none;}
+.lk:hover{transform:translateY(-3px) scale(1.08);z-index:20;box-shadow:0 5px 14px rgba(0,0,0,.16);}
+.lk.occupied{background:var(--gl);border-color:var(--gb);color:#1b4332;}
+.lk.vacant{background:var(--yl);border-color:#d97706;color:#78350f;}
+.lk.cancelled{background:var(--rl);border-color:var(--r);color:#7f1d1d;}
+.lk.unpaid{background:var(--ol);border-color:var(--o);color:#7c2d12;}
+.lk.is-leave{outline:2.5px solid #7c3aed;outline-offset:1px;}
+.lk.is-absent{outline:2.5px solid var(--r);outline-offset:1px;}
+.lk.is-daily{filter:brightness(.88) saturate(1.2);}
+[data-theme="dark"] .lk.occupied{background:#132a1d;border-color:var(--gm);color:#86efac;}
+[data-theme="dark"] .lk.vacant{background:#2d2000;border-color:#b45309;color:#fde68a;}
+[data-theme="dark"] .lk.cancelled{background:#2d0a0a;border-color:var(--r);color:#fca5a5;}
+[data-theme="dark"] .lk.unpaid{background:#2d1200;border-color:var(--o);color:#fdba74;}
+.lk.has-roof::after{content:'🏠';position:absolute;top:1px;right:2px;font-size:.38rem;}
+.lk-id{font-size:.58rem;font-weight:800;}
+.lk-shop{font-size:.50rem;opacity:.85;width:100%;text-align:center;padding:0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lk.hidden-filter{opacity:.1;transform:none!important;pointer-events:none;}
+.lk.highlight{outline:2.5px solid var(--gm);outline-offset:1px;z-index:30;}
+.lk-badges{position:absolute;top:-6px;left:50%;transform:translateX(-50%);display:flex;gap:2px;z-index:5;white-space:nowrap;}
+.lk-badge{padding:1px 5px;border-radius:8px;font-size:.44rem;font-weight:800;color:#fff;}
+.lb-leave{background:#7c3aed;}.lb-absent{background:var(--r);}.lb-daily{background:#d97706;}
+.outdoor-strip{display:flex;gap:0;margin-bottom:14px;overflow-x:auto;}
+.outdoor-strip::-webkit-scrollbar{height:4px;}
+.outdoor-strip::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
+.oz-col{flex-shrink:0;}
+.oz-col+.oz-col{border-left:2px dashed var(--bd2);margin-left:8px;padding-left:8px;}
+.oz-hdr{font-size:.65rem;font-weight:800;padding:2px 7px;border-radius:16px;margin-bottom:6px;display:inline-block;}
+.ff-wrap{display:flex;gap:12px;}
+.ff-side{display:flex;flex-direction:column;gap:3px;}
+.ff-div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 2px;}
+.ff-line{flex:1;width:1.5px;background:repeating-linear-gradient(180deg,var(--bd) 0,var(--bd) 4px,transparent 4px,transparent 8px);}
+.ff-arrow{font-size:.58rem;color:var(--txl);}
+/* POPUP */
+#popupWrap{display:none;position:absolute;z-index:500;}
+#popupWrap.show{display:block;}
+.popup-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:14px;width:290px;box-shadow:0 8px 32px rgba(0,0,0,.22);overflow:hidden;animation:popIn .17s var(--ease);}
+@keyframes popIn{from{transform:scale(.88) translateY(-6px);opacity:0}to{transform:scale(1);opacity:1}}
+.pp-hdr{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:linear-gradient(135deg,var(--g),var(--gm));color:#fff;}
+.pp-lock{font-size:.88rem;font-weight:800;}.pp-zone{font-size:.58rem;opacity:.78;margin-top:1px;}
+.pp-close{width:20px;height:20px;border-radius:50%;border:none;background:rgba(255,255,255,.2);cursor:pointer;font-size:.72rem;color:#fff;display:flex;align-items:center;justify-content:center;transition:all .14s;}
+.pp-close:hover{background:rgba(255,255,255,.35);}
+.pp-vendor{display:flex;align-items:center;gap:8px;padding:8px 13px;border-bottom:1px solid var(--bd);background:var(--sf2);}
+.pp-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gl),var(--gll));display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.pp-vname{font-size:.76rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pp-phone{font-size:.66rem;color:var(--txl);margin-top:2px;display:flex;align-items:center;gap:3px;}
+.pp-phone a{color:var(--gm);font-weight:700;text-decoration:none;}
+.pp-body{padding:7px 13px 9px;}
+.pp-row{display:flex;justify-content:space-between;align-items:center;padding:3.5px 0;font-size:.70rem;border-bottom:1px solid var(--bd);}
+.pp-row:last-of-type{border:none;}.pp-lbl{color:var(--txl);}.pp-val{font-weight:700;text-align:right;}
+.pp-status{display:inline-block;padding:2px 8px;border-radius:9px;font-size:.61rem;font-weight:800;margin-top:6px;}
+.pp-call-btn{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:7px;padding:5px;background:var(--gll);border:1.5px solid var(--gm);border-radius:7px;font-size:.70rem;font-weight:700;color:var(--gm);text-decoration:none;transition:all .14s;}
+.pp-call-btn:hover{background:var(--gm);color:#fff;}
+.pp-daily-info{margin-top:7px;padding:5px 8px;background:var(--yl);border:1px solid #d97706;border-radius:7px;font-size:.66rem;font-weight:700;color:#78350f;}
+.pp-actions{padding:7px 13px 9px;border-top:1px solid var(--bd);background:var(--sf2);display:flex;flex-wrap:wrap;gap:4px;}
+.pp-btn{flex:1;min-width:0;padding:5px 3px;border:none;border-radius:6px;font-size:.63rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .14s;text-align:center;}
+.pp-btn:hover{transform:translateY(-1px);}
+.pp-btn.b-leave{background:var(--pul);color:#6d28d9;}.pp-btn.b-leave:hover{background:#7c3aed;color:#fff;}
+.pp-btn.b-absent{background:var(--rl);color:var(--r);}.pp-btn.b-absent:hover{background:var(--r);color:#fff;}
+.pp-btn.b-daily{background:var(--yl);color:#78350f;}.pp-btn.b-daily:hover{background:#d97706;color:#fff;}
+.pp-btn.b-cancel{background:var(--sf2);color:var(--txm);border:1px solid var(--bd);}
+.pp-btn.b-cancel:hover{background:var(--rl);color:var(--r);}
+.pp-hist{padding:5px 13px 7px;border-top:1px solid var(--bd);font-size:.64rem;color:var(--txl);}
+.hist-item{display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:8px;font-size:.58rem;font-weight:700;margin:2px 2px 0 0;}
+.hi-leave{background:var(--pul);color:#6d28d9;}.hi-absent{background:var(--rl);color:var(--r);}.hi-daily{background:var(--yl);color:#78350f;}
+/* MODALS */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
+.modal-bg.show{display:flex;}
+.modal-box{background:var(--sf);border-radius:15px;padding:20px 24px;max-width:420px;width:93%;box-shadow:0 20px 50px rgba(0,0,0,.28);border:1px solid var(--bd);animation:popIn .2s var(--ease);}
+.m-title{font-size:.90rem;font-weight:800;margin-bottom:2px;}.m-sub{font-size:.70rem;color:var(--txl);margin-bottom:14px;}
+.m-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.m-row.c1{grid-template-columns:1fr;}
+.m-field{display:flex;flex-direction:column;gap:3px;}
+.m-field label{font-size:.64rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
+.m-field input,.m-field select{padding:7px 9px;border:1.5px solid var(--bd);border-radius:7px;font-size:.78rem;background:var(--sf2);color:var(--tx);outline:none;font-family:inherit;transition:border-color .18s;}
+.m-field input:focus,.m-field select:focus{border-color:var(--gm);}
+.m-summary{background:var(--gll);border:1.5px solid var(--gm);border-radius:8px;padding:9px 12px;margin-top:9px;}
+.ms-row{display:flex;justify-content:space-between;padding:3px 0;font-size:.74rem;border-bottom:1px solid var(--bd);}
+.ms-row:last-child{border:none;font-weight:800;color:var(--gm);font-size:.80rem;}
+.m-footer{display:flex;gap:8px;margin-top:14px;justify-content:flex-end;}
+.m-btn{padding:7px 15px;border:none;border-radius:7px;font-size:.76rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .16s;}
+.m-btn.primary{background:linear-gradient(135deg,var(--gm),var(--gb));color:#fff;box-shadow:0 3px 12px rgba(45,106,79,.26);}
+.m-btn.primary:hover{transform:translateY(-1px);filter:brightness(1.06);}
+.m-btn.secondary{background:var(--sf2);border:1.5px solid var(--bd);color:var(--txm);}
+.m-btn.secondary:hover{background:var(--bd);}
+/* MOVE/CANCEL modals */
+#mv-target-info{background:var(--gll);border:1.5px solid var(--gm);border-radius:8px;padding:9px 12px;font-size:.74rem;color:var(--gm);margin-bottom:8px;display:none;}
+#cl-warn{background:var(--rl);border:1.5px solid var(--r);border-radius:8px;padding:9px 12px;font-size:.74rem;color:var(--r);font-weight:700;margin-bottom:10px;display:none;}
+/* TOAST */
+.toast{position:fixed;bottom:18px;right:18px;z-index:9999;padding:9px 15px;border-radius:9px;font-size:.76rem;font-weight:700;color:#fff;transform:translateY(60px);opacity:0;transition:all .26s var(--ease);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.s{background:var(--gm);}.toast.e{background:var(--r);}.toast.i{background:var(--b);}.toast.w{background:var(--o);}
+/* STATE BANNER */
+#state-banner{font-family:'Segoe UI',system-ui,sans-serif;}
+#state-banner button:hover{background:rgba(255,255,255,.28)!important;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
+@media(max-width:700px){:root{--lkw:48px;--lkh:40px;}.lk-shop{display:none;}.stats-bar{display:none;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div><h1>🗺️ ผังตลาดแพไม้</h1><p>คลิกล็อค → ดูข้อมูล · แจ้งลา · ขาดล็อค · จองผู้ค้าจร · ย้ายล็อค</p></div>
+  <button class="dm-btn" onclick="toggleDark()">🌓</button>
+</div>
+<div class="zone-bar">
+  <button class="ztab active" onclick="switchZone('sa',this)">🏪 โรงหน้า (SA)</button>
+  <button class="ztab" onclick="switchZone('big',this)">🏢 โรงใหญ่ (SB–SF)</button>
+  <button class="ztab" onclick="switchZone('out',this)">🌳 โซนด้านนอก (A–F)</button>
+</div>
+<div class="toolbar">
+  <div style="display:flex;gap:5px;flex-wrap:wrap">
+    <div class="leg active" onclick="setFilter('',this)"><div class="leg-dot" style="background:var(--bd2)"></div>ทั้งหมด</div>
+    <div class="leg" onclick="setFilter('occupied',this)"><div class="leg-dot" style="background:#52b788"></div>มีผู้เช่า</div>
+    <div class="leg" onclick="setFilter('vacant',this)"><div class="leg-dot" style="background:var(--y)"></div>ว่าง</div>
+    <div class="leg" onclick="setFilter('unpaid',this)"><div class="leg-dot" style="background:var(--o)"></div>ค้างชำระ</div>
+    <div class="leg" onclick="setFilter('leave',this)"><div class="leg-dot" style="background:#7c3aed"></div>แจ้งลา</div>
+    <div class="leg" onclick="setFilter('absent',this)"><div class="leg-dot" style="background:var(--r)"></div>ขาดล็อค</div>
+    <div class="leg" onclick="setFilter('daily',this)"><div class="leg-dot" style="background:var(--y)"></div>มีจร</div>
+  </div>
+  <input class="sbox" id="searchBox" placeholder="🔍 ค้นหาล็อค / ร้านค้า..." oninput="doSearch(this.value)">
+  <button id="syncBtn" onclick="manualSync()" title="ดึงข้อมูลล่าสุดจาก Google Sheets" style="background:var(--gll);border:1.5px solid var(--gm);color:var(--gm);border-radius:7px;padding:5px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px">🔄 ซิงค์ข้อมูล</button>
+  <div class="stats-bar" id="statsBar"></div>
+</div>
+<div class="map-area" id="mapArea">
+  <!-- POPUP -->
+  <div id="popupWrap">
+    <div class="popup-card" id="popupCard">
+      <div class="pp-hdr" id="ppHdr">
+        <div><div class="pp-lock" id="ppLock">—</div><div class="pp-zone" id="ppZone">—</div></div>
+        <button class="pp-close" onclick="closePopup()">✕</button>
+      </div>
+      <div class="pp-vendor">
+        <div class="pp-avatar" id="ppAvatar">🏪</div>
+        <div style="flex:1;min-width:0">
+          <div class="pp-vname" id="ppVname">—</div>
+          <div class="pp-phone"><span>📞</span><span id="ppPhone">—</span></div>
+        </div>
+      </div>
+      <div class="pp-body">
+        <div class="pp-row"><span class="pp-lbl">สินค้า</span><span class="pp-val" id="ppShop">—</span></div>
+        <div class="pp-row"><span class="pp-lbl">หลังคา+โต๊ะ</span><span class="pp-val" id="ppRoof">—</span></div>
+        <div class="pp-row"><span class="pp-lbl">ค่าเช่า/เดือน</span><span class="pp-val" id="ppRent">—</span></div>
+        <div class="pp-row"><span class="pp-lbl">ผู้จัดดูแล</span><span class="pp-val" id="ppMgr">—</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
+          <span class="pp-status" id="ppStatus">—</span>
+          <a class="pp-call-btn" id="ppCallBtn" href="#" style="display:none">📞 โทร</a>
+        </div>
+        <div class="pp-daily-info" id="ppDailyInfo" style="display:none"></div>
+      </div>
+      <div class="pp-hist" id="ppHist"></div>
+      <div class="pp-actions" id="ppActions"></div>
+    </div>
+  </div>
+  <!-- SA ZONE -->
+  <div id="zone-sa" class="zone-map active">
+    <div class="bld" style="max-width:980px">
+      <div class="bld-label">🏪 โรงหน้า SA</div>
+      <div class="sec-title" style="margin-top:6px">แถวนอก — ไม่มีหลังคา</div>
+      <div class="lrow">
+        <div class="lk" data-id="SA26/1" data-zone="SA" data-shop="ไก่ย่าง" data-rent="1750" data-roof="0" data-status="occupied"><div class="lk-id">SA26/1</div><div class="lk-shop">ไก่ย่าง</div></div>
+        <div style="width:10px"></div>
+        <div class="lk" data-id="SA27" data-zone="SA" data-shop="หัวไชเถา" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA27</div><div class="lk-shop">หัวไชเถา</div></div>
+        <div class="lk" data-id="SA28" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="0" data-status="vacant"><div class="lk-id">SA28</div><div class="lk-shop">ว่าง</div></div>
+        <div style="width:6px"></div>
+        <div class="lk" data-id="SA29" data-zone="SA" data-shop="ไส้ย่าง" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA29</div><div class="lk-shop">ไส้ย่าง</div></div>
+        <div class="lk" data-id="SA30" data-zone="SA" data-shop="ป๊อบคอน" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA30</div><div class="lk-shop">ป๊อบคอน</div></div>
+        <div class="lk" data-id="SA31" data-zone="SA" data-shop="เนื้อย่าง" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA31</div><div class="lk-shop">เนื้อย่าง</div></div>
+        <div style="width:6px"></div>
+        <div class="lk" data-id="SA32" data-zone="SA" data-shop="ลูกชิ้นเนื้อ" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA32</div><div class="lk-shop">ลูกชิ้นเนื้อ</div></div>
+        <div class="lk" data-id="SA33" data-zone="SA" data-shop="ปลาเผา" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA33</div><div class="lk-shop">ปลาเผา</div></div>
+      </div>
+      <div class="aisle"><div class="aisle-line"></div><span class="aisle-label">ทางเดิน</span><div class="aisle-line"></div></div>
+      <div class="sec-title">SA1–SA26 มีหลังคา+โต๊ะ</div>
+      <div style="display:flex;gap:16px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0">
+          <div style="font-size:.58rem;font-weight:800;color:var(--txl);margin-bottom:2px;text-align:center">SA21–26</div>
+          <div class="lk" data-id="SA26" data-zone="SA" data-shop="จับไม้" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA26</div><div class="lk-shop">จับไม้</div></div>
+          <div class="lk" data-id="SA25" data-zone="SA" data-shop="ลูกชิ้น" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA25</div><div class="lk-shop">ลูกชิ้น</div></div>
+          <div class="lk" data-id="SA24" data-zone="SA" data-shop="ลูกชิ้น" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA24</div><div class="lk-shop">ลูกชิ้น</div></div>
+          <div style="height:3px"></div>
+          <div class="lk" data-id="SA22" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="0" data-status="vacant"><div class="lk-id">SA22</div><div class="lk-shop">ว่าง</div></div>
+          <div class="lk" data-id="SA21" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="0" data-status="vacant"><div class="lk-id">SA21</div><div class="lk-shop">ว่าง</div></div>
+        </div>
+        <div style="flex:1">
+          <div class="lrow" style="margin-bottom:2px">
+            <div class="row-label">↑</div>
+            <div class="lk has-roof" data-id="SA17" data-zone="SA" data-shop="ขนมปังปิ้ง" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA17</div><div class="lk-shop">ขนมปัง</div></div>
+            <div class="lk has-roof" data-id="SA16" data-zone="SA" data-shop="ลูกชิ้น" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA16</div><div class="lk-shop">ลูกชิ้น</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA9" data-zone="SA" data-shop="ยกเลิก" data-rent="0" data-roof="1" data-status="cancelled"><div class="lk-id">SA9</div><div class="lk-shop">ยกเลิก</div></div>
+            <div class="lk has-roof" data-id="SA8" data-zone="SA" data-shop="ข้าวหมกไก่" data-rent="2000" data-roof="1" data-status="occupied"><div class="lk-id">SA8</div><div class="lk-shop">ข้าวหมก</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA1" data-zone="SA" data-shop="เส้นผัด ไส้กรอก" data-rent="1750" data-roof="1" data-status="occupied"><div class="lk-id">SA1</div><div class="lk-shop">เส้นผัด</div></div>
+            <div class="lk has-roof" data-id="SA1/1" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="1" data-status="vacant" style="width:48px"><div class="lk-id">1/1</div><div class="lk-shop">ว่าง</div></div>
+          </div>
+          <div class="lrow">
+            <div class="row-label">↓</div>
+            <div class="lk has-roof" data-id="SA18" data-zone="SA" data-shop="ข้าวแกง" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA18</div><div class="lk-shop">ข้าวแกง</div></div>
+            <div class="lk has-roof" data-id="SA15" data-zone="SA" data-shop="ข้าวแต๋น" data-rent="1250" data-roof="1" data-status="occupied"><div class="lk-id">SA15</div><div class="lk-shop">ข้าวแต๋น</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA10" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA10</div><div class="lk-shop">ว่าง</div></div>
+            <div class="lk has-roof" data-id="SA7" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA7</div><div class="lk-shop">ว่าง</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA2" data-zone="SA" data-shop="สายไหม" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA2</div><div class="lk-shop">สายไหม</div></div>
+          </div>
+          <div class="aisle"><div class="aisle-line"></div><span class="aisle-label">ทางเดิน</span><div class="aisle-line"></div></div>
+          <div class="lrow" style="margin-bottom:2px">
+            <div class="row-label">↑</div>
+            <div class="lk has-roof" data-id="SA19" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA19</div><div class="lk-shop">ว่าง</div></div>
+            <div class="lk has-roof" data-id="SA14" data-zone="SA" data-shop="พี่ปุ้ย" data-rent="1750" data-roof="1" data-status="occupied"><div class="lk-id">SA14</div><div class="lk-shop">พี่ปุ้ย</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA11" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA11</div><div class="lk-shop">ว่าง</div></div>
+            <div class="lk has-roof" data-id="SA6" data-zone="SA" data-shop="เนื้อสด" data-rent="1250" data-roof="1" data-status="occupied"><div class="lk-id">SA6</div><div class="lk-shop">เนื้อสด</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA3" data-zone="SA" data-shop="ปลาส้ม" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA3</div><div class="lk-shop">ปลาส้ม</div></div>
+          </div>
+          <div class="lrow">
+            <div class="row-label">↓</div>
+            <div class="lk has-roof" data-id="SA20" data-zone="SA" data-shop="ข้าวเหนียวมะม่วง" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA20</div><div class="lk-shop">ข้าวเหนียว</div></div>
+            <div class="lk has-roof" data-id="SA13" data-zone="SA" data-shop="พี่ปุ้ย" data-rent="1750" data-roof="1" data-status="occupied"><div class="lk-id">SA13</div><div class="lk-shop">พี่ปุ้ย</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA12" data-zone="SA" data-shop="ต้มเนื้อ" data-rent="1750" data-roof="1" data-status="occupied"><div class="lk-id">SA12</div><div class="lk-shop">ต้มเนื้อ</div></div>
+            <div class="lk has-roof" data-id="SA5" data-zone="SA" data-shop="ฝรั่ง" data-rent="1250" data-roof="1" data-status="occupied"><div class="lk-id">SA5</div><div class="lk-shop">ฝรั่ง</div></div>
+            <div style="width:5px"></div>
+            <div class="lk has-roof" data-id="SA4" data-zone="SA" data-shop="ปลาส้ม" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA4</div><div class="lk-shop">ปลาส้ม</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- BIG ZONE -->
+  <div id="zone-big" class="zone-map">
+    <div class="bld">
+      <div class="bld-label">🏢 โรงใหญ่ SE·SD·SC·SB</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px;margin-bottom:9px">
+        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:var(--b);background:var(--bl);border-radius:5px;padding:2px;margin-bottom:4px">SE</div><div style="display:flex;flex-direction:column;gap:2px" id="se-col"></div></div>
+        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:#7c3aed;background:var(--pul);border-radius:5px;padding:2px;margin-bottom:4px">SD</div><div style="display:flex;flex-direction:column;gap:2px" id="sd-col"></div></div>
+        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:var(--o);background:var(--ol);border-radius:5px;padding:2px;margin-bottom:4px">SC</div><div style="display:flex;flex-direction:column;gap:2px" id="sc-col"></div></div>
+        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:var(--gm);background:var(--gl);border-radius:5px;padding:2px;margin-bottom:4px">SB</div><div style="display:flex;flex-direction:column;gap:2px" id="sb-col"></div></div>
+      </div>
+      <div class="aisle"><div class="aisle-line"></div><span class="aisle-label">ทางเดิน</span><div class="aisle-line"></div></div>
+      <div class="sec-title">SF</div>
+      <div style="display:flex;gap:3px;flex-wrap:wrap" id="sf-row"></div>
+    </div>
+  </div>
+  <!-- OUT ZONE -->
+  <div id="zone-out" class="zone-map">
+    <div class="bld out">
+      <div class="bld-label" style="color:var(--b);border-color:var(--b)">🌳 โซนด้านนอก A–D</div>
+      <div class="outdoor-strip" id="outdoor-strip"></div>
+    </div>
+    <div class="bld out" style="border-color:var(--rl)">
+      <div class="bld-label" style="color:var(--r);border-color:var(--r)">🌳 โซน F</div>
+      <div style="display:flex;gap:18px">
+        <div><div style="font-size:.58rem;color:var(--txl);margin-bottom:4px">F13–F16</div><div class="lrow" id="f-top"></div></div>
+        <div><div style="font-size:.58rem;color:var(--txl);margin-bottom:4px">F1–F6</div><div class="lrow" id="f-bot"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- DAILY MODAL -->
+<div class="modal-bg" id="dailyModal">
+  <div class="modal-box">
+    <div class="m-title" id="dm-title">🏷️ จองล็อคผู้ค้าจร</div>
+    <div class="m-sub" id="dm-sub">—</div>
+    <div class="m-row"><div class="m-field"><label>ชื่อร้าน/ผู้ค้า *</label><input type="text" id="dm-name" placeholder="ชื่อร้านหรือผู้ค้า"></div><div class="m-field"><label>เบอร์โทร</label><input type="tel" id="dm-phone" placeholder="0xx-xxx-xxxx"></div></div>
+    <div class="m-row"><div class="m-field"><label>สินค้า *</label><input type="text" id="dm-product" placeholder="ประเภทสินค้า"></div><div class="m-field"><label>ช่องทางชำระ</label><select id="dm-method"><option>💵 เงินสด</option><option>📱 โอนเงิน</option><option>📷 QR Code</option></select></div></div>
+    <div class="m-row"><div class="m-field"><label>ราคาล็อคจร (฿)</label><input type="number" id="dm-price" value="300" min="0" oninput="updateDailySummary()"></div><div class="m-field"><label>ค่าไฟเพิ่ม (฿)</label><input type="number" id="dm-elec" value="0" min="0" oninput="updateDailySummary()"></div></div>
+    <div class="m-summary"><div class="ms-row"><span>ค่าล็อคจร</span><span id="dm-s-price">฿300</span></div><div class="ms-row"><span>ค่าไฟ</span><span id="dm-s-elec">—</span></div><div class="ms-row"><span>รวม</span><span id="dm-s-total">฿300</span></div></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('dailyModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmDailyBooking()">✅ บันทึก & รับเงิน</button></div>
+  </div>
+</div>
+<!-- LEAVE MODAL -->
+<div class="modal-bg" id="leaveModal">
+  <div class="modal-box" style="max-width:360px">
+    <div class="m-title" id="lm-title">📋 แจ้งลาล็อค</div>
+    <div class="m-sub" id="lm-sub">—</div>
+    <div class="m-row c1"><div class="m-field"><label>หมายเหตุ (เหตุผล)</label><input type="text" id="lm-note" placeholder="เช่น ติดธุระ / ไม่สบาย"></div></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('leaveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmLeave()">✅ บันทึกแจ้งลา</button></div>
+  </div>
+</div>
+<!-- MOVE MODAL -->
+<div class="modal-bg" id="moveModal">
+  <div class="modal-box" style="max-width:400px">
+    <div class="m-title" id="mv-title">🔄 ย้ายล็อค</div>
+    <div class="m-sub" id="mv-sub">—</div>
+    <div class="m-row c1" style="margin-bottom:8px"><div class="m-field"><label>เลือกล็อคปลายทาง (ว่าง) *</label><select id="mv-target" style="font-size:.78rem"></select></div></div>
+    <div id="mv-target-info"></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('moveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmMove()">✅ ยืนยันย้ายล็อค</button></div>
+  </div>
+</div>
+<!-- CANCEL LEASE MODAL -->
+<div class="modal-bg" id="cancelLeaseModal">
+  <div class="modal-box" style="max-width:380px">
+    <div class="m-title" id="cl-title">🚫 ยกเลิกการเช่า</div>
+    <div class="m-sub" id="cl-sub">—</div>
+    <div id="cl-warn"></div>
+    <div class="m-row c1"><div class="m-field"><label>หมายเหตุ</label><input type="text" id="cl-note" placeholder="เหตุผลการยกเลิก"></div></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('cancelLeaseModal').classList.remove('show')">ยกเลิก</button><button class="m-btn" style="background:var(--r);color:#fff" onclick="confirmCancelLease()">🚫 ยืนยันยกเลิก</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+// ════════════════════════════════════════════════════
+// ตลาดแพไม้ — ผังตลาด JS Logic
+// STATE + TUESDAY CYCLE + POPUP + ALL ACTIONS
+// ════════════════════════════════════════════════════
+
+// ── Dark mode ──
+function toggleDark(){const h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('pm-t',d?'light':'dark');}
+(()=>{const s=localStorage.getItem('pm-t');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})();
+
+// ════════════════════════════════════════════════════
+// GOOGLE SHEETS API — ใช้ key เดียวกับ pamai_app.html (pm-api-url)
+// เพื่อให้ผังตลาด sync ไปฐานข้อมูลกลาง ให้ 4 คนเห็นข้อมูลตรงกัน
+// ════════════════════════════════════════════════════
+function getApiUrl(){return localStorage.getItem('pm-api-url')||'';}
+async function apiPost(action,data={}){
+  const url=getApiUrl(); if(!url) return null;
+  try{
+    const r=await fetch(url,{method:'POST',body:JSON.stringify({action,...data})});
+    return await r.json();
+  }catch(e){ console.error('apiPost error:',action,e); return null; }
+}
+async function apiGet(action,params={}){
+  const url=getApiUrl(); if(!url) return null;
+  try{
+    const r=await fetch(url+'?'+new URLSearchParams({action,...params}));
+    const j=await r.json();
+    return j.status==='ok'?j.data:null;
+  }catch(e){ console.error('apiGet error:',action,e); return null; }
+}
+function getCurrentUserName(){
+  try{
+    const sess=sessionStorage.getItem('pm-session');
+    if(sess){ const u=JSON.parse(sess); return u.username||'ผู้ใช้'; }
+  }catch(e){}
+  return 'ผู้ใช้';
+}
+
+// ════════════════════════════════════════════════════
+// STATE + TUESDAY CYCLE — สถานะคงอยู่ 3 วัน
+// ════════════════════════════════════════════════════
+const lockHistory={}, dailyBookings={}, lockAbsent={};
+const MONS=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function nowTH(){const n=new Date();return n.getDate()+' '+MONS[n.getMonth()]+' '+(n.getFullYear()+543);}
+function nowTime(){const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');}
+function addHist(id,e){if(!lockHistory[id])lockHistory[id]=[];lockHistory[id].unshift({...e,date:nowTH(),time:nowTime()});if(lockHistory[id].length>30)lockHistory[id].pop();}
+function fmt(n){return '฿'+Math.round(n).toLocaleString();}
+
+const STATE_KEY='pm-mkt-state';
+const STATE_EXPIRE_DAYS=3;
+
+function getLastTuesday(){
+  const d=new Date();
+  const dow=d.getDay(); // 0=Sun,2=Tue
+  d.setDate(d.getDate()-(dow>=2?dow-2:7-(2-dow)));
+  d.setHours(0,0,0,0); return d;
+}
+function addDays(date,n){const d=new Date(date);d.setDate(d.getDate()+n);return d;}
+
+function saveMarketState(){
+  try{
+    localStorage.setItem(STATE_KEY,JSON.stringify({
+      tuesdayISO:getLastTuesday().toISOString(),
+      lockAbsent:{...lockAbsent},
+      dailyBookings:JSON.parse(JSON.stringify(dailyBookings)),
+    }));
+  }catch(e){console.error('saveMarketState:',e);}
+}
+
+function loadMarketState(){
+  const saved=localStorage.getItem(STATE_KEY);
+  if(!saved)return;
+  try{
+    const data=JSON.parse(saved);
+    const expiry=addDays(new Date(data.tuesdayISO),STATE_EXPIRE_DAYS);
+    if(new Date()>expiry){
+      localStorage.removeItem(STATE_KEY);
+      toast('รีเซ็ตสถานะวันอังคาร (ครบ '+STATE_EXPIRE_DAYS+' วัน)','i');
+      return;
+    }
+    Object.assign(lockAbsent,data.lockAbsent||{});
+    Object.assign(dailyBookings,data.dailyBookings||{});
+    setTimeout(()=>{
+      document.querySelectorAll('.lk').forEach(el=>{
+        const id=el.dataset.id;
+        if(lockAbsent[id]||dailyBookings[id]) refreshLk(el);
+      });
+      updateStats();
+    },350);
+    const dl=Math.max(0,Math.ceil((expiry-new Date())/(1000*60*60*24)));
+    showStateBanner(new Date(data.tuesdayISO),dl);
+  }catch(e){console.error('loadMarketState:',e);}
+}
+
+function clearMarketState(){
+  localStorage.removeItem(STATE_KEY);
+  Object.keys(lockAbsent).forEach(k=>delete lockAbsent[k]);
+  Object.keys(dailyBookings).forEach(k=>delete dailyBookings[k]);
+  document.querySelectorAll('.lk').forEach(el=>{
+    el.classList.remove('is-leave','is-absent','is-daily');
+    el.querySelectorAll('.lk-badges').forEach(b=>b.remove());
+  });
+  hideBanner(); updateStats();
+  toast('ล้างสถานะทั้งหมดแล้ว — พร้อมวันอังคารถัดไป','i');
+}
+
+function updateExpireBanner(){
+  const saved=localStorage.getItem(STATE_KEY);
+  if(!saved){hideBanner();return;}
+  try{
+    const data=JSON.parse(saved);
+    const expiry=addDays(new Date(data.tuesdayISO),STATE_EXPIRE_DAYS);
+    const dl=Math.max(0,Math.ceil((expiry-new Date())/(1000*60*60*24)));
+    if(dl>0) showStateBanner(new Date(data.tuesdayISO),dl);
+    else{hideBanner();clearMarketState();}
+  }catch(e){}
+}
+
+function showStateBanner(tue,dl){
+  let b=document.getElementById('state-banner');
+  if(!b){
+    b=document.createElement('div'); b.id='state-banner';
+    b.style.cssText='background:linear-gradient(90deg,#1a3d2b,#2d6a4f);color:#fff;padding:5px 16px;font-size:.70rem;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;font-family:inherit;';
+    const zbar=document.querySelector('.zone-bar');
+    if(zbar) zbar.insertAdjacentElement('afterend',b);
+  }
+  const d=new Date(tue);
+  const dStr=d.getDate()+' '+MONS[d.getMonth()]+' '+(d.getFullYear()+543);
+  const col=dl<=1?'#fca5a5':dl<=2?'#fde68a':'#86efac';
+  b.innerHTML='<span>📅 สถานะวันอังคาร <strong>'+dStr+'</strong> · รีเซ็ตอีก <span style="color:'+col+'">'+dl+' วัน</span></span>'
+    +'<button onclick="if(confirm(\'ล้างสถานะทั้งหมด?\'))clearMarketState()" style="background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.28);color:#fff;padding:3px 10px;border-radius:8px;cursor:pointer;font-size:.64rem;font-weight:700;font-family:inherit">🔄 รีเซ็ต</button>';
+}
+function hideBanner(){const b=document.getElementById('state-banner');if(b)b.remove();}
+
+function checkTuesdayCycle(){
+  const saved=localStorage.getItem(STATE_KEY);
+  if(saved){
+    try{
+      const data=JSON.parse(saved);
+      if(new Date()>addDays(new Date(data.tuesdayISO),STATE_EXPIRE_DAYS)){
+        localStorage.removeItem(STATE_KEY); return;
+      }
+    }catch(e){}
+  }
+  loadMarketState();
+}
+
+// ════════════════════════════════════════════════════
+// SYNC FROM GOOGLE SHEETS — ให้ 4 คนเห็นข้อมูลตรงกัน
+// ดึงสถานะ ลา/ขาด/จร ของวันอังคารล่าสุดจาก Sheets มา merge
+// (เรียกตอนเปิดหน้า และให้กดรีเฟรชเองได้ด้วย)
+// ════════════════════════════════════════════════════
+async function loadFromSheets(){
+  if(!getApiUrl()) return; // ยังไม่ได้ตั้งค่า Sheets — ใช้ local state อย่างเดียว
+  const today=nowTH();
+  try{
+    const [leaveRows, dailyRows] = await Promise.all([
+      apiGet('getLeaveLog', {date: today}),
+      apiGet('getDailyBookings', {date: today}),
+    ]);
+
+    // ── ประมวลผล leave_log: เรียงตามเวลา แล้วหาสถานะล่าสุดของแต่ละล็อค ──
+    if(Array.isArray(leaveRows)){
+      // เรียงตาม created_at (หรือ time) จากเก่าไปใหม่ แล้วไล่ทับ
+      const sorted=[...leaveRows].sort((a,b)=>String(a.created_at||a.time).localeCompare(String(b.created_at||b.time)));
+      sorted.forEach(row=>{
+        const id=row.lock_id;
+        if(!id) return;
+        if(row.type==='leave') lockAbsent[id]='leave';
+        else if(row.type==='absent') lockAbsent[id]='absent';
+        else if(row.type==='cancel') lockAbsent[id]='';
+      });
+    }
+
+    // ── ประมวลผล daily_bookings: เอาเฉพาะที่ยังไม่ถูกยกเลิก ──
+    if(Array.isArray(dailyRows)){
+      dailyRows.forEach(row=>{
+        const id=row.lock_id;
+        if(!id) return;
+        const cancelled = row.cancelled===true || row.cancelled==='TRUE' || row.cancelled==='true';
+        if(cancelled){ delete dailyBookings[id]; return; }
+        dailyBookings[id]={
+          lockId:id, name:row.vendor_name, product:row.product,
+          phone:row.phone||'—', price:parseFloat(row.price)||0,
+          elec:parseFloat(row.elec)||0, total:parseFloat(row.total)||0,
+          method:row.method, date:row.date, time:row.time,
+        };
+      });
+    }
+
+    // อัปเดตหน้าจอ + บันทึกลง localStorage เพื่อให้ใช้ต่อได้แม้ offline
+    document.querySelectorAll('.lk').forEach(el=>{
+      const id=el.dataset.id;
+      refreshLk(el); // refresh ทุกล็อค ทั้งที่มีและไม่มีสถานะ (ล้าง badge เก่าถ้าไม่มีแล้ว)
+    });
+    updateStats();
+    saveMarketState();
+  }catch(e){
+    console.error('loadFromSheets error:',e);
+  }
+}
+
+// ════════════════════════════════════════════════════
+// LOCK VISUAL
+// ════════════════════════════════════════════════════
+function refreshLk(el){
+  const id=el.dataset.id;
+  const at=lockAbsent[id]||'';
+  const hd=!!dailyBookings[id];
+  el.classList.remove('is-leave','is-absent','is-daily');
+  if(at==='leave') el.classList.add('is-leave');
+  if(at==='absent') el.classList.add('is-absent');
+  if(hd) el.classList.add('is-daily');
+  el.querySelectorAll('.lk-badges').forEach(b=>b.remove());
+  const badges=[];
+  if(at==='leave') badges.push('<span class="lk-badge lb-leave">🟣ลา</span>');
+  if(at==='absent') badges.push('<span class="lk-badge lb-absent">🔴ขาด</span>');
+  if(hd) badges.push('<span class="lk-badge lb-daily">🏷️จร</span>');
+  if(badges.length){
+    const wrap=document.createElement('div');
+    wrap.className='lk-badges'; wrap.innerHTML=badges.join('');
+    el.appendChild(wrap);
+  }
+}
+
+// ════════════════════════════════════════════════════
+// LEAVE / ABSENT — พร้อม toggle cancel
+// ════════════════════════════════════════════════════
+let pendingLeaveId=null;
+function doLeave(lockId){openLeaveModal(lockId);}
+function openLeaveModal(lockId){
+  pendingLeaveId=lockId;
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  document.getElementById('lm-title').textContent='📋 แจ้งลาล็อค '+lockId;
+  document.getElementById('lm-sub').textContent='ร้าน: '+(el?.dataset.shop||'—');
+  document.getElementById('lm-note').value='';
+  closePopup();
+  document.getElementById('leaveModal').classList.add('show');
+}
+function confirmLeave(){
+  if(!pendingLeaveId)return;
+  const id=pendingLeaveId;
+  const note=document.getElementById('lm-note').value.trim();
+  const el=document.querySelector('.lk[data-id="'+id+'"]');
+  const zone=el?.dataset.zone||'';
+  const shop=el?.dataset.shop||'';
+  lockAbsent[id]='leave';
+  addHist(id,{type:'leave',label:'📋 แจ้งลา',note:note||'—'});
+  if(el) refreshLk(el);
+  document.getElementById('leaveModal').classList.remove('show');
+  saveMarketState(); updateExpireBanner();
+  toast('✅ บันทึกแจ้งลาล็อค '+id+' (คงอยู่ 3 วัน)','s');
+  updateStats(); pendingLeaveId=null;
+  apiPost('logLeave',{data:{lock_id:id,zone,shop,type:'leave',note:note||'—',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
+}
+function doAbsent(lockId){
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  const zone=el?.dataset.zone||'';
+  const shop=el?.dataset.shop||'';
+  lockAbsent[lockId]='absent';
+  addHist(lockId,{type:'absent',label:'⚠️ ขาดล็อค (ไม่แจ้ง)',note:'บันทึกโดยผู้ดูแล'});
+  if(el) refreshLk(el);
+  saveMarketState(); updateExpireBanner();
+  closePopup();
+  toast('⚠️ บันทึกขาดล็อค '+lockId+' (คงอยู่ 3 วัน)','e');
+  updateStats();
+  apiPost('logLeave',{data:{lock_id:lockId,zone,shop,type:'absent',note:'บันทึกโดยผู้ดูแล',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
+}
+// TOGGLE cancel leave/absent
+function cancelAbsent(lockId){
+  const prevType=lockAbsent[lockId]||'';
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  const zone=el?.dataset.zone||'';
+  const shop=el?.dataset.shop||'';
+  lockAbsent[lockId]='';
+  addHist(lockId,{type:'leave',label:'↩️ ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'บันทึกขาดล็อค'),note:'คืนสถานะปกติโดยผู้ดูแล'});
+  if(el) refreshLk(el);
+  saveMarketState(); updateExpireBanner();
+  closePopup();
+  toast('↩️ ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'ขาดล็อค')+' '+lockId+' — คืนสถานะปกติแล้ว','i');
+  updateStats();
+  apiPost('logLeave',{data:{lock_id:lockId,zone,shop,type:'cancel',note:'ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'ขาดล็อค')+'โดยผู้ดูแล',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
+}
+
+// ════════════════════════════════════════════════════
+// DAILY BOOKING
+// ════════════════════════════════════════════════════
+let pendingDailyId=null;
+function openDailyModal(lockId){
+  pendingDailyId=lockId;
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  const at=lockAbsent[lockId]||'';
+  const statusTxt=at==='leave'?'ลาล็อค':at==='absent'?'ขาดล็อค':el?.dataset.status==='vacant'?'ว่าง':'—';
+  document.getElementById('dm-title').textContent='🏷️ จองล็อคจร — '+lockId;
+  document.getElementById('dm-sub').textContent='สถานะ: '+statusTxt+' · '+(el?.dataset.shop||'');
+  document.getElementById('dm-name').value='';
+  document.getElementById('dm-phone').value='';
+  document.getElementById('dm-product').value='';
+  document.getElementById('dm-price').value='300';
+  document.getElementById('dm-elec').value='0';
+  updateDailySummary();
+  closePopup();
+  document.getElementById('dailyModal').classList.add('show');
+}
+function updateDailySummary(){
+  const p=parseFloat(document.getElementById('dm-price').value)||0;
+  const e=parseFloat(document.getElementById('dm-elec').value)||0;
+  document.getElementById('dm-s-price').textContent=fmt(p);
+  document.getElementById('dm-s-elec').textContent=e>0?fmt(e):'—';
+  document.getElementById('dm-s-total').textContent=fmt(p+e);
+}
+function confirmDailyBooking(){
+  const name=document.getElementById('dm-name').value.trim();
+  const product=document.getElementById('dm-product').value.trim();
+  if(!name||!product){toast('กรุณากรอกชื่อร้านและสินค้า','e');return;}
+  const lockId=pendingDailyId;
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  const zone=el?.dataset.zone||'';
+  const originalStatus=lockAbsent[lockId]||(el?.dataset.status==='vacant'?'vacant':'');
+  const price=parseFloat(document.getElementById('dm-price').value)||300;
+  const elec=parseFloat(document.getElementById('dm-elec').value)||0;
+  const booking={lockId,name,product,phone:document.getElementById('dm-phone').value.trim()||'—',
+    price,elec,total:price+elec,method:document.getElementById('dm-method').value,
+    date:nowTH(),time:nowTime()};
+  dailyBookings[lockId]=booking;
+  addHist(lockId,{type:'daily',label:'🏷️ จร: '+name,note:product+' · '+fmt(booking.total)});
+  if(el) refreshLk(el);
+  document.getElementById('dailyModal').classList.remove('show');
+  saveMarketState(); updateExpireBanner();
+  toast('✅ จองล็อคจร '+lockId+' — '+name+' · '+fmt(booking.total)+' (คงอยู่ 3 วัน)','s');
+  updateStats(); pendingDailyId=null;
+  apiPost('saveDailyBooking',{data:{lock_id:lockId,zone,vendor_name:name,phone:booking.phone,product,price,elec,total:booking.total,method:booking.method,date:booking.date,time:booking.time,original_status:originalStatus}});
+}
+function cancelDaily(lockId){
+  if(!confirm('ยกเลิกผู้ค้าจรล็อค '+lockId+'?'))return;
+  const booking=dailyBookings[lockId];
+  delete dailyBookings[lockId];
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  if(el) refreshLk(el);
+  saveMarketState(); updateExpireBanner();
+  closePopup(); toast('↩️ ยกเลิกผู้ค้าจร '+lockId,'i'); updateStats();
+  apiPost('cancelDailyBooking',{lockId,date:booking?booking.date:nowTH()});
+}
+
+// ════════════════════════════════════════════════════
+// MOVE LOCK
+// ════════════════════════════════════════════════════
+let pendingMoveId=null;
+function openMoveModal(lockId){
+  pendingMoveId=lockId;
+  const src=document.querySelector('.lk[data-id="'+lockId+'"]');
+  const isDaily=!!dailyBookings[lockId];
+  document.getElementById('mv-title').textContent='🔄 ย้ายล็อค '+lockId;
+  document.getElementById('mv-sub').textContent=(isDaily?'ผู้ค้าจร':'ผู้ค้าประจำ')+': '+(src?.dataset.shop||'—');
+  const sel=document.getElementById('mv-target');
+  sel.innerHTML='';
+  const vacants=[...document.querySelectorAll('.lk')].filter(el=>{
+    if(el.dataset.id===lockId||el.dataset.status==='cancelled') return false;
+    if(dailyBookings[el.dataset.id]) return false;
+    if(el.dataset.status==='vacant') return true;
+    if(isDaily&&(lockAbsent[el.dataset.id]==='leave'||lockAbsent[el.dataset.id]==='absent')) return true;
+    return false;
+  });
+  if(!vacants.length){sel.innerHTML='<option value="">ไม่มีล็อคว่าง</option>';}
+  else{vacants.forEach(el=>{const o=document.createElement('option');o.value=el.dataset.id;o.textContent=el.dataset.id+' — '+el.dataset.shop+' ('+el.dataset.zone+')';sel.appendChild(o);});}
+  const info=document.getElementById('mv-target-info');
+  sel.onchange=()=>{const t=document.querySelector('.lk[data-id="'+sel.value+'"]');if(t){info.textContent='ปลายทาง: '+sel.value+' · ค่าเช่า ฿'+parseInt(t.dataset.rent||0)+'/เดือน';info.style.display='block';}else info.style.display='none';};
+  info.style.display='none';
+  closePopup();
+  document.getElementById('moveModal').classList.add('show');
+}
+function confirmMove(){
+  if(!pendingMoveId)return;
+  const targetId=document.getElementById('mv-target').value;
+  if(!targetId){toast('กรุณาเลือกล็อคปลายทาง','e');return;}
+  const srcEl=document.querySelector('.lk[data-id="'+pendingMoveId+'"]');
+  const tgtEl=document.querySelector('.lk[data-id="'+targetId+'"]');
+  if(!srcEl||!tgtEl){toast('ไม่พบล็อค','e');return;}
+  const isDaily=!!dailyBookings[pendingMoveId];
+  if(isDaily){
+    const db=dailyBookings[pendingMoveId];
+    dailyBookings[targetId]={...db,lockId:targetId};
+    delete dailyBookings[pendingMoveId];
+    addHist(targetId,{type:'daily',label:'🔄 รับย้ายจาก '+pendingMoveId,note:'จร: '+db.name});
+    addHist(pendingMoveId,{type:'daily',label:'🔄 ย้ายออกไป '+targetId,note:'จร: '+db.name});
+  } else {
+    const os=srcEl.dataset.shop,or=srcEl.dataset.rent,oSt=srcEl.dataset.status;
+    srcEl.dataset.shop=tgtEl.dataset.shop; srcEl.dataset.rent=tgtEl.dataset.rent; srcEl.dataset.status=tgtEl.dataset.status;
+    tgtEl.dataset.shop=os; tgtEl.dataset.rent=or; tgtEl.dataset.status=oSt;
+    srcEl.querySelector('.lk-shop').textContent=srcEl.dataset.shop;
+    tgtEl.querySelector('.lk-shop').textContent=tgtEl.dataset.shop;
+    ['occupied','vacant','cancelled','unpaid'].forEach(c=>{srcEl.classList.remove(c);tgtEl.classList.remove(c);});
+    srcEl.classList.add(srcEl.dataset.status); tgtEl.classList.add(tgtEl.dataset.status);
+    if(lockAbsent[pendingMoveId]){lockAbsent[targetId]=lockAbsent[pendingMoveId];lockAbsent[pendingMoveId]='';}
+    addHist(targetId,{type:'leave',label:'🔄 ย้ายมาจากล็อค '+pendingMoveId,note:'ย้ายล็อค'});
+    addHist(pendingMoveId,{type:'leave',label:'🔄 ย้ายไปล็อค '+targetId,note:'ย้ายล็อค'});
+  }
+  refreshLk(srcEl); refreshLk(tgtEl);
+  saveMarketState();
+  document.getElementById('moveModal').classList.remove('show');
+  toast('✅ ย้ายล็อค '+pendingMoveId+' → '+targetId+' สำเร็จ','s');
+  updateStats(); pendingMoveId=null;
+}
+
+// ════════════════════════════════════════════════════
+// CANCEL LEASE
+// ════════════════════════════════════════════════════
+let pendingCancelId=null;
+function openCancelLeaseModal(lockId){
+  pendingCancelId=lockId;
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  const isDaily=!!dailyBookings[lockId];
+  const db=dailyBookings[lockId];
+  document.getElementById('cl-title').textContent='🚫 ยกเลิกการเช่า — '+lockId;
+  document.getElementById('cl-sub').textContent=(isDaily?'ผู้ค้าจร':el?.dataset.status==='unpaid'?'ผู้ค้าประจำ (ค้างชำระ)':'ผู้ค้าประจำ')+': '+(el?.dataset.shop||'—');
+  const wEl=document.getElementById('cl-warn');
+  if(isDaily&&db){wEl.innerHTML='⚠️ รายได้จากผู้ค้าจรจะถูกยกเลิก<br>ยอด: <strong>'+fmt(db.total)+'</strong> ('+db.name+')';wEl.style.display='block';}
+  else if(el?.dataset.status==='unpaid'){wEl.innerHTML='⚠️ ผู้ค้ารายนี้มียอดค้างชำระ — กรุณาดำเนินการก่อนหรือบันทึกเพื่อดำเนินการต่อ';wEl.style.display='block';}
+  else wEl.style.display='none';
+  document.getElementById('cl-note').value='';
+  closePopup();
+  document.getElementById('cancelLeaseModal').classList.add('show');
+}
+function confirmCancelLease(){
+  if(!pendingCancelId)return;
+  const lockId=pendingCancelId;
+  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+  const isDaily=!!dailyBookings[lockId];
+  const note=document.getElementById('cl-note').value.trim();
+  if(isDaily){
+    const db=dailyBookings[lockId];
+    addHist(lockId,{type:'daily',label:'🚫 ยกเลิกจร: '+db.name,note:note||'ยกเลิก'});
+    delete dailyBookings[lockId];
+    el.dataset.daily='';
+  } else {
+    addHist(lockId,{type:'absent',label:'🚫 ยกเลิกการเช่า',note:note||'สิ้นสุดสัญญา'});
+    el.dataset.status='vacant'; el.dataset.shop='ว่าง'; el.dataset.rent='0';
+    el.querySelector('.lk-shop').textContent='ว่าง';
+    ['occupied','unpaid','cancelled'].forEach(c=>el.classList.remove(c));
+    el.classList.add('vacant');
+    lockAbsent[lockId]='';
+  }
+  refreshLk(el); saveMarketState();
+  document.getElementById('cancelLeaseModal').classList.remove('show');
+  toast('🚫 ยกเลิกการเช่าล็อค '+lockId+' แล้ว','i');
+  updateStats(); pendingCancelId=null;
+}
+
+// ════════════════════════════════════════════════════
+// POPUP
+// ════════════════════════════════════════════════════
+const VENDORS={
+  'SA1':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA2':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
+  'SA3':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA4':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
+  'SA5':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA6':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
+  'SA8':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA12':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
+  'SA13':{name:'พี่ปุ้ย',phone:'—',manager:'คุณตู่'},'SA14':{name:'พี่ปุ้ย',phone:'—',manager:'คุณตู่'},
+  'SA15':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA16':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
+  'SA17':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA18':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
+  'SA20':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
+  'SE1':{name:'พี่ฝน',phone:'097-236-8330',manager:'คุณฝน'},
+  'A1':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
+  'A7':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
+  'B9':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
+  'C3':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
+};
+function getAvatar(shop){const m=[['ไก่','🍗'],['หมู','🥩'],['ปลา','🐟'],['กุ้ง','🦐'],['ผลไม้','🍓'],['ผัก','🥬'],['ข้าว','🍚'],['ส้มตำ','🌶️'],['ลูกชิ้น','🍢'],['น้ำ','🧃'],['ชา','🍵'],['ขนม','🍡'],['ทะเล','🦞'],['เนื้อ','🥩']];for(const[k,v]of m)if(shop.includes(k))return v;return'🏪';}
+
+let mapArea, popWrap;
+let curLk=null;
+
+function initPopup(){
+  mapArea=document.getElementById('mapArea');
+  popWrap=document.getElementById('popupWrap');
+  if(mapArea) mapArea.addEventListener('click',function(e){
+    if(popWrap&&popWrap.classList.contains('show')&&!popWrap.contains(e.target)) closePopup();
+  });
+}
+
+function showPopup(el,ev){
+  ev.stopPropagation();
+  if(!mapArea||!popWrap){initPopup();}
+  if(curLk===el){closePopup();return;}
+  curLk=el;
+  const d=el.dataset, lockId=d.id, v=VENDORS[lockId]||{};
+  const at=lockAbsent[lockId]||'', db=dailyBookings[lockId];
+  const isOccupied=d.status==='occupied'||d.status==='unpaid';
+  const isVacant=d.status==='vacant';
+  const isAvailForDaily=isVacant||(isOccupied&&(at==='leave'||at==='absent'));
+  const isDaily=!!db;
+
+  // Header
+  const hc={occupied:'linear-gradient(135deg,#1a3d2b,#2d6a4f)',vacant:'linear-gradient(135deg,#92400e,#d97706)',cancelled:'linear-gradient(135deg,#7f1d1d,#b91c1c)',unpaid:'linear-gradient(135deg,#7c2d12,#c2410c)'};
+  const extraH=at==='leave'?' (ลา)':at==='absent'?' (ขาด)':isDaily?' +จร':'';
+  document.getElementById('ppHdr').style.background=hc[d.status]||hc.occupied;
+  document.getElementById('ppLock').textContent=lockId+extraH;
+  document.getElementById('ppZone').textContent='โซน '+(d.zone||lockId.replace(/[\d/].*/,''));
+  document.getElementById('ppAvatar').textContent=getAvatar(d.shop);
+
+  const vname=v.name||'(ยังไม่ระบุ)';
+  const noName=!v.name||vname.includes('รอกรอก')||vname.includes('ยังไม่');
+  const vEl=document.getElementById('ppVname');
+  vEl.textContent=isOccupied?vname:(isVacant?'ล็อคว่าง — รับผู้ค้าใหม่':'ล็อคยกเลิก');
+  vEl.style.color=isOccupied&&!noName?'var(--tx)':'var(--txl)';
+  vEl.style.fontStyle=noName||!isOccupied?'italic':'normal';
+
+  const phone=v.phone&&v.phone!=='—'?v.phone:null;
+  const phEl=document.getElementById('ppPhone'), cBtn=document.getElementById('ppCallBtn');
+  if(phone&&isOccupied){phEl.innerHTML='<a href="tel:'+phone+'" style="color:var(--gm);font-weight:700">'+phone+'</a>';cBtn.href='tel:'+phone;cBtn.style.display='flex';}
+  else{phEl.innerHTML='<span style="color:var(--txl)">'+(isOccupied?'ยังไม่ระบุเบอร์':'—')+'</span>';cBtn.style.display='none';}
+
+  document.getElementById('ppShop').textContent=d.shop||'—';
+  document.getElementById('ppRoof').textContent=d.roof==='1'?'✅ มีหลังคา+โต๊ะ':'❌ ไม่มี';
+  document.getElementById('ppRent').textContent=parseInt(d.rent)>0?fmt(parseInt(d.rent))+'/เดือน':'—';
+  document.getElementById('ppMgr').textContent=v.manager||'—';
+
+  const stM={occupied:'✅ มีผู้เช่า',vacant:'🟡 ว่าง',cancelled:'🔴 ยกเลิก',unpaid:'🟠 ค้างชำระ'};
+  const stC={occupied:'background:#d8f3dc;color:#1b4332',vacant:'background:#fef3c7;color:#78350f',cancelled:'background:#fee2e2;color:#7f1d1d',unpaid:'background:#ffedd5;color:#7c2d12'};
+  let stTxt=stM[d.status]||d.status;
+  if(at==='leave')stTxt+=' · 🟣ลา'; if(at==='absent')stTxt+=' · 🔴ขาด'; if(isDaily)stTxt+=' · 🏷️จร';
+  const stEl=document.getElementById('ppStatus');
+  stEl.textContent=stTxt; stEl.style.cssText=stC[d.status]||'';
+
+  const diEl=document.getElementById('ppDailyInfo');
+  if(db){diEl.innerHTML='🏷️ จร: <strong>'+db.name+'</strong> · '+db.product+' · '+fmt(db.total)+' · '+db.time;diEl.style.display='block';}
+  else diEl.style.display='none';
+
+  const hist=lockHistory[lockId]||[];
+  const hEl=document.getElementById('ppHist');
+  if(hist.length){
+    const chips=hist.slice(0,5).map(h=>{const cls=h.type==='leave'?'hi-leave':h.type==='absent'?'hi-absent':'hi-daily';return'<span class="hist-item '+cls+'">'+h.label+' '+h.date+'</span>';}).join('');
+    hEl.innerHTML='<div style="font-size:.62rem;font-weight:700;color:var(--txl);margin-bottom:2px">ประวัติ:</div>'+chips;
+  } else hEl.innerHTML='<span style="font-size:.62rem;color:var(--txl)">ยังไม่มีประวัติ</span>';
+
+  // ACTIONS — ลา/ขาด เป็น toggle
+  let acts='';
+  if(isOccupied){
+    if(!at){
+      acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')">📋 แจ้งลา</button>';
+      acts+='<button class="pp-btn b-absent" onclick="doAbsent(\''+lockId+'\')">⚠️ ขาดล็อค</button>';
+    } else if(at==='leave'){
+      acts+='<button class="pp-btn" style="background:#7c3aed;color:#fff;font-size:.64rem" onclick="cancelAbsent(\''+lockId+'\')">📋 ยกเลิกแจ้งลา ↩️</button>';
+      acts+='<button class="pp-btn b-absent" onclick="doAbsent(\''+lockId+'\')">⚠️ ขาดล็อค</button>';
+    } else if(at==='absent'){
+      acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')">📋 แจ้งลา</button>';
+      acts+='<button class="pp-btn" style="background:var(--r);color:#fff;font-size:.64rem" onclick="cancelAbsent(\''+lockId+'\')">⚠️ ยกเลิกขาดล็อค ↩️</button>';
+    }
+  }
+  if(isAvailForDaily&&!isDaily) acts+='<button class="pp-btn b-daily" onclick="openDailyModal(\''+lockId+'\')">🏷️ จองจร</button>';
+  if(isDaily) acts+='<button class="pp-btn b-cancel" onclick="cancelDaily(\''+lockId+'\')">✕ ยกเลิกจร</button>';
+  if(isOccupied||isDaily){
+    acts+='<button class="pp-btn" style="background:var(--bl);color:var(--b)" onclick="openMoveModal(\''+lockId+'\')">🔄 ย้ายล็อค</button>';
+    acts+='<button class="pp-btn" style="background:var(--rl);color:var(--r)" onclick="openCancelLeaseModal(\''+lockId+'\')">🚫 ยกเลิกเช่า</button>';
+  }
+  const actEl=document.getElementById('ppActions');
+  actEl.innerHTML=acts||'<span style="font-size:.62rem;color:var(--txl)">ล็อคนี้ไม่มีผู้เช่า</span>';
+
+  // POSITION
+  const er=el.getBoundingClientRect(), ar=mapArea.getBoundingClientRect();
+  const st=mapArea.scrollTop, sl=mapArea.scrollLeft;
+  const lT=er.top-ar.top+st, lL=er.left-ar.left+sl, lR=lL+er.width;
+  const popW=292, popH=(popWrap?popWrap.offsetHeight:380)||380;
+  let left=lR+10, top=lT;
+  if(left+popW>sl+mapArea.clientWidth-6) left=lL-popW-10;
+  if(left<sl+4) left=sl+4;
+  if(top+popH>st+mapArea.clientHeight-8) top=st+mapArea.clientHeight-popH-8;
+  if(top<st+4) top=st+4;
+  popWrap.style.left=left+'px'; popWrap.style.top=top+'px';
+  popWrap.classList.add('show');
+}
+function closePopup(){if(popWrap)popWrap.classList.remove('show');curLk=null;}
+// click listener moved to initPopup()
+
+// ════════════════════════════════════════════════════
+// LOCK DATA
+// ════════════════════════════════════════════════════
+const SE=[{id:'SE1',s:'พี่ฝน',r:1000,st:'occupied'},{id:'SE2',s:'พี่ฝน',r:1000,st:'occupied'},{id:'SE3',s:'กุยฉ่าย',r:1000,st:'occupied'},{id:'SE4',s:'ว่าง',r:0,st:'vacant'},{id:'SE5',s:'ส้มตำ',r:1500,st:'occupied'},{id:'SE6',s:'สลัด',r:1000,st:'occupied'},{id:'SE7',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE8',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE9',s:'ผลไม้',r:500,st:'occupied'},{id:'SE10',s:'ผักใต้',r:1000,st:'occupied'},{id:'SE11',s:'ผักใต้',r:1000,st:'occupied'},{id:'SE12',s:'ผักใต้',r:500,st:'occupied'},{id:'SE13',s:'ยกเลิก',r:0,st:'cancelled'},{id:'SE14',s:'น้ำพริก',r:750,st:'occupied'},{id:'SE15',s:'น้ำพริก',r:1000,st:'occupied'},{id:'SE16',s:'ถุง',r:1000,st:'occupied'},{id:'SE17',s:'ว่าง',r:0,st:'vacant'},{id:'SE18',s:'ว่าง',r:0,st:'vacant'},{id:'SE19',s:'ว่าง',r:0,st:'vacant'},{id:'SE20',s:'ว่าง',r:0,st:'vacant'},{id:'SE21',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE22',s:'เป็ดย่าง',r:1000,st:'occupied'},{id:'SE23',s:'ว่าง',r:0,st:'vacant'}];
+const SD=[{id:'SD1',s:'ก๋วยเตี๋ยว',r:1500,st:'occupied'},{id:'SD2',s:'ว่าง',r:0,st:'vacant'},{id:'SD3',s:'ขนมไทย',r:1000,st:'occupied'},{id:'SD4',s:'ขนมไทย',r:1000,st:'occupied'},{id:'SD5',s:'ขนมไทย',r:500,st:'occupied'},{id:'SD6',s:'ลาบก้อย',r:1500,st:'occupied'},{id:'SD7',s:'ข้าวนึ่ง',r:1500,st:'occupied'},{id:'SD8',s:'โดนัท',r:1500,st:'occupied'},{id:'SD9',s:'ว่าง',r:0,st:'vacant'},{id:'SD10',s:'ผักสด',r:500,st:'occupied'},{id:'SD11',s:'ผักสด',r:1000,st:'occupied'},{id:'SD12',s:'ผักสด',r:500,st:'occupied'},{id:'SD13',s:'ผักสด',r:500,st:'occupied'},{id:'SD14',s:'ดอกไม้',r:1000,st:'occupied'},{id:'SD15',s:'หน่อไม้',r:1000,st:'occupied'},{id:'SD16',s:'ว่าง',r:0,st:'vacant'},{id:'SD17',s:'ผลไม้',r:1500,st:'occupied'},{id:'SD18',s:'ผลไม้',r:1500,st:'occupied'},{id:'SD19',s:'ผลไม้',r:1500,st:'occupied'},{id:'SD20',s:'ว่าง',r:0,st:'vacant'},{id:'SD21',s:'ผลไม้',r:1000,st:'occupied'},{id:'SD22',s:'ผลไม้',r:750,st:'occupied'},{id:'SD23',s:'ว่าง',r:0,st:'vacant'}];
+const SC=[{id:'SC1',s:'เป็ดพะโล้',r:2000,st:'occupied'},{id:'SC2',s:'เป็ดพะโล้',r:100,st:'occupied'},{id:'SC3',s:'สลัด',r:1500,st:'occupied'},{id:'SC4',s:'หมูทอด',r:1500,st:'occupied'},{id:'SC5',s:'ไก่อบ',r:1250,st:'occupied'},{id:'SC6',s:'ไก่อบ',r:1250,st:'occupied'},{id:'SC7',s:'ของเล่น',r:1250,st:'occupied'},{id:'SC8',s:'ขนมปังปิ้ง',r:1250,st:'occupied'},{id:'SC9',s:'ว่าง',r:0,st:'vacant'},{id:'SC10',s:'น้ำส้ม',r:200,st:'occupied'},{id:'SC11',s:'น้ำส้ม',r:150,st:'occupied'},{id:'SC12',s:'ลูกชิ้น',r:1000,st:'occupied'},{id:'SC13',s:'ลูกชิ้น',r:1000,st:'occupied'},{id:'SC14',s:'ว่าง',r:0,st:'vacant'},{id:'SC15',s:'ข้าวเหนียว',r:1000,st:'occupied'},{id:'SC16',s:'ผลไม้',r:1500,st:'occupied'},{id:'SC17',s:'เค้กชา',r:1000,st:'occupied'},{id:'SC18',s:'ขนมหวาน',r:1000,st:'occupied'},{id:'SC19',s:'น้ำยาปู',r:1000,st:'occupied'},{id:'SC20',s:'ทะเลทอด',r:1000,st:'occupied'},{id:'SC21',s:'ผลไม้',r:1000,st:'occupied'},{id:'SC22',s:'ผลไม้',r:750,st:'occupied'},{id:'SC23',s:'ว่าง',r:0,st:'vacant'}];
+const SB=[{id:'SB1',s:'อาหารเหนือ',r:1400,st:'occupied'},{id:'SB2',s:'สาหราย',r:1000,st:'occupied'},{id:'SB3',s:'สาหราย',r:750,st:'occupied'},{id:'SB4',s:'สปาเก็ตตี้',r:1000,st:'occupied'},{id:'SB5',s:'ขนมเบื่อง',r:1000,st:'occupied'},{id:'SB6',s:'ผลไม้แกะ',r:1500,st:'occupied'},{id:'SB7',s:'ยำ',r:1500,st:'occupied'},{id:'SB8',s:'กับข้าว',r:1000,st:'occupied'},{id:'SB9',s:'กับข้าว',r:500,st:'occupied'},{id:'SB10',s:'ว่าง',r:0,st:'vacant'},{id:'SB11',s:'ไดฟุกุ',r:1500,st:'occupied'},{id:'SB12',s:'หมี่ไก่',r:1500,st:'occupied'},{id:'SB13',s:'ขนมไทย',r:1000,st:'occupied'},{id:'SB14',s:'หมูทอด',r:1000,st:'occupied'},{id:'SB15',s:'กะเพรา',r:1000,st:'occupied'},{id:'SB16',s:'มะม่วง',r:1000,st:'occupied'},{id:'SB17',s:'ไส้กรอก',r:1000,st:'occupied'},{id:'SB18',s:'ปลาเผา',r:1000,st:'occupied'},{id:'SB19',s:'หมูสเต๊ะ',r:1000,st:'occupied'},{id:'SB20',s:'ขนมไทย',r:750,st:'occupied'},{id:'SB21',s:'ปลาทอด',r:1000,st:'occupied'},{id:'SB22',s:'ปลาทอด',r:750,st:'occupied'},{id:'SB23',s:'ว่าง',r:0,st:'vacant'}];
+const SF=[{id:'SF1',s:'ทุเรียน',r:1500,st:'occupied'},{id:'SF2',s:'ทุเรียน',r:1500,st:'occupied'},{id:'SF3',s:'ว่าง',r:0,st:'vacant'},{id:'SF4',s:'ว่าง',r:0,st:'vacant'},{id:'SF5',s:'ว่าง',r:0,st:'vacant'},{id:'SF6',s:'ผลไม้',r:0,st:'occupied'},{id:'SF7',s:'ผลไม้',r:0,st:'occupied'},{id:'SF8',s:'ผลไม้',r:0,st:'occupied'},{id:'SF9',s:'ผลไม้',r:0,st:'occupied'}];
+const AL=[{id:'A1',s:'ไก่แซบ',r:1000,st:'occupied'},{id:'A2',s:'ปลาไข่',r:1000,st:'occupied'},{id:'A3',s:'เฟรนฟราย',r:1500,st:'occupied'},{id:'A4',s:'น้ำมะนาว',r:1000,st:'occupied'},{id:'A5',s:'กุ้งเผา',r:1500,st:'occupied'},{id:'A6',s:'หอยลวก',r:1500,st:'occupied'},{id:'A7',s:'ทะเลถัง',r:1500,st:'occupied'},{id:'A8',s:'เนื้อย่าง',r:1000,st:'occupied'},{id:'A9',s:'เมี่ยงปลา',r:1500,st:'occupied'},{id:'A10',s:'หอยทอด',r:1000,st:'occupied'}];
+const AR=[{id:'A20',s:'กระเพาปลา',r:1000,st:'occupied'},{id:'A19',s:'กระเพาปลา',r:1000,st:'occupied'},{id:'A18',s:'กระเพาปลา',r:1000,st:'occupied'},{id:'A17',s:'ยำปู',r:1000,st:'occupied'},{id:'A16',s:'ยำขนมจีน',r:1000,st:'occupied'},{id:'A15',s:'ทอดมันกุ้ง',r:1500,st:'occupied'},{id:'A14',s:'พิซซ่า',r:1500,st:'occupied'},{id:'A13',s:'พิซซ่า',r:1500,st:'occupied'},{id:'A12',s:'จับไม้',r:1000,st:'occupied'},{id:'A11',s:'นมปั่น',r:1000,st:'occupied'}];
+const BL_=[{id:'B1',s:'ไส้กรอกเม',r:1000,st:'occupied'},{id:'B2',s:'ไส้กรอก',r:1000,st:'occupied'},{id:'B3',s:'หมูกระทะ',r:1500,st:'occupied'},{id:'B4',s:'ทะเลดอง',r:1500,st:'occupied'},{id:'B5',s:'กะเพรา',r:1000,st:'occupied'},{id:'B6',s:'ข้าวปลา',r:1500,st:'occupied'},{id:'B7',s:'น้ำพริก',r:1500,st:'occupied'},{id:'B8',s:'น้ำพริก',r:1000,st:'occupied'},{id:'B9',s:'ทะเลดอง',r:1500,st:'occupied'},{id:'B10',s:'จ้อปู',r:1000,st:'occupied'}];
+const BR_=[{id:'B20',s:'เนื้อย่าง',r:1000,st:'occupied'},{id:'B19',s:'กุ้งอบ',r:1500,st:'occupied'},{id:'B18',s:'กุ้งอบ',r:1500,st:'occupied'},{id:'B17',s:'ข้าวหมก',r:1000,st:'occupied'},{id:'B16',s:'ข้าวหมก',r:1000,st:'occupied'},{id:'B15',s:'ปลาดุกฟู',r:1500,st:'occupied'},{id:'B14',s:'ไก่ย่าง',r:1500,st:'occupied'},{id:'B13',s:'ทะเลดอง',r:1500,st:'occupied'},{id:'B12',s:'น้ำปั่น',r:1500,st:'occupied'},{id:'B11',s:'เขียวหวาน',r:1000,st:'occupied'}];
+const CL_=[{id:'C1',s:'น้ำอัดลม',r:500,st:'occupied'},{id:'C2',s:'น้ำอัดลม',r:1000,st:'occupied'},{id:'C3',s:'ชาชีส',r:1500,st:'occupied'},{id:'C4',s:'ปลาแซลม่อน',r:1500,st:'occupied'},{id:'C5',s:'หม่าล่า',r:1500,st:'occupied'},{id:'C6',s:'กรีกโยเกิร์ต',r:1500,st:'occupied'},{id:'C7',s:'ซูชิ',r:1500,st:'occupied'},{id:'C8',s:'ซูชิ',r:1500,st:'occupied'},{id:'C9',s:'ทะเลทอด',r:1500,st:'occupied'},{id:'C10',s:'กุยฉ่าย',r:1000,st:'occupied'}];
+const CR_=[{id:'C21',s:'นกย่าง',r:1500,st:'occupied'},{id:'C20',s:'นกย่าง',r:1000,st:'occupied'},{id:'C19',s:'ข้าวปลา',r:1500,st:'occupied'},{id:'C18',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C17',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C16',s:'ยากิโซบะ',r:1500,st:'occupied'},{id:'C15',s:'สุกี้โรล',r:1500,st:'occupied'},{id:'C14',s:'ปลาไข่ทอด',r:1500,st:'occupied'},{id:'C13',s:'ยำลูกชิ้น',r:1500,st:'occupied'},{id:'C12',s:'แมลงทอด',r:1000,st:'occupied'}];
+const DC_=[{id:'D11',s:'เคบับ',r:1500,st:'occupied'},{id:'D10',s:'เกี้ยวต้ม',r:1000,st:'occupied'},{id:'D9',s:'หอยทอด',r:1500,st:'occupied'},{id:'D8',s:'หอยทอด',r:1500,st:'occupied'},{id:'D7',s:'เฉาก๊วย',r:1500,st:'occupied'},{id:'D6',s:'แพนเค้ก',r:1500,st:'occupied'},{id:'D5',s:'น้ำส้ม',r:1500,st:'occupied'},{id:'D4',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D3',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D2',s:'ข้าวมันกุ้ง',r:1500,st:'occupied'},{id:'D1',s:'น้ำยาปู',r:1500,st:'occupied'}];
+const FT_=[{id:'F16',s:'น้ำส้ม',r:1000,st:'occupied'},{id:'F15',s:'โตเกียว',r:1000,st:'occupied'},{id:'F14',s:'โดนัท',r:1000,st:'occupied'},{id:'F13',s:'โดนัท',r:1000,st:'occupied'}];
+const FB_=[{id:'F1',s:'หมูทอด',r:1000,st:'occupied'},{id:'F2',s:'ไก่แซ่บ',r:1000,st:'occupied'},{id:'F3',s:'แซลม่อน',r:1000,st:'occupied'},{id:'F4',s:'ข้าวโพด',r:1000,st:'occupied'},{id:'F5',s:'บาบีคิว',r:1000,st:'occupied'},{id:'F6',s:'ยกเลิก',r:0,st:'cancelled'}];
+
+function mk(d,zone,roof){
+  const div=document.createElement('div');
+  div.className='lk '+d.st+(roof?' has-roof':'');
+  div.dataset.id=d.id; div.dataset.zone=zone||(d.id.match(/^[A-Z]+/)||[''])[0];
+  div.dataset.shop=d.s; div.dataset.rent=d.r; div.dataset.roof=roof?'1':'0'; div.dataset.status=d.st;
+  div.innerHTML='<div class="lk-id">'+d.id+'</div><div class="lk-shop">'+d.s+'</div>';
+  div.onclick=function(e){showPopup(this,e);};
+  return div;
+}
+
+function buildAll(){
+  initPopup();
+  [['se-col',SE,'SE'],['sd-col',SD,'SD'],['sc-col',SC,'SC'],['sb-col',SB,'SB']].forEach(function(x){
+    const el=document.getElementById(x[0]);if(el)x[1].forEach(function(d){el.appendChild(mk(d,x[2],true));});
+  });
+  const sfRow=document.getElementById('sf-row');if(sfRow)SF.forEach(function(d){sfRow.appendChild(mk(d,'SF',true));});
+  const strip=document.getElementById('outdoor-strip');
+  [{lbl:'โซน A',bg:'var(--gl)',col:'var(--gm)',L:AL,R:AR,z:'A'},
+   {lbl:'โซน B',bg:'var(--pul)',col:'#6d28d9',L:BL_,R:BR_,z:'B'},
+   {lbl:'โซน C',bg:'var(--ol)',col:'var(--o)',L:CL_,R:CR_,z:'C'},
+   {lbl:'โซน D',bg:'var(--yl)',col:'#92400e',L:DC_,R:null,z:'D'}
+  ].forEach(function(oz){
+    const col_el=document.createElement('div');col_el.className='oz-col';
+    const hdr=document.createElement('div');hdr.className='oz-hdr';
+    hdr.style.background=oz.bg;hdr.style.color=oz.col;hdr.textContent=oz.lbl;col_el.appendChild(hdr);
+    if(oz.R){
+      const wrap=document.createElement('div');wrap.className='ff-wrap';
+      const left=document.createElement('div');left.className='ff-side';
+      const divEl=document.createElement('div');divEl.className='ff-div';
+      divEl.innerHTML='<div class="ff-line"></div><div class="ff-arrow">↔</div><div class="ff-line"></div>';
+      const right=document.createElement('div');right.className='ff-side';
+      oz.L.forEach(function(d){left.appendChild(mk(d,oz.z,false));});
+      oz.R.forEach(function(d){right.appendChild(mk(d,oz.z,false));});
+      wrap.appendChild(left);wrap.appendChild(divEl);wrap.appendChild(right);col_el.appendChild(wrap);
+    } else {
+      const side=document.createElement('div');side.className='ff-side';
+      oz.L.forEach(function(d){side.appendChild(mk(d,oz.z,false));});col_el.appendChild(side);
+    }
+    strip.appendChild(col_el);
+  });
+  const fTop=document.getElementById('f-top');if(fTop)FT_.forEach(function(d){fTop.appendChild(mk(d,'F',false));});
+  const fBot=document.getElementById('f-bot');if(fBot)FB_.forEach(function(d){fBot.appendChild(mk(d,'F',false));});
+  // Wire SA static locks + apply status class
+  document.querySelectorAll('#zone-sa .lk').forEach(function(el){
+    if(el.dataset.status) el.classList.add(el.dataset.status);
+    el.onclick=function(e){showPopup(this,e);};
+  });
+  updateStats();
+}
+
+function switchZone(z,btn){
+  document.querySelectorAll('.zone-map').forEach(function(el){el.classList.remove('active');});
+  document.querySelectorAll('.ztab').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('zone-'+z).classList.add('active');
+  btn.classList.add('active');
+  closePopup(); updateStats();
+}
+
+let activeFilter='';
+function setFilter(st,btn){
+  activeFilter=st;
+  document.querySelectorAll('.leg').forEach(function(l){l.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.lk').forEach(function(el){
+    let show=true;
+    if(st==='leave')  show=lockAbsent[el.dataset.id]==='leave';
+    else if(st==='absent') show=lockAbsent[el.dataset.id]==='absent';
+    else if(st==='daily')  show=!!dailyBookings[el.dataset.id];
+    else if(st) show=el.dataset.status===st;
+    el.classList.toggle('hidden-filter',!show);
+  });
+}
+
+function doSearch(q){
+  q=q.toLowerCase().trim();
+  document.querySelectorAll('.lk').forEach(function(el){
+    const m=!q||el.dataset.id.toLowerCase().includes(q)||el.dataset.shop.toLowerCase().includes(q);
+    el.classList.toggle('hidden-filter',!m);
+    el.classList.toggle('highlight',!!q&&m);
+  });
+}
+
+function updateStats(){
+  const all=[...document.querySelectorAll('.zone-map.active .lk')];
+  const occ=all.filter(function(l){return l.dataset.status==='occupied';}).length;
+  const vac=all.filter(function(l){return l.dataset.status==='vacant';}).length;
+  const nL=Object.values(lockAbsent).filter(function(v){return v==='leave';}).length;
+  const nA=Object.values(lockAbsent).filter(function(v){return v==='absent';}).length;
+  const nD=Object.keys(dailyBookings).length;
+  const rent=all.reduce(function(s,l){return s+(parseInt(l.dataset.rent)||0);},0);
+  document.getElementById('statsBar').innerHTML=
+    '<div class="sm"><div class="n" style="color:var(--gm)">'+occ+'</div><div class="l">มีผู้เช่า</div></div>'+
+    '<div class="sm"><div class="n" style="color:var(--y)">'+vac+'</div><div class="l">ว่าง</div></div>'+
+    '<div class="sm"><div class="n" style="color:#7c3aed">'+nL+'</div><div class="l">แจ้งลา</div></div>'+
+    '<div class="sm"><div class="n" style="color:var(--r)">'+nA+'</div><div class="l">ขาดล็อค</div></div>'+
+    '<div class="sm"><div class="n" style="color:var(--y)">'+nD+'</div><div class="l">จร</div></div>'+
+    '<div class="sm"><div class="n" style="color:var(--b)">฿'+(rent/1000).toFixed(0)+'K</div><div class="l">รายได้/เดือน</div></div>';
+}
+
+function toast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+type+' show';
+  clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},3200);
+}
+
+async function manualSync(){
+  const btn=document.getElementById('syncBtn');
+  if(!getApiUrl()){ toast('⚠️ ยังไม่ได้เชื่อมต่อ Google Sheets — ตั้งค่าที่หน้าหลักก่อน','e'); return; }
+  if(btn){ btn.disabled=true; btn.textContent='⏳ กำลังซิงค์...'; }
+  await loadFromSheets();
+  if(btn){ btn.disabled=false; btn.innerHTML='🔄 ซิงค์ข้อมูล'; }
+  toast('✅ อัปเดตข้อมูลล่าสุดจาก Google Sheets แล้ว','s');
+}
+
+window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);};
+
+</script>
+</body>
+</html>
