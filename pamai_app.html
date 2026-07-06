@@ -1187,6 +1187,13 @@ function loadModule(id) {
   const iframe = document.createElement('iframe');
   iframe.className = 'module-frame';
   iframe.title = id;
+  // Set src BEFORE inserting into the document. If src is set after the
+  // iframe is already attached, the browser first loads a blank "about:blank"
+  // document (firing a premature onload with an empty body) and only then
+  // navigates to the real src, firing onload a second time. That spurious
+  // first firing was being read as "failed to load" and triggering the
+  // fallback message even though the module was about to load fine.
+  iframe.src = src;
 
   const loadingEl = document.createElement('div');
   loadingEl.className = 'module-loading';
@@ -1208,6 +1215,8 @@ function loadModule(id) {
 
   iframe.onload = function() {
     try {
+      // Ignore the (should no longer happen, but just in case) blank frame.
+      if (iframe.contentWindow && iframe.contentWindow.location.href === 'about:blank') return;
       // If we can access contentDocument, iframe loaded OK (same-origin)
       const doc = iframe.contentDocument || iframe.contentWindow.document;
       if (doc && doc.body && doc.body.innerHTML.length > 100) {
@@ -1223,9 +1232,8 @@ function loadModule(id) {
 
   pane.appendChild(iframe);
   pane.appendChild(loadingEl);
-  iframe.src = src;
 
-  // Fallback timeout: if iframe doesn't load in 3s, show fallback
+  // Fallback timeout: if iframe doesn't load in 5s, show fallback
   setTimeout(() => {
     if (settled) return;
     try {
@@ -1234,7 +1242,7 @@ function loadModule(id) {
     } catch(e) {
       finish(false);
     }
-  }, 3000);
+  }, 5000);
 }
 
 function showModuleFallback(pane, src, id) {
