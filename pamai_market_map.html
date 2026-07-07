@@ -94,6 +94,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .pp-call-btn{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:7px;padding:5px;background:var(--gll);border:1.5px solid var(--gm);border-radius:7px;font-size:.91rem;font-weight:700;color:var(--gm);text-decoration:none;transition:all .14s;}
 .pp-call-btn:hover{background:var(--gm);color:#fff;}
 .pp-daily-info{margin-top:7px;padding:5px 8px;background:var(--yl);border:1px solid #d97706;border-radius:7px;font-size:.88rem;font-weight:700;color:#78350f;}
+.pp-warn{margin:9px 13px 0;padding:8px 10px;background:var(--rl);border:1.5px solid var(--r);border-radius:8px;font-size:.86rem;font-weight:700;color:var(--r);line-height:1.5;display:flex;gap:6px;align-items:flex-start;}
+.pp-warn svg{flex-shrink:0;margin-top:1px;}
 .pp-actions{padding:7px 13px 9px;border-top:1px solid var(--bd);background:var(--sf2);display:flex;flex-wrap:wrap;gap:4px;}
 .pp-btn{flex:1;min-width:0;padding:5px 3px;border:none;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .14s;text-align:center;}
 .pp-btn:hover{transform:translateY(-1px);}
@@ -184,6 +186,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
         <div><div class="pp-lock" id="ppLock">—</div><div class="pp-zone" id="ppZone">—</div></div>
         <button class="pp-close" onclick="closePopup()" aria-label="ปิด"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
+      <div class="pp-warn" id="ppWarn" style="display:none"></div>
       <div class="pp-vendor">
         <div class="pp-avatar" id="ppAvatar"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></div>
         <div style="flex:1;min-width:0">
@@ -342,6 +345,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="m-sub" id="lm-sub">—</div>
     <div class="m-row c1"><div class="m-field"><label for="lm-note">หมายเหตุ (เหตุผล)</label><input type="text" id="lm-note" placeholder="เช่น ติดธุระ / ไม่สบาย"></div></div>
     <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('leaveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmLeave()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกแจ้งลา</button></div>
+  </div>
+</div>
+<!-- QUOTA VIOLATION ALERT MODAL -->
+<div class="modal-bg" id="quotaAlertModal" role="alertdialog" aria-modal="true" aria-labelledby="qa-title">
+  <div class="modal-box" style="max-width:420px;border:1.5px solid var(--r)">
+    <div class="m-title" id="qa-title" style="color:var(--r)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> เกินโควต้าการลา/ขาดล็อคตามกฎตลาด</div>
+    <div class="m-sub" id="qa-sub" style="color:var(--tx);font-weight:700">—</div>
+    <div id="qa-detail" style="margin-top:8px;padding:9px 11px;background:var(--rl);border:1.5px solid var(--r);border-radius:8px;font-size:.86rem;color:var(--r);font-weight:700;line-height:1.6"></div>
+    <div style="margin-top:9px;padding:9px 11px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;font-size:.82rem;color:var(--txm);line-height:1.6">
+      <b>กฎตลาด:</b> การลาล็อคสามารถลาได้ไม่เกินเดือนละ 2 ครั้ง และการขาดล็อค ขาดได้ไม่เกิน 2 ครั้ง ต่อปี หากเกินตามจำนวนครั้งข้างต้นทางตลาดขอสงวนสิทธิในการยกเลิกการเช่า ในกรณีที่ลาล็อค 3 ครั้งติดกันค่อมเดือนจะถูกยกเลิกการเช่าเช่นกัน
+    </div>
+    <div class="m-footer"><button class="m-btn primary" style="background:var(--r)" onclick="document.getElementById('quotaAlertModal').classList.remove('show')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> รับทราบ</button></div>
   </div>
 </div>
 <!-- MOVE MODAL -->
@@ -568,6 +583,77 @@ async function loadFromSheets(){
 }
 
 // ════════════════════════════════════════════════════
+// QUOTA VIOLATION CHECK — กฎตลาด:
+// ลาล็อคไม่เกินเดือนละ 2 ครั้ง / ขาดล็อคไม่เกิน 2 ครั้งต่อปี /
+// ลาล็อค 3 ครั้งติดกัน (สัปดาห์ตลาดต่อเนื่อง แม้ค่อมเดือน) = เกินสิทธิ
+// ดึงประวัติทั้งหมด (ไม่กรองวัน) มาคำนวณแยกจาก loadFromSheets() ที่ดึงแค่วันนี้
+// ════════════════════════════════════════════════════
+let FULL_LEAVE_LOG=[];
+async function loadFullLeaveHistory(){
+  if(!getApiUrl()) return;
+  try{
+    const rows=await apiGet('getLeaveLog');
+    if(Array.isArray(rows)) FULL_LEAVE_LOG=rows;
+  }catch(e){ console.error('loadFullLeaveHistory error:',e); }
+}
+
+// คืนค่าสรุปการละเมิดโควต้าของล็อคหนึ่ง ๆ
+// extraRows: รายการที่เพิ่งบันทึกแต่ FULL_LEAVE_LOG อาจยังไม่ทัน sync กลับมา (ใช้ตอนเช็คทันทีหลังกดแจ้งลา/ขาด)
+function checkQuotaViolation(lockId, extraRows){
+  extraRows=extraRows||[];
+  const rows=[...FULL_LEAVE_LOG, ...extraRows].filter(r=>r.lock_id===lockId && r.created_at);
+  // หาสถานะสุดท้ายของแต่ละ "วัน" ตามเวลาบันทึกจริง (created_at) — เพื่อให้ cancel ล้างสถานะของวันนั้นถูกต้อง
+  const sorted=[...rows].sort((a,b)=>String(a.created_at).localeCompare(String(b.created_at)));
+  const byDay=new Map(); // 'YYYY-MM-DD' -> type ล่าสุดของวันนั้น
+  sorted.forEach(r=>{
+    const dateKey=String(r.created_at).slice(0,10);
+    if(!dateKey) return;
+    if(r.type==='leave'||r.type==='absent') byDay.set(dateKey,r.type);
+    else if(r.type==='cancel') byDay.delete(dateKey);
+  });
+
+  const leaveDays=[...byDay.entries()].filter(([,t])=>t==='leave').map(([d])=>d).sort();
+  const absentDays=[...byDay.entries()].filter(([,t])=>t==='absent').map(([d])=>d).sort();
+
+  const now=new Date();
+  const curY=now.getFullYear(), curM=now.getMonth();
+  const leaveCountThisMonth=leaveDays.filter(d=>{const dt=new Date(d+'T00:00:00');return dt.getFullYear()===curY&&dt.getMonth()===curM;}).length;
+  const absentCountThisYear=absentDays.filter(d=>{const dt=new Date(d+'T00:00:00');return dt.getFullYear()===curY;}).length;
+
+  // ตรวจ "ลา 3 ครั้งติดกัน" — วันลาที่ห่างกันครั้งละ 7 วันพอดี ต่อเนื่องกันไม่ขาดสัปดาห์ (นับข้ามเดือนได้)
+  let maxStreak=leaveDays.length?1:0, streak=1, bestStreakDates=leaveDays.length?[leaveDays[0]]:[], curStreakDates=leaveDays.length?[leaveDays[0]]:[];
+  for(let i=1;i<leaveDays.length;i++){
+    const prev=new Date(leaveDays[i-1]+'T00:00:00'), cur=new Date(leaveDays[i]+'T00:00:00');
+    const diffDays=Math.round((cur-prev)/86400000);
+    if(diffDays===7){ streak++; curStreakDates.push(leaveDays[i]); }
+    else{ streak=1; curStreakDates=[leaveDays[i]]; }
+    if(streak>maxStreak){ maxStreak=streak; bestStreakDates=[...curStreakDates]; }
+  }
+
+  return {
+    leaveCountThisMonth, absentCountThisYear,
+    overMonthlyLeave: leaveCountThisMonth>2,
+    overYearlyAbsent: absentCountThisYear>2,
+    consecutiveLeaveStreak: maxStreak,
+    consecutiveLeaveViolation: maxStreak>=3,
+    consecutiveLeaveDates: bestStreakDates,
+    anyViolation: leaveCountThisMonth>2 || absentCountThisYear>2 || maxStreak>=3,
+  };
+}
+
+// แสดง popup แจ้งเตือนเมื่อพบว่าเกินโควต้า — ใช้เมื่อบันทึกแจ้งลา/ขาดล็อคใหม่
+function showQuotaAlert(lockId, shop, v){
+  const reasons=[];
+  if(v.overMonthlyLeave) reasons.push('ล็อค '+lockId+(shop?' ('+shop+')':'')+' แจ้งลาไปแล้ว <b>'+v.leaveCountThisMonth+' ครั้งในเดือนนี้</b> (เกินโควต้า 2 ครั้ง/เดือน)');
+  if(v.overYearlyAbsent) reasons.push('ล็อค '+lockId+(shop?' ('+shop+')':'')+' ขาดล็อคไปแล้ว <b>'+v.absentCountThisYear+' ครั้งในปีนี้</b> (เกินโควต้า 2 ครั้ง/ปี)');
+  if(v.consecutiveLeaveViolation) reasons.push('ล็อค '+lockId+(shop?' ('+shop+')':'')+' แจ้งลาติดต่อกัน <b>'+v.consecutiveLeaveStreak+' สัปดาห์</b> (ครบ 3 ครั้งติดกัน อาจค่อมเดือน)');
+  if(!reasons.length) return;
+  document.getElementById('qa-sub').textContent='ตรวจพบว่าเกินสิทธิ์ตามกฎตลาดแล้ว:';
+  document.getElementById('qa-detail').innerHTML=reasons.map(r=>'<div style="margin-bottom:4px">• '+r+'</div>').join('')+'<div style="margin-top:6px">ทางตลาดขอสงวนสิทธิในการยกเลิกการเช่า</div>';
+  document.getElementById('quotaAlertModal').classList.add('show');
+}
+
+// ════════════════════════════════════════════════════
 // LOCK VISUAL
 // ════════════════════════════════════════════════════
 function refreshLk(el){
@@ -619,6 +705,8 @@ function confirmLeave(){
   toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกแจ้งลาล็อค '+id+' (คงอยู่ 3 วัน)','s');
   updateStats(); pendingLeaveId=null;
   apiPost('logLeave',{data:{lock_id:id,zone,shop,type:'leave',note:note||'—',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
+  const qv=checkQuotaViolation(id,[{lock_id:id,type:'leave',created_at:new Date().toISOString()}]);
+  if(qv.anyViolation) showQuotaAlert(id,shop,qv);
 }
 function doAbsent(lockId){
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
@@ -632,6 +720,8 @@ function doAbsent(lockId){
   toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> บันทึกขาดล็อค '+lockId+' (คงอยู่ 3 วัน)','e');
   updateStats();
   apiPost('logLeave',{data:{lock_id:lockId,zone,shop,type:'absent',note:'บันทึกโดยผู้ดูแล',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
+  const qv=checkQuotaViolation(lockId,[{lock_id:lockId,type:'absent',created_at:new Date().toISOString()}]);
+  if(qv.anyViolation) showQuotaAlert(lockId,shop,qv);
 }
 // TOGGLE cancel leave/absent
 function cancelAbsent(lockId){
@@ -924,6 +1014,20 @@ function showPopup(el,ev){
   const isAvailForDaily=isVacant||(isOccupied&&(at==='leave'||at==='absent'));
   const isDaily=!!db;
 
+  // แสดงคำเตือนหากล็อคนี้เกินโควต้าลา/ขาดตามกฎตลาดอยู่แล้ว (จากประวัติสะสม)
+  const wEl=document.getElementById('ppWarn');
+  const qv=checkQuotaViolation(lockId);
+  if(isOccupied && qv.anyViolation){
+    const bits=[];
+    if(qv.overMonthlyLeave) bits.push('ลา '+qv.leaveCountThisMonth+' ครั้ง/เดือนนี้');
+    if(qv.overYearlyAbsent) bits.push('ขาด '+qv.absentCountThisYear+' ครั้ง/ปีนี้');
+    if(qv.consecutiveLeaveViolation) bits.push('ลาติดกัน '+qv.consecutiveLeaveStreak+' สัปดาห์');
+    wEl.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>เกินโควต้าตามกฎตลาด: '+bits.join(' · ')+' — ทางตลาดขอสงวนสิทธิยกเลิกการเช่า</span>';
+    wEl.style.display='flex';
+  } else {
+    wEl.style.display='none';
+  }
+
   // Header
   const hc={occupied:'linear-gradient(135deg,#1a3d2b,#2d6a4f)',vacant:'linear-gradient(135deg,#475569,#64748b)',cancelled:'linear-gradient(135deg,#7f1d1d,#b91c1c)',unpaid:'linear-gradient(135deg,#7c2d12,#c2410c)'};
   const extraH=at==='leave'?' (ลา)':at==='absent'?' (ขาด)':isDaily?' +จร':'';
@@ -1168,12 +1272,12 @@ async function manualSync(){
   const btn=document.getElementById('syncBtn');
   if(!getApiUrl()){ toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยังไม่ได้เชื่อมต่อ Google Sheets — ตั้งค่าที่หน้าหลักก่อน','e'); return; }
   if(btn){ btn.disabled=true; btn.textContent='⏳ กำลังซิงค์...'; }
-  await Promise.all([loadFromSheets(), syncRealVendors()]);
+  await Promise.all([loadFromSheets(), syncRealVendors(), loadFullLeaveHistory()]);
   if(btn){ btn.disabled=false; btn.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ซิงค์ข้อมูล'; }
   toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> อัปเดตข้อมูลล่าสุดจาก Google Sheets แล้ว','s');
 }
 
-window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);};
+window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);setTimeout(loadFullLeaveHistory,700);};
 
 </script>
 </body>
