@@ -171,8 +171,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .bo{background:var(--ol);color:var(--o);}.bb{background:var(--bl);color:var(--b);}
 
 /* ─── VENDOR DB ───────────────────────────────────── */
-#vdb-pane{flex-direction:column;overflow:hidden;}
-.vdb-toolbar{padding:10px 14px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;gap:7px;flex-wrap:wrap;align-items:center;flex-shrink:0;}
 .vtbl{width:100%;border-collapse:collapse;font-size:.76rem;background:var(--sf);}
 .vtbl th{background:var(--g);color:#fff;padding:7px 9px;text-align:left;font-weight:700;font-size:.66rem;text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;z-index:10;white-space:nowrap;}
 .vtbl td{padding:7px 9px;border-bottom:1px solid var(--bd);vertical-align:middle;}
@@ -368,14 +366,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
     <div class="sb-sec">
       <div class="sb-lbl">ภาพรวม</div>
       <button class="ni active" id="ni-dash" onclick="goTab('dash')"><span class="ico">🏠</span>หน้าหลัก</button>
-      <button class="ni" id="ni-map" onclick="goTab('map')"><span class="ico">🗺️</span>ผังตลาด<span class="nb or">ว่าง 29</span></button>
-      <button class="ni" id="ni-vdb" onclick="goTab('vdb')"><span class="ico">👥</span>ข้อมูลผู้ค้า</button>
+      <button class="ni" id="ni-map" onclick="goTab('map')"><span class="ico">🗺️</span>ผังตลาด</button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
       <div class="sb-lbl">การเงิน</div>
       <button class="ni" id="ni-payment" onclick="goTab('payment')"><span class="ico">💰</span>รับชำระหลายล็อค</button>
-      <button class="ni" id="ni-install" onclick="goTab('install')"><span class="ico">📋</span>ผ่อนชำระ<span class="nb">3</span></button>
+      <button class="ni" id="ni-install" onclick="goTab('install')"><span class="ico">📋</span>ผ่อนชำระ</button>
       <button class="ni" id="ni-electric" onclick="goTab('electric')"><span class="ico">⚡</span>ค่าไฟฟ้า</button>
     </div>
     <div class="sb-div"></div>
@@ -419,33 +416,28 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
           </div>
         </div>
         <div class="kgrid">
-          <div class="kc"><div class="knum" style="color:var(--gm)">218</div><div class="klbl">ล็อคทั้งหมด</div><div class="ksub" style="color:var(--gm)">3 โซน · 11 หมวด</div></div>
-          <div class="kc"><div class="knum" style="color:var(--gm)">189</div><div class="klbl">มีผู้เช่า (86.7%)</div><div class="ksub" style="color:var(--gm)">↑ +2 จากสัปดาห์ก่อน</div></div>
-          <div class="kc r"><div class="knum" style="color:var(--r)">29</div><div class="klbl">ล็อคว่าง</div><div class="ksub" style="color:var(--r)">≈฿8,700 สูญเสีย/อังคาร</div></div>
-          <div class="kc o"><div class="knum" style="color:var(--o)">7</div><div class="klbl">ค้างชำระ</div><div class="ksub" style="color:var(--o)">คงค้าง ฿22,780</div></div>
+          <div class="kc"><div class="knum" id="kc-total" style="color:var(--gm)">0</div><div class="klbl">ผู้ค้าในระบบ (ล็อค)</div><div class="ksub" id="kc-total-sub" style="color:var(--gm)">—</div></div>
+          <div class="kc"><div class="knum" id="kc-active" style="color:var(--gm)">0</div><div class="klbl">สถานะปกติ</div><div class="ksub" id="kc-active-sub" style="color:var(--gm)">—</div></div>
+          <div class="kc o"><div class="knum" id="kc-unpaid" style="color:var(--o)">0</div><div class="klbl">ค้างชำระ</div><div class="ksub" id="kc-unpaid-sub" style="color:var(--o)">—</div></div>
+          <div class="kc r"><div class="knum" id="kc-term" style="color:var(--r)">0</div><div class="klbl">สิ้นสุดสัญญา</div><div class="ksub" id="kc-term-sub" style="color:var(--r)">—</div></div>
         </div>
         <div class="g2">
           <div class="dc">
-            <div class="dch"><div class="dct">💰 รายได้เดือน ก.ค. 2568</div><span class="badge bg">อัปเดต</span></div>
+            <div class="dch"><div class="dct">💰 รายได้ที่คาดว่าจะได้รับ/เดือน — <span id="rev-month">—</span></div></div>
             <div class="dcb">
               <div style="margin-bottom:10px">
-                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-size:.70rem;color:var(--txl)">รายได้รวม</span><span style="font-size:1.3rem;font-weight:800;color:var(--gm)">฿209,400</span></div>
-                <div class="prog"><div class="pf" style="width:72%"></div></div>
-                <div style="font-size:.60rem;color:var(--txl);margin-top:2px">72% ของเป้า ฿290,000</div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-size:.70rem;color:var(--txl)">รวมค่าเช่า+ค่าไฟ (ผู้ค้าที่ยังไม่สิ้นสุดสัญญา)</span><span style="font-size:1.3rem;font-weight:800;color:var(--gm)" id="rev-total">฿0</span></div>
+                <div style="font-size:.60rem;color:var(--txl);margin-top:2px">คำนวณจากข้อมูลผู้ค้าจริงในระบบ · ยังไม่รวมยอดที่รับชำระแล้วจริง (ยังไม่มีข้อมูลนี้)</div>
               </div>
-              <div class="sr"><span class="sl">🏠 ค่าเช่าประจำ</span><span class="sv g">฿183,650</span></div>
-              <div class="sr"><span class="sl">⚡ ค่าไฟฟ้า</span><span class="sv">฿18,350</span></div>
-              <div class="sr"><span class="sl">🏷️ ผู้ค้าจร</span><span class="sv">฿4,200</span></div>
-              <div class="sr"><span class="sl">🆕 ค่าแรกเข้า+รายปี</span><span class="sv pu" style="color:var(--pu)">฿7,000</span></div>
-              <div class="sr" style="font-weight:800;font-size:.78rem;padding-top:7px;border-top:2px solid var(--bd)"><span>รับชำระวันนี้</span><span style="color:var(--gm)">฿22,650</span></div>
+              <div class="sr"><span class="sl">🏠 ค่าเช่าประจำ</span><span class="sv g" id="rev-rent">฿0</span></div>
+              <div class="sr"><span class="sl">⚡ ค่าไฟฟ้า</span><span class="sv" id="rev-elec">฿0</span></div>
+              <div class="sr" style="border:none"><span class="sl">🏷️ ผู้ค้าจร (รายวัน)</span><span class="sv" id="rev-daily">฿0</span></div>
             </div>
           </div>
           <div class="dc">
-            <div class="dch"><div class="dct">📊 สถานะแยกโซน</div></div>
-            <div class="dcb">
-              <div class="zone-row"><div class="zone-name"><span>โรงหน้า (SA)</span><span style="color:var(--txl)">25/34</span></div><div class="prog"><div class="pf o" style="width:74%;background:linear-gradient(90deg,var(--o),#f97316)"></div></div><div class="zone-detail">74% occupancy · <span style="color:var(--o)">9 ว่าง</span></div></div>
-              <div class="zone-row"><div class="zone-name"><span>โรงใหญ่ SB–SF</span><span style="color:var(--txl)">82/100</span></div><div class="prog"><div class="pf" style="width:82%"></div></div><div class="zone-detail">82% occupancy · <span style="color:var(--o)">18 ว่าง</span></div></div>
-              <div class="zone-row" style="margin-bottom:0"><div class="zone-name"><span>โซนด้านนอก A–F</span><span style="color:var(--txl)">82/84</span></div><div class="prog"><div class="pf" style="width:98%"></div></div><div class="zone-detail">98% occupancy · <span style="color:var(--gm)">2 ว่าง</span></div></div>
+            <div class="dch"><div class="dct">📊 จำนวนผู้ค้าตามโซน (ข้อมูลจริง)</div></div>
+            <div class="dcb" id="zone-list">
+              <div style="text-align:center;padding:12px;color:var(--txl);font-size:.72rem">กำลังโหลด...</div>
             </div>
           </div>
         </div>
@@ -454,9 +446,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
           <div class="dcb">
             <div class="mgrid">
               <div class="mc" onclick="goTab('map')"><div class="mc-i">🗺️</div><div class="mc-n">ผังตลาด</div><div class="mc-d">ดูตำแหน่งล็อค</div></div>
-              <div class="mc" onclick="goTab('vdb')"><div class="mc-i">👥</div><div class="mc-n">ข้อมูลผู้ค้า</div><div class="mc-d">ดู แก้ไข ค่าไฟ</div></div>
               <div class="mc" onclick="goTab('payment')"><div class="mc-i">💰</div><div class="mc-n">รับชำระ</div><div class="mc-d">บันทึกชำระ + ค่าปรับ</div></div>
-              <div class="mc" onclick="goTab('install')"><div class="mc-i">📋</div><div class="mc-n">ผ่อนชำระ</div><div class="mc-d">2 งวด ติดตาม deadline</div></div>
+              <div class="mc" onclick="goTab('install')"><div class="mc-i">📋</div><div class="mc-n">ผ่อนชำระ</div><div class="mc-d">ติดตามการผ่อนชำระ</div></div>
               <div class="mc" onclick="goTab('electric')"><div class="mc-i">⚡</div><div class="mc-n">ค่าไฟฟ้า</div><div class="mc-d">บันทึกอุปกรณ์</div></div>
               <div class="mc" onclick="goTab('register')"><div class="mc-i">🆕</div><div class="mc-n">ผู้ค้าใหม่</div><div class="mc-d">รับค่าแรกเข้า + รายปี</div></div>
               <div class="mc" onclick="goTab('reports')"><div class="mc-i">📊</div><div class="mc-n">รายงาน PDF</div><div class="mc-d">ดาวน์โหลด 6 รายงาน</div></div>
@@ -465,50 +456,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
           </div>
         </div>
         <div style="text-align:center;font-size:.60rem;color:var(--txl)">ตลาดแพไม้ v1.0 · ติดต่อ 082-581-1144</div>
-      </div>
-    </div>
-
-    <!-- VENDOR DB -->
-    <div id="vdb" class="pane" style="flex-direction:column;overflow:hidden">
-      <div class="vdb-toolbar">
-        <input class="sbox" id="vdb-q" placeholder="🔍 ค้นหาล็อค / ชื่อ / สินค้า / เบอร์..." oninput="renderVDB()" style="max-width:220px">
-        <select class="fsel" id="vdb-zone" onchange="renderVDB()">
-          <option value="">ทุกโซน</option>
-          <option>SA</option><option>SB</option><option>SC</option><option>SD</option>
-          <option>SE</option><option>SF</option><option>A</option><option>B</option>
-          <option>C</option><option>D</option><option>F</option>
-        </select>
-        <select class="fsel" id="vdb-status" onchange="renderVDB()">
-          <option value="">ทุกสถานะ</option>
-          <option value="active">ปกติ</option>
-          <option value="unpaid">ค้างชำระ</option>
-          <option value="terminated">สิ้นสุด</option>
-        </select>
-        <select class="fsel" id="vdb-sort" onchange="renderVDB()">
-          <option value="lock">เรียงล็อค</option>
-          <option value="zone">เรียงโซน</option>
-          <option value="rent_desc">ค่าเช่ารายวันมาก→น้อย</option>
-        </select>
-        <button class="btn btn-p" style="padding:6px 12px;font-size:.72rem" onclick="openAddVendor()">➕ เพิ่มผู้ค้า</button>
-        <button class="btn btn-s" id="vdbSyncBtn" style="padding:6px 12px;font-size:.72rem" onclick="manualSyncVendors()" title="ดึงข้อมูลล่าสุดจาก Google Sheets">🔄 ซิงค์ข้อมูล</button>
-        <span id="vdb-count" style="font-size:.68rem;color:var(--txl);margin-left:4px"></span>
-        <span id="vdb-totals" style="font-size:.68rem;font-weight:700;color:var(--gm)"></span>
-      </div>
-      <div id="vdb-chips" style="padding:6px 14px;background:var(--sf2);border-bottom:1px solid var(--bd);display:flex;gap:7px;flex-wrap:wrap;flex-shrink:0"></div>
-      <div style="flex:1;overflow:auto">
-        <table class="vtbl">
-          <thead><tr>
-            <th>ล็อค</th><th>โซน</th><th>ชื่อผู้ค้า</th><th>เบอร์โทร</th>
-            <th>LINE</th><th>สินค้า</th><th>ประเภท</th>
-            <th style="text-align:right">ค่าเช่า/เดือน<br><span style="font-size:.56rem;font-weight:400">(รายวัน×อังคาร)</span></th>
-            <th>⚡ อุปกรณ์</th>
-            <th style="text-align:right">ค่าไฟ</th>
-            <th style="text-align:right">รวม/เดือน</th>
-            <th>สถานะ</th><th style="text-align:center">จัดการ</th>
-          </tr></thead>
-          <tbody id="vdb-tbody"></tbody>
-          <tfoot id="vdb-tfoot"></tfoot>
-        </table>
       </div>
     </div>
 
@@ -539,20 +486,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
     <div id="register" class="pane" data-src="pamai_vendor_registration.html"><div class="module-loading">⏳ กำลังโหลด ผู้ค้าใหม่...</div></div>
     <div id="reports"  class="pane" data-src="pamai_reports_launcher.html"><div class="module-loading">⏳ กำลังโหลด รายงาน...</div></div>
   </main>
-</div>
-
-<!-- VENDOR EDIT MODAL -->
-<div class="overlay" id="vendor-modal">
-  <div class="modal">
-    <button class="mc-btn" onclick="closeVModal()">✕</button>
-    <div class="mt" id="vm-title">แก้ไขข้อมูลผู้ค้า</div>
-    <div class="ms" id="vm-sub">—</div>
-    <div id="vm-body"></div>
-    <div class="mfooter">
-      <button class="btn btn-s" onclick="closeVModal()">ยกเลิก</button>
-      <button class="btn btn-p" onclick="saveVendor()">💾 บันทึก</button>
-    </div>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -616,12 +549,11 @@ function goTab(id){
   if(niEl) niEl.classList.add('active');
   curTab=id;
   // Special actions
-  if(id==='vdb') renderVDB();
   if(id==='actlog') renderActLog();
   // Close sidebar on mobile
   if(window.innerWidth<=768) closeSidebar();
   // Log
-  const names={dash:'หน้าหลัก',map:'ผังตลาด',vdb:'ข้อมูลผู้ค้า',payment:'รับชำระ',
+  const names={dash:'หน้าหลัก',map:'ผังตลาด',payment:'รับชำระ',
                install:'ผ่อนชำระ',electric:'ค่าไฟฟ้า',register:'ผู้ค้าใหม่',
                reports:'รายงาน',actlog:'บันทึกกิจกรรม'};
   if(id!=='actlog') logAct('nav','เปิดหน้า: '+(names[id]||id));
@@ -714,7 +646,7 @@ function applyRole(role){
       });
     },500);
     // Disable sidebar buttons that viewer can't access
-    ['ni-map','ni-payment','ni-install','ni-electric','ni-register','ni-vdb'].forEach(id=>{
+    ['ni-map','ni-payment','ni-install','ni-electric','ni-register'].forEach(id=>{
       const el=document.getElementById(id);
       if(el){el.style.opacity='.4';el.style.cursor='not-allowed';el.onclick=function(){showToast('⛔ ไม่มีสิทธิ์เข้าถึง','e');};}
     });
@@ -733,7 +665,7 @@ function doLogout(){
   document.getElementById('readonly-banner').style.display='none';
   // re-enable buttons
   document.querySelectorAll('.btn-p,.btn-d,.btn-icon').forEach(b=>{b.disabled=false;b.style.opacity='';b.style.cursor='';});
-  ['ni-map','ni-payment','ni-install','ni-electric','ni-register','ni-vdb'].forEach(id=>{
+  ['ni-map','ni-payment','ni-install','ni-electric','ni-register'].forEach(id=>{
     const el=document.getElementById(id);
     if(el){el.style.opacity='';el.style.cursor='';}
   });
@@ -870,198 +802,61 @@ function calcElec(e){if(!e)return 0;return(e.bulb||0)*10+(e.fan||0)*20+(e.small|
 function elecStr(e){if(!e)return'—';const p=[];if(e.bulb)p.push('💡×'+e.bulb);if(e.fan)p.push('🌀×'+e.fan);if(e.small)p.push('🔌×'+e.small);if(e.large)p.push('⚙️×'+e.large);(e.special||[]).forEach(x=>{if(x.price>0)p.push('⭐'+x.name);});return p.join(' ')||'—';}
 function baht(n){return'฿'+Math.round(n).toLocaleString();}
 
-function renderVDB(){
-  const q=(document.getElementById('vdb-q')?.value||'').toLowerCase();
-  const zone=document.getElementById('vdb-zone')?.value||'';
-  const stat=document.getElementById('vdb-status')?.value||'';
-  const sort=document.getElementById('vdb-sort')?.value||'lock';
-  let list=VENDORS.filter(v=>{
-    if(q&&!v.lock.toLowerCase().includes(q)&&!v.name.toLowerCase().includes(q)&&!v.product.toLowerCase().includes(q)&&!(v.phone||'').includes(q))return false;
-    if(zone&&v.zone!==zone)return false;
-    if(stat&&v.status!==stat)return false;
-    return true;
-  });
-  if(sort==='lock') list.sort((a,b)=>a.lock.localeCompare(b.lock,undefined,{numeric:true}));
-  if(sort==='zone') list.sort((a,b)=>a.zone.localeCompare(b.zone));
-  if(sort==='rent_desc') list.sort((a,b)=>b.dailyRate-a.dailyRate);
-  const sBadge={active:'<span class="badge bg">✅ ปกติ</span>',unpaid:'<span class="badge br">❌ ค้างชำระ</span>',terminated:'<span class="badge" style="background:var(--sf3);color:var(--txl)">🔴 สิ้นสุด</span>'};
-  document.getElementById('vdb-tbody').innerHTML=list.map(v=>{
-    const monthlyRent=calcMonthlyRent(v.dailyRate); const ea=calcElec(v.elec), total=monthlyRent+ea;
-    const nd=(!v.name||v.name==='(ยังไม่ระบุ)');
-    return `<tr style="${v.status==='unpaid'?'border-left:3px solid var(--r)':''}">
-      <td><strong>${v.lock}</strong></td>
-      <td><span style="font-size:.65rem;background:var(--sf3);padding:2px 5px;border-radius:5px">${v.zone}</span></td>
-      <td>${nd?'<span style="color:var(--txl);font-style:italic;font-size:.70rem">ยังไม่ระบุ</span>':'<span style="font-weight:700">'+v.name+'</span>'}</td>
-      <td style="font-size:.74rem">${v.phone&&v.phone!=='—'?'<a href="tel:'+v.phone+'" style="color:var(--gm);font-weight:700;text-decoration:none">'+v.phone+'</a>':'—'}</td>
-      <td style="font-size:.66rem;color:var(--txl)">${v.line&&v.line!=='—'?v.line:'—'}</td>
-      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.74rem">${v.product}</td>
-      <td>${v.type==='regular'?'<span class="badge bg">ประจำ</span>':'<span class="badge bo">จร</span>'}</td>
-      <td style="text-align:right">
-        <div style="font-weight:700">${baht(monthlyRent)}</div>
-        <div style="font-size:.60rem;color:var(--txl)">${baht(v.dailyRate)}/วัน × ${currentTuesdayCount()} อ.</div>
-      </td>
-      <td><span class="elec-chip">${elecStr(v.elec)}</span></td>
-      <td style="text-align:right;font-weight:700;color:${ea>0?'var(--o)':'var(--txl)'}">${ea>0?baht(ea):'—'}</td>
-      <td style="text-align:right;font-weight:800;color:var(--gm)">${baht(total)}</td>
-      <td>${sBadge[v.status]||''}</td>
-      <td style="text-align:center;white-space:nowrap">
-        <button class="btn-icon" onclick="editVendor('${v.lock}')">✏️</button>
-        ${v.status==='unpaid'?'<button class="btn-icon" style="color:var(--o);border-color:var(--o);margin-left:2px" onclick="goTab(\'install\')">📋</button>':''}
-        <button class="btn-icon del" style="margin-left:2px" onclick="confirmDelete('${v.lock}')">🗑️</button>
-      </td>
-    </tr>`;
-  }).join('');
-  if(list.length>0){
-    const tR=list.reduce((s,v)=>s+calcMonthlyRent(v.dailyRate),0), tE=list.reduce((s,v)=>s+calcElec(v.elec),0);
-    document.getElementById('vdb-tfoot').innerHTML=`<tr style="background:var(--gll);font-weight:800;font-size:.76rem"><td colspan="7" style="padding:7px 9px">รวม ${list.length} ราย</td><td style="text-align:right;padding:7px 9px">${baht(tR)}</td><td style="padding:7px 9px"></td><td style="text-align:right;padding:7px 9px;color:var(--o)">${tE>0?baht(tE):'—'}</td><td style="text-align:right;padding:7px 9px;color:var(--gm)">${baht(tR+tE)}</td><td colspan="2"></td></tr>`;
-  } else document.getElementById('vdb-tfoot').innerHTML='';
-  document.getElementById('vdb-count').textContent='แสดง '+list.length+' จาก '+VENDORS.length+' ราย';
-  const aR=VENDORS.reduce((s,v)=>s+calcMonthlyRent(v.dailyRate),0), aE=VENDORS.reduce((s,v)=>s+calcElec(v.elec),0);
-  document.getElementById('vdb-totals').textContent='ค่าเช่า '+baht(aR)+' · ค่าไฟ '+baht(aE)+' · รวม '+baht(aR+aE)+'/เดือน ('+currentTuesdayCount()+' อ.)';
-  const nA=VENDORS.filter(v=>v.status==='active').length, nU=VENDORS.filter(v=>v.status==='unpaid').length;
-  const nN=VENDORS.filter(v=>!v.name||v.name==='(ยังไม่ระบุ)').length;
-  document.getElementById('vdb-chips').innerHTML='<span class="badge bg">✅ ปกติ '+nA+'</span><span class="badge br">❌ ค้างชำระ '+nU+'</span>'+(nN>0?'<span class="badge" style="background:var(--yl);color:var(--y)">⚠️ ยังไม่ระบุชื่อ '+nN+'</span>':'');
-}
+// ════════════════════════════════════════════════════
+// DASHBOARD — คำนวณสถิติทั้งหมดจากข้อมูลผู้ค้าจริง (VENDORS) เท่านั้น
+// ห้ามใช้ตัวเลขสมมติ/ตายตัว — ถ้าไม่มีข้อมูลจริงให้แสดง 0 หรือ "—"
+// ════════════════════════════════════════════════════
+function renderDashboard(){
+  const active=VENDORS.filter(v=>v.status==='active');
+  const unpaid=VENDORS.filter(v=>v.status==='unpaid');
+  const terminated=VENDORS.filter(v=>v.status==='terminated');
+  const live=VENDORS.filter(v=>v.status!=='terminated'); // ยังเช่าอยู่ (ปกติ+ค้างชำระ)
 
-async function confirmDelete(lock){
-  if(!confirm('ลบข้อมูลล็อค '+lock+' ออกจากระบบ?'))return;
-  const idx=VENDORS.findIndex(v=>v.lock===lock);
-  if(idx>=0){
-    VENDORS.splice(idx,1);renderVDB();showToast('🗑️ ลบล็อค '+lock+' แล้ว','i');logAct('vendor','ลบผู้ค้า ล็อค '+lock);
-    if(getApiUrl()){
-      const res=await apiPost('deleteVendor',{lockId:lock});
-      if(!res||res.status!=='ok') showToast('⚠️ ลบใน Google Sheets ไม่สำเร็จ — กรุณาลบด้วยตนเองในชีต','e');
+  const setText=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=val;};
+
+  setText('kc-total', VENDORS.length);
+  const zones=[...new Set(VENDORS.map(v=>v.zone))].sort();
+  setText('kc-total-sub', VENDORS.length ? zones.length+' โซน ('+zones.join(', ')+')' : 'ยังไม่มีข้อมูลผู้ค้า');
+
+  setText('kc-active', active.length);
+  const pct = VENDORS.length ? Math.round(active.length/VENDORS.length*1000)/10 : 0;
+  setText('kc-active-sub', VENDORS.length ? pct+'% ของผู้ค้าในระบบ' : '—');
+
+  setText('kc-unpaid', unpaid.length);
+  const unpaidExtra=unpaid.reduce((s,v)=>s+(v.unpaidPenalty||0)+(v.unpaidOther||0),0);
+  setText('kc-unpaid-sub', unpaid.length ? (unpaidExtra>0?'ค่าปรับ/อื่นค้างจ่ายรวม '+baht(unpaidExtra):'ไม่มีค่าปรับ/อื่นค้างจ่ายเพิ่มเติม') : '—');
+
+  setText('kc-term', terminated.length);
+  setText('kc-term-sub', terminated.length ? terminated.map(v=>v.lock).join(', ') : '—');
+
+  setText('rev-month', currentMonthLabelTH());
+  const rentSum=live.reduce((s,v)=>s+calcMonthlyRent(v.dailyRate),0);
+  const elecSum=live.reduce((s,v)=>s+calcElec(v.elec),0);
+  const dailySum=live.filter(v=>v.type==='daily').reduce((s,v)=>s+calcMonthlyRent(v.dailyRate),0);
+  const regularSum=rentSum-dailySum;
+  setText('rev-total', baht(rentSum+elecSum));
+  setText('rev-rent', baht(regularSum));
+  setText('rev-elec', baht(elecSum));
+  setText('rev-daily', baht(dailySum));
+
+  const zl=document.getElementById('zone-list');
+  if(zl){
+    if(!VENDORS.length){
+      zl.innerHTML='<div style="text-align:center;padding:12px;color:var(--txl);font-size:.72rem">ยังไม่มีข้อมูลผู้ค้าในระบบ</div>';
+    } else {
+      const byZone={};
+      VENDORS.forEach(v=>{(byZone[v.zone]=byZone[v.zone]||[]).push(v);});
+      const zoneKeys=Object.keys(byZone).sort();
+      zl.innerHTML=zoneKeys.map((z,i)=>{
+        const list=byZone[z];
+        const zLive=list.filter(v=>v.status!=='terminated');
+        const zUnpaid=list.filter(v=>v.status==='unpaid').length;
+        const zValue=zLive.reduce((s,v)=>s+calcMonthlyRent(v.dailyRate)+calcElec(v.elec),0);
+        return `<div class="zone-row" style="${i===zoneKeys.length-1?'margin-bottom:0':''}"><div class="zone-name"><span>โซน ${z}</span><span style="color:var(--txl)">${list.length} ราย</span></div><div class="zone-detail">${baht(zValue)}/เดือน${zUnpaid?' · <span style="color:var(--o)">ค้างชำระ '+zUnpaid+' ราย</span>':''}</div></div>`;
+      }).join('');
     }
   }
 }
-
-let editingLock=null;
-function buildElecFields(e){
-  return `<div style="background:var(--gll);border:1.5px solid var(--gm);border-radius:8px;padding:11px 13px;margin-top:10px">
-    <div style="font-size:.72rem;font-weight:800;color:var(--gm);margin-bottom:9px">⚡ อุปกรณ์ไฟฟ้า</div>
-    <div class="frow c3" style="margin-bottom:7px">
-      <div class="field"><label>💡 หลอดไฟ ฿10/ดวง</label><input type="number" id="em-bulb" value="${e?.bulb||0}" min="0" oninput="updateElecPreview()"></div>
-      <div class="field"><label>🌀 พัดลม ฿20/ตัว</label><input type="number" id="em-fan" value="${e?.fan||0}" min="0" oninput="updateElecPreview()"></div>
-      <div class="field"><label>🔌 เครื่องเล็ก ฿50</label><input type="number" id="em-small" value="${e?.small||0}" min="0" oninput="updateElecPreview()"></div>
-    </div>
-    <div class="frow c3">
-      <div class="field"><label>⚙️ เครื่องใหญ่ ฿100</label><input type="number" id="em-large" value="${e?.large||0}" min="0" oninput="updateElecPreview()"></div>
-      <div class="field" style="grid-column:span 2"><label>⭐ พิเศษ (ชื่อ:ราคา, คั่นด้วย ,)</label><input type="text" id="em-special" value="${(e?.special||[]).map(x=>x.name+':'+x.price).join(', ')}" placeholder="เช่น เครื่องชงชา:80" oninput="updateElecPreview()"></div>
-    </div>
-    <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:.74rem;color:var(--gm);font-weight:700;margin-top:8px;display:flex;justify-content:space-between">
-      <span>ค่าไฟ/เดือน:</span><span id="em-elec-total">${baht(calcElec(e||{}))}</span>
-    </div></div>`;
-}
-
-function updateRentPreview(){
-  const daily=parseFloat(document.getElementById('em-daily-rate')?.value)||0;
-  const tues=currentTuesdayCount();
-  const monthly=daily*tues;
-  const el=document.getElementById('em-rent-preview');
-  if(el) el.innerHTML='📅 เดือน <strong>'+currentMonthLabelTH()+'</strong> มีวันอังคาร <strong>'+tues+' วัน</strong><br>'
-    +'ค่าเช่ารายเดือน = '+baht(daily)+'/วัน × '+tues+' อังคาร = <strong style="font-size:.92rem">'+baht(monthly)+'</strong>';
-}
-
-function updateElecPreview(){
-  const b=parseInt(document.getElementById('em-bulb')?.value)||0;
-  const f=parseInt(document.getElementById('em-fan')?.value)||0;
-  const s=parseInt(document.getElementById('em-small')?.value)||0;
-  const l=parseInt(document.getElementById('em-large')?.value)||0;
-  const sp=document.getElementById('em-special')?.value||'';
-  const spA=sp.split(',').reduce((sum,p)=>{const pts=p.trim().split(':');return sum+(parseFloat(pts[1])||0);},0);
-  const el=document.getElementById('em-elec-total');
-  if(el) el.textContent=baht(b*10+f*20+s*50+l*100+spA);
-}
-function buildUnpaidFields(v){
-  const showStyle = (v&&v.status==='unpaid') ? '' : 'display:none';
-  const pen = v?.unpaidPenalty||0, oth=v?.unpaidOther||0, lbl=v?.unpaidOtherLabel||'';
-  return `<div id="em-unpaid-box" style="${showStyle};background:var(--rl);border:1.5px solid var(--r);border-radius:8px;padding:11px 13px;margin-bottom:9px">
-    <div style="font-size:.72rem;font-weight:800;color:var(--r);margin-bottom:9px">⚠️ รายละเอียดยอดค้างชำระเพิ่มเติม</div>
-    <div class="frow">
-      <div class="field"><label>ค่าปรับค้างจ่าย (฿)</label><input type="number" id="em-unpaid-penalty" value="${pen}" min="0" placeholder="0"></div>
-      <div class="field"><label>ค่าอื่นค้างจ่าย (฿)</label><input type="number" id="em-unpaid-other" value="${oth}" min="0" placeholder="0"></div>
-    </div>
-    <div class="field"><label>ระบุรายการค่าอื่น</label><input type="text" id="em-unpaid-other-label" value="${lbl}" placeholder="เช่น ค่าซ่อมไฟ, ค่ามัดจำเพิ่ม"></div>
-  </div>`;
-}
-function toggleUnpaidFields(){
-  const status=document.getElementById('em-status')?.value;
-  const box=document.getElementById('em-unpaid-box');
-  if(box) box.style.display = status==='unpaid' ? '' : 'none';
-}
-function editVendor(lock){
-  const v=VENDORS.find(x=>x.lock===lock); if(!v)return;
-  editingLock=lock;
-  document.getElementById('vm-title').textContent='✏️ แก้ไขข้อมูลผู้ค้า — '+lock;
-  document.getElementById('vm-sub').textContent='โซน '+v.zone+' · '+v.product;
-  document.getElementById('vm-body').innerHTML=`
-    <div class="frow"><div class="field"><label>ล็อค</label><input value="${v.lock}" disabled style="opacity:.55"></div><div class="field"><label>โซน</label><input value="${v.zone}" disabled style="opacity:.55"></div></div>
-    <div class="frow"><div class="field"><label>ชื่อผู้ค้า <span class="req">*</span></label><input type="text" id="em-name" value="${v.name==='(ยังไม่ระบุ)'?'':v.name}" placeholder="ชื่อ-นามสกุล"></div><div class="field"><label>เบอร์โทร</label><input type="tel" id="em-phone" value="${v.phone==='—'?'':v.phone}" placeholder="0xx-xxx-xxxx"></div></div>
-    <div class="frow"><div class="field"><label>LINE ID</label><input type="text" id="em-line" value="${v.line==='—'?'':v.line}" placeholder="@lineid"></div><div class="field"><label>สินค้า <span class="req">*</span></label><input type="text" id="em-product" value="${v.product}"></div></div>
-    <div class="frow">
-      <div class="field"><label>ค่าเช่ารายวัน (฿) <span class="req">*</span></label><input type="number" id="em-daily-rate" value="${v.dailyRate}" min="0" oninput="updateRentPreview()"></div>
-      <div class="field"><label>สถานะ</label><select id="em-status" onchange="toggleUnpaidFields()"><option value="active" ${v.status==='active'?'selected':''}>✅ ปกติ</option><option value="unpaid" ${v.status==='unpaid'?'selected':''}>❌ ค้างชำระ</option><option value="terminated" ${v.status==='terminated'?'selected':''}>🔴 สิ้นสุด</option></select></div>
-    </div>
-    <div id="em-rent-preview" style="background:var(--bl);border:1.5px solid var(--b);border-radius:8px;padding:9px 13px;margin-bottom:9px;font-size:.76rem;color:var(--b)"></div>
-    ${buildUnpaidFields(v)}
-    ${buildElecFields(v.elec)}`;
-  document.getElementById('vendor-modal').classList.add('show');
-  updateRentPreview();
-}
-function openAddVendor(){
-  editingLock=null;
-  document.getElementById('vm-title').textContent='➕ เพิ่มผู้ค้าใหม่';
-  document.getElementById('vm-sub').textContent='กรอกข้อมูลผู้ค้าให้ครบ';
-  document.getElementById('vm-body').innerHTML=`
-    <div class="frow c3"><div class="field"><label>หมายเลขล็อค <span class="req">*</span></label><input type="text" id="em-lock" placeholder="เช่น SA7"></div><div class="field"><label>โซน</label><select id="em-zone"><option>SA</option><option>SB</option><option>SC</option><option>SD</option><option>SE</option><option>SF</option><option>A</option><option>B</option><option>C</option><option>D</option><option>F</option></select></div><div class="field"><label>ประเภท</label><select id="em-type"><option value="regular">ประจำ</option><option value="daily">จร</option></select></div></div>
-    <div class="frow"><div class="field"><label>ชื่อผู้ค้า <span class="req">*</span></label><input type="text" id="em-name" placeholder="ชื่อ-นามสกุล"></div><div class="field"><label>เบอร์โทร</label><input type="tel" id="em-phone" placeholder="0xx-xxx-xxxx"></div></div>
-    <div class="frow"><div class="field"><label>LINE ID</label><input type="text" id="em-line" placeholder="@lineid"></div><div class="field"><label>สินค้า <span class="req">*</span></label><input type="text" id="em-product" placeholder="ประเภทสินค้า"></div></div>
-    <div class="frow">
-      <div class="field"><label>ค่าเช่ารายวัน (฿) <span class="req">*</span></label><input type="number" id="em-daily-rate" placeholder="เช่น 1500" min="0" oninput="updateRentPreview()"></div>
-      <div class="field"><label>สถานะ</label><select id="em-status" onchange="toggleUnpaidFields()"><option value="active">✅ ปกติ</option><option value="unpaid">❌ ค้างชำระ</option></select></div>
-    </div>
-    <div id="em-rent-preview" style="background:var(--bl);border:1.5px solid var(--b);border-radius:8px;padding:9px 13px;margin-bottom:9px;font-size:.76rem;color:var(--b)"></div>
-    ${buildUnpaidFields(null)}
-    ${buildElecFields(null)}`;
-  document.getElementById('vendor-modal').classList.add('show');
-  updateRentPreview();
-}
-function saveVendor(){
-  const name=document.getElementById('em-name')?.value?.trim();
-  if(!name){showToast('กรุณากรอกชื่อผู้ค้า','e');return;}
-  const product=document.getElementById('em-product')?.value?.trim();
-  if(!product){showToast('กรุณากรอกสินค้า','e');return;}
-  const dailyRate=parseFloat(document.getElementById('em-daily-rate')?.value);
-  if(!dailyRate||dailyRate<=0){showToast('กรุณากรอกค่าเช่ารายวัน','e');return;}
-  const sp=document.getElementById('em-special')?.value||'';
-  const special=sp.split(',').map(p=>{const pts=p.trim().split(':');const nm=pts[0]?.trim();const pr=parseFloat(pts[1])||0;return nm&&pr>0?{name:nm,price:pr}:null;}).filter(Boolean);
-  const elec={bulb:parseInt(document.getElementById('em-bulb')?.value)||0,fan:parseInt(document.getElementById('em-fan')?.value)||0,small:parseInt(document.getElementById('em-small')?.value)||0,large:parseInt(document.getElementById('em-large')?.value)||0,special};
-  const status=document.getElementById('em-status')?.value||'active';
-  const unpaidPenalty=status==='unpaid' ? (parseFloat(document.getElementById('em-unpaid-penalty')?.value)||0) : 0;
-  const unpaidOther=status==='unpaid' ? (parseFloat(document.getElementById('em-unpaid-other')?.value)||0) : 0;
-  const unpaidOtherLabel=status==='unpaid' ? (document.getElementById('em-unpaid-other-label')?.value?.trim()||'') : '';
-  let savedLock=null;
-  if(editingLock){
-    const v=VENDORS.find(x=>x.lock===editingLock);
-    if(v){v.name=name||'(ยังไม่ระบุ)';v.phone=document.getElementById('em-phone')?.value?.trim()||'—';v.line=document.getElementById('em-line')?.value?.trim()||'—';v.product=product;v.dailyRate=dailyRate;v.status=status;v.elec=elec;v.unpaidPenalty=unpaidPenalty;v.unpaidOther=unpaidOther;v.unpaidOtherLabel=unpaidOtherLabel;}
-    showToast('✅ บันทึกล็อค '+editingLock+' เรียบร้อย','s');
-    logAct('vendor','แก้ไขผู้ค้า ล็อค '+editingLock);
-    savedLock=editingLock;
-  } else {
-    const lock=document.getElementById('em-lock')?.value?.trim().toUpperCase();
-    if(!lock){showToast('กรุณากรอกหมายเลขล็อค','e');return;}
-    if(VENDORS.find(v=>v.lock===lock)){showToast('ล็อค '+lock+' มีในระบบแล้ว','e');return;}
-    VENDORS.push({lock,zone:document.getElementById('em-zone')?.value||'SA',name,phone:document.getElementById('em-phone')?.value?.trim()||'—',line:document.getElementById('em-line')?.value?.trim()||'—',product,type:document.getElementById('em-type')?.value||'regular',dailyRate,elec,status,unpaidPenalty,unpaidOther,unpaidOtherLabel});
-    VENDORS.sort((a,b)=>a.lock.localeCompare(b.lock,undefined,{numeric:true}));
-    showToast('✅ เพิ่มผู้ค้าล็อค '+lock+' เรียบร้อย','s');
-    logAct('vendor','เพิ่มผู้ค้าใหม่ ล็อค '+lock);
-    savedLock=lock;
-  }
-  closeVModal(); renderVDB();
-  if(localStorage.getItem('pm-api-url')&&currentUser&&savedLock) syncSaveVendor(VENDORS.find(v=>v.lock===savedLock));
-}
-function closeVModal(){document.getElementById('vendor-modal').classList.remove('show');}
-document.getElementById('vendor-modal').addEventListener('click',e=>{if(e.target.id==='vendor-modal')closeVModal();});
 
 // ════════════════════════════════════════════════════
 // GOOGLE SHEETS INTEGRATION
@@ -1089,19 +884,8 @@ async function loadVendorsFromSheets(){
   if(!data)return;
   VENDORS.length=0;
   data.forEach(row=>{VENDORS.push({lock:row.lock,zone:row.zone,name:row.name||'(ยังไม่ระบุ)',phone:row.phone||'—',line:row.line||'—',product:row.product||'—',type:row.type||'regular',dailyRate:parseInt(row.dailyRate||row.daily_rate||row.rent)||0,elec:{bulb:parseInt(row.elec_bulb)||0,fan:parseInt(row.elec_fan)||0,small:parseInt(row.elec_small)||0,large:parseInt(row.elec_large)||0,special:Array.isArray(row.elec_special)?row.elec_special:[]},status:row.status||'active',unpaidPenalty:parseFloat(row.unpaid_penalty)||0,unpaidOther:parseFloat(row.unpaid_other)||0,unpaidOtherLabel:row.unpaid_other_label||''});});
-  renderVDB();
+  renderDashboard();
   showToast('✅ โหลดข้อมูล '+VENDORS.length+' ราย จาก Sheets','s');
-}
-async function manualSyncVendors(){
-  const btn=document.getElementById('vdbSyncBtn');
-  if(!getApiUrl()){ showToast('⚠️ ยังไม่ได้เชื่อมต่อ Google Sheets — กดที่ badge ด้านบนเพื่อตั้งค่า','e'); return; }
-  if(btn){ btn.disabled=true; btn.textContent='⏳ กำลังซิงค์...'; }
-  await loadVendorsFromSheets();
-  if(btn){ btn.disabled=false; btn.innerHTML='🔄 ซิงค์ข้อมูล'; }
-}
-async function syncSaveVendor(v){
-  if(!getApiUrl()||!v)return;
-  await apiPost('saveVendor',{data:{...v,elec_bulb:v.elec.bulb,elec_fan:v.elec.fan,elec_small:v.elec.small,elec_large:v.elec.large,elec_special:v.elec.special,unpaid_penalty:v.unpaidPenalty||0,unpaid_other:v.unpaidOther||0,unpaid_other_label:v.unpaidOtherLabel||''}});
 }
 function updateDbStatus(){
   const url=getApiUrl();
@@ -1151,19 +935,29 @@ function showToast(msg,type='i'){
 }
 
 // ════════════════════════════════════════════════════
-// MINI LOCK MAP (dashboard)
-// ════════════════════════════════════════════════════
-const SA_MINI=[
-  {i:'SA1',s:'ok'},{i:'SA2',s:'ok'},{i:'SA3',s:'ok'},{i:'SA4',s:'ok'},
-  {i:'SA5',s:'ok'},{i:'SA6',s:'ow'},{i:'SA7',s:'vc'},{i:'SA8',s:'ok'},
-  {i:'SA9',s:'vc'},{i:'SA10',s:'ok'},{i:'SA11',s:'vc'},{i:'SA12',s:'ok'},
-  {i:'SA13',s:'ok'},{i:'SA14',s:'ok'},{i:'SA15',s:'bd2c'},{i:'SA16',s:'ok'},
-  {i:'SA17',s:'ok'},{i:'SA18',s:'ok'},{i:'SA19',s:'vc'},{i:'SA20',s:'ok'},
-];
-
-// ════════════════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════════════════
+
+// ════════════════════════════════════════════════════
+// CROSS-MODULE NAVIGATION — เรียกจาก iframe อื่น (เช่น ผังตลาด)
+// เพื่อเปิดหน้า "ลงทะเบียนผู้ค้าใหม่" พร้อมเลือกล็อคที่กดมาให้อัตโนมัติ
+// ════════════════════════════════════════════════════
+function openRegisterForLock(lockId) {
+  goTab('register');
+  const pane = document.getElementById('register');
+  if (!pane) return;
+  const src = 'pamai_vendor_registration.html?lock=' + encodeURIComponent(lockId);
+  const existingFrame = pane.querySelector('iframe');
+  if (existingFrame) {
+    // โมดูลเคยโหลดแล้ว — สั่งให้ไปที่ URL ใหม่พร้อมล็อคที่เลือก
+    existingFrame.src = src;
+  } else {
+    // ยังไม่เคยโหลด — ตั้ง data-src ใหม่ก่อนโหลดครั้งแรก
+    pane.dataset.src = src;
+    loadedModules.delete('register');
+    loadModule('register');
+  }
+}
 
 // ════════════════════════════════════════════════════
 // MODULE LOADER — load sub-modules into panes
@@ -1268,7 +1062,7 @@ function showModuleFallback(pane, src, id) {
 
 window.onload=function(){
   checkSession();
-  renderVDB();
+  renderDashboard();
   updateDbStatus();
   logAct('system','ระบบเริ่มทำงาน — ตลาดแพไม้ v1.0');
 };

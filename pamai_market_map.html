@@ -44,14 +44,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .lk{width:var(--lkw);height:var(--lkh);border-radius:8px;border:1.5px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .14s var(--ease);position:relative;font-size:.58rem;font-weight:700;text-align:center;line-height:1.3;flex-shrink:0;user-select:none;}
 .lk:hover{transform:translateY(-3px) scale(1.08);z-index:20;box-shadow:0 5px 14px rgba(0,0,0,.16);}
 .lk.occupied{background:var(--gl);border-color:var(--gb);color:#1b4332;}
-.lk.vacant{background:var(--yl);border-color:#d97706;color:#78350f;}
+.lk.vacant{background:var(--sf2);border-color:var(--bd2);color:var(--txl);}
 .lk.cancelled{background:var(--rl);border-color:var(--r);color:#7f1d1d;}
 .lk.unpaid{background:var(--ol);border-color:var(--o);color:#7c2d12;}
 .lk.is-leave{outline:2.5px solid #7c3aed;outline-offset:1px;}
 .lk.is-absent{outline:2.5px solid var(--r);outline-offset:1px;}
 .lk.is-daily{filter:brightness(.88) saturate(1.2);}
 [data-theme="dark"] .lk.occupied{background:#132a1d;border-color:var(--gm);color:#86efac;}
-[data-theme="dark"] .lk.vacant{background:#2d2000;border-color:#b45309;color:#fde68a;}
+[data-theme="dark"] .lk.vacant{background:#1c2333;border-color:#484f58;color:#8b949e;}
 [data-theme="dark"] .lk.cancelled{background:#2d0a0a;border-color:var(--r);color:#fca5a5;}
 [data-theme="dark"] .lk.unpaid{background:#2d1200;border-color:var(--o);color:#fdba74;}
 .lk.has-roof::after{content:'🏠';position:absolute;top:1px;right:2px;font-size:.38rem;}
@@ -154,7 +154,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   <div style="display:flex;gap:5px;flex-wrap:wrap">
     <div class="leg active" onclick="setFilter('',this)"><div class="leg-dot" style="background:var(--bd2)"></div>ทั้งหมด</div>
     <div class="leg" onclick="setFilter('occupied',this)"><div class="leg-dot" style="background:#52b788"></div>มีผู้เช่า</div>
-    <div class="leg" onclick="setFilter('vacant',this)"><div class="leg-dot" style="background:var(--y)"></div>ว่าง</div>
+    <div class="leg" onclick="setFilter('vacant',this)"><div class="leg-dot" style="background:var(--bd2)"></div>ไม่มีข้อมูล</div>
     <div class="leg" onclick="setFilter('unpaid',this)"><div class="leg-dot" style="background:var(--o)"></div>ค้างชำระ</div>
     <div class="leg" onclick="setFilter('leave',this)"><div class="leg-dot" style="background:#7c3aed"></div>แจ้งลา</div>
     <div class="leg" onclick="setFilter('absent',this)"><div class="leg-dot" style="background:var(--r)"></div>ขาดล็อค</div>
@@ -183,7 +183,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
         <div class="pp-row"><span class="pp-lbl">สินค้า</span><span class="pp-val" id="ppShop">—</span></div>
         <div class="pp-row"><span class="pp-lbl">หลังคา+โต๊ะ</span><span class="pp-val" id="ppRoof">—</span></div>
         <div class="pp-row"><span class="pp-lbl">ค่าเช่า/เดือน</span><span class="pp-val" id="ppRent">—</span></div>
-        <div class="pp-row"><span class="pp-lbl">ผู้จัดดูแล</span><span class="pp-val" id="ppMgr">—</span></div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
           <span class="pp-status" id="ppStatus">—</span>
           <a class="pp-call-btn" id="ppCallBtn" href="#" style="display:none">📞 โทร</a>
@@ -327,7 +326,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   <div class="modal-box" style="max-width:400px">
     <div class="m-title" id="mv-title">🔄 ย้ายล็อค</div>
     <div class="m-sub" id="mv-sub">—</div>
-    <div class="m-row c1" style="margin-bottom:8px"><div class="m-field"><label>เลือกล็อคปลายทาง (ว่าง) *</label><select id="mv-target" style="font-size:.78rem"></select></div></div>
+    <div class="m-row c1" style="margin-bottom:8px"><div class="m-field"><label>เลือกล็อคปลายทาง (ไม่มีข้อมูล) *</label><select id="mv-target" style="font-size:.78rem"></select></div></div>
     <div id="mv-target-info"></div>
     <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('moveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmMove()">✅ ยืนยันย้ายล็อค</button></div>
   </div>
@@ -635,7 +634,7 @@ function openDailyModal(lockId){
   pendingDailyId=lockId;
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
   const at=lockAbsent[lockId]||'';
-  const statusTxt=at==='leave'?'ลาล็อค':at==='absent'?'ขาดล็อค':el?.dataset.status==='vacant'?'ว่าง':'—';
+  const statusTxt=at==='leave'?'ลาล็อค':at==='absent'?'ขาดล็อค':el?.dataset.status==='vacant'?'ไม่มีข้อมูล':'—';
   document.getElementById('dm-title').textContent='🏷️ จองล็อคจร — '+lockId;
   document.getElementById('dm-sub').textContent='สถานะ: '+statusTxt+' · '+(el?.dataset.shop||'');
   document.getElementById('dm-name').value='';
@@ -706,7 +705,7 @@ function openMoveModal(lockId){
     if(isDaily&&(lockAbsent[el.dataset.id]==='leave'||lockAbsent[el.dataset.id]==='absent')) return true;
     return false;
   });
-  if(!vacants.length){sel.innerHTML='<option value="">ไม่มีล็อคว่าง</option>';}
+  if(!vacants.length){sel.innerHTML='<option value="">ไม่มีล็อคที่ย้ายไปได้ (ไม่มีข้อมูล/ว่าง)</option>';}
   else{vacants.forEach(el=>{const o=document.createElement('option');o.value=el.dataset.id;o.textContent=el.dataset.id+' — '+el.dataset.shop+' ('+el.dataset.zone+')';sel.appendChild(o);});}
   const info=document.getElementById('mv-target-info');
   sel.onchange=()=>{const t=document.querySelector('.lk[data-id="'+sel.value+'"]');if(t){info.textContent='ปลายทาง: '+sel.value+' · ค่าเช่า ฿'+parseInt(t.dataset.rent||0)+'/เดือน';info.style.display='block';}else info.style.display='none';};
@@ -794,21 +793,88 @@ function confirmCancelLease(){
 // ════════════════════════════════════════════════════
 // POPUP
 // ════════════════════════════════════════════════════
-const VENDORS={
-  'SA1':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA2':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
-  'SA3':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA4':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
-  'SA5':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA6':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
-  'SA8':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA12':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
-  'SA13':{name:'พี่ปุ้ย',phone:'—',manager:'คุณตู่'},'SA14':{name:'พี่ปุ้ย',phone:'—',manager:'คุณตู่'},
-  'SA15':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA16':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
-  'SA17':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},'SA18':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
-  'SA20':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณตู่'},
-  'SE1':{name:'พี่ฝน',phone:'097-236-8330',manager:'คุณฝน'},
-  'A1':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
-  'A7':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
-  'B9':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
-  'C3':{name:'(รอกรอกชื่อ)',phone:'—',manager:'คุณฝน'},
-};
+// ════════════════════════════════════════════════════
+// REAL VENDOR DATA — ใช้ฐานข้อมูลจริงชุดเดียวกับหน้า "ข้อมูลผู้ค้า" (pamai_app.html)
+// ล็อคใดไม่มีข้อมูลจริงในระบบ จะแสดงเป็น "ไม่มีข้อมูล" เท่านั้น
+// ไม่มีการสมมติชื่อร้าน/ค่าเช่า/สถานะขึ้นมาเองอีกต่อไป
+// ════════════════════════════════════════════════════
+let REAL_VENDORS=[
+  {lock:'SA1', name:'(ยังไม่ระบุ)',phone:'—',product:'เส้นผัด ไส้กรอก',dailyRate:450,status:'active'},
+  {lock:'SA2', name:'(ยังไม่ระบุ)',phone:'—',product:'สายไหม',dailyRate:400,status:'active'},
+  {lock:'SA3', name:'(ยังไม่ระบุ)',phone:'—',product:'ปลาส้ม',dailyRate:400,status:'active'},
+  {lock:'SA5', name:'(ยังไม่ระบุ)',phone:'—',product:'ฝรั่ง',dailyRate:300,status:'active'},
+  {lock:'SA6', name:'(ยังไม่ระบุ)',phone:'—',product:'เนื้อสด',dailyRate:300,status:'unpaid'},
+  {lock:'SA8', name:'(ยังไม่ระบุ)',phone:'—',product:'ข้าวหมกไก่',dailyRate:500,status:'active'},
+  {lock:'SA12',name:'(ยังไม่ระบุ)',phone:'—',product:'ต้มเนื้อ',dailyRate:450,status:'active'},
+  {lock:'SA13',name:'พี่ปุ้ย',phone:'—',product:'ขนม',dailyRate:450,status:'active'},
+  {lock:'SA14',name:'พี่ปุ้ย',phone:'—',product:'ขนม',dailyRate:450,status:'active'},
+  {lock:'SA15',name:'(ยังไม่ระบุ)',phone:'—',product:'ข้าวแต๋น',dailyRate:300,status:'unpaid'},
+  {lock:'SB1', name:'(ยังไม่ระบุ)',phone:'—',product:'อาหารเหนือ',dailyRate:350,status:'active'},
+  {lock:'SC1', name:'(ยังไม่ระบุ)',phone:'—',product:'เป็ดพะโล้',dailyRate:500,status:'active'},
+  {lock:'A1',  name:'(ยังไม่ระบุ)',phone:'—',product:'ไก่แซบ',dailyRate:250,status:'active'},
+  {lock:'A7',  name:'(ยังไม่ระบุ)',phone:'—',product:'ทะเลถัง',dailyRate:400,status:'unpaid'},
+  {lock:'B9',  name:'(ยังไม่ระบุ)',phone:'—',product:'ทะเลดอง',dailyRate:400,status:'unpaid'},
+  {lock:'C3',  name:'(ยังไม่ระบุ)',phone:'—',product:'ชาชีส',dailyRate:400,status:'active'},
+  {lock:'D1',  name:'(ยังไม่ระบุ)',phone:'—',product:'น้ำยาปู',dailyRate:400,status:'active'},
+];
+
+function countTuesdaysInMonthMap(year,month){
+  let count=0; const d=new Date(year,month,1);
+  while(d.getMonth()===month){ if(d.getDay()===2) count++; d.setDate(d.getDate()+1); }
+  return count;
+}
+function calcMonthlyRentMap(dailyRate){
+  const n=new Date();
+  return (dailyRate||0)*countTuesdaysInMonthMap(n.getFullYear(),n.getMonth());
+}
+
+// เขียนทับข้อมูลล็อคทุกช่องในผังด้วยข้อมูลจริงเท่านั้น
+// ล็อคที่ไม่มีในฐานข้อมูลจริง → สถานะ 'vacant' (ความหมายใหม่ = "ไม่มีข้อมูลในระบบ" ไม่ใช่ยืนยันว่าว่างจริง)
+function applyRealVendorData(){
+  const byId={};
+  REAL_VENDORS.forEach(v=>{byId[v.lock]=v;});
+  document.querySelectorAll('.lk[data-id]').forEach(el=>{
+    const id=el.dataset.id;
+    const v=byId[id];
+    const shopEl=el.querySelector('.lk-shop');
+    ['occupied','vacant','unpaid','cancelled'].forEach(c=>el.classList.remove(c));
+    if(v){
+      const st = v.status==='terminated' ? 'cancelled' : (v.status==='unpaid' ? 'unpaid' : 'occupied');
+      el.dataset.status=st;
+      el.dataset.shop=(v.name&&v.name!=='(ยังไม่ระบุ)')?v.name:(v.product||'—');
+      el.dataset.rent=String(calcMonthlyRentMap(v.dailyRate));
+      el.dataset.vname=v.name||''; el.dataset.vphone=v.phone||''; el.dataset.vproduct=v.product||'';
+      el.classList.add(st);
+      if(shopEl) shopEl.textContent=el.dataset.shop;
+    } else {
+      el.dataset.status='vacant';
+      el.dataset.shop='ไม่มีข้อมูล'; el.dataset.rent='0';
+      el.dataset.vname=''; el.dataset.vphone=''; el.dataset.vproduct='';
+      el.classList.add('vacant');
+      if(shopEl) shopEl.textContent='—';
+    }
+    refreshLk(el);
+  });
+  updateStats();
+}
+
+// ดึงรายชื่อผู้ค้าจริงจาก Google Sheets (ใช้ API เดียวกับหน้าข้อมูลผู้ค้า) มาแทนที่ข้อมูลตั้งต้น
+async function syncRealVendors(){
+  if(!getApiUrl()) return;
+  const rows=await apiGet('getVendors');
+  if(Array.isArray(rows)){
+    REAL_VENDORS = rows.map(r=>({
+      lock:r.lock,
+      name:r.name||'(ยังไม่ระบุ)',
+      phone:r.phone||'—',
+      product:r.product||'—',
+      dailyRate:parseInt(r.dailyRate||r.daily_rate||r.rent)||0,
+      status:r.status||'active',
+    }));
+  }
+  applyRealVendorData();
+}
+
 function getAvatar(shop){const m=[['ไก่','🍗'],['หมู','🥩'],['ปลา','🐟'],['กุ้ง','🦐'],['ผลไม้','🍓'],['ผัก','🥬'],['ข้าว','🍚'],['ส้มตำ','🌶️'],['ลูกชิ้น','🍢'],['น้ำ','🧃'],['ชา','🍵'],['ขนม','🍡'],['ทะเล','🦞'],['เนื้อ','🥩']];for(const[k,v]of m)if(shop.includes(k))return v;return'🏪';}
 
 let mapArea, popWrap;
@@ -827,7 +893,7 @@ function showPopup(el,ev){
   if(!mapArea||!popWrap){initPopup();}
   if(curLk===el){closePopup();return;}
   curLk=el;
-  const d=el.dataset, lockId=d.id, v=VENDORS[lockId]||{};
+  const d=el.dataset, lockId=d.id, v={name:d.vname,phone:d.vphone,product:d.vproduct};
   const at=lockAbsent[lockId]||'', db=dailyBookings[lockId];
   const isOccupied=d.status==='occupied'||d.status==='unpaid';
   const isVacant=d.status==='vacant';
@@ -835,7 +901,7 @@ function showPopup(el,ev){
   const isDaily=!!db;
 
   // Header
-  const hc={occupied:'linear-gradient(135deg,#1a3d2b,#2d6a4f)',vacant:'linear-gradient(135deg,#92400e,#d97706)',cancelled:'linear-gradient(135deg,#7f1d1d,#b91c1c)',unpaid:'linear-gradient(135deg,#7c2d12,#c2410c)'};
+  const hc={occupied:'linear-gradient(135deg,#1a3d2b,#2d6a4f)',vacant:'linear-gradient(135deg,#475569,#64748b)',cancelled:'linear-gradient(135deg,#7f1d1d,#b91c1c)',unpaid:'linear-gradient(135deg,#7c2d12,#c2410c)'};
   const extraH=at==='leave'?' (ลา)':at==='absent'?' (ขาด)':isDaily?' +จร':'';
   document.getElementById('ppHdr').style.background=hc[d.status]||hc.occupied;
   document.getElementById('ppLock').textContent=lockId+extraH;
@@ -845,7 +911,7 @@ function showPopup(el,ev){
   const vname=v.name||'(ยังไม่ระบุ)';
   const noName=!v.name||vname.includes('รอกรอก')||vname.includes('ยังไม่');
   const vEl=document.getElementById('ppVname');
-  vEl.textContent=isOccupied?vname:(isVacant?'ล็อคว่าง — รับผู้ค้าใหม่':'ล็อคยกเลิก');
+  vEl.textContent=isOccupied?vname:(isVacant?'ไม่มีข้อมูลในระบบ (อาจว่างหรือยังไม่บันทึก)':'ล็อคยกเลิก');
   vEl.style.color=isOccupied&&!noName?'var(--tx)':'var(--txl)';
   vEl.style.fontStyle=noName||!isOccupied?'italic':'normal';
 
@@ -857,10 +923,9 @@ function showPopup(el,ev){
   document.getElementById('ppShop').textContent=d.shop||'—';
   document.getElementById('ppRoof').textContent=d.roof==='1'?'✅ มีหลังคา+โต๊ะ':'❌ ไม่มี';
   document.getElementById('ppRent').textContent=parseInt(d.rent)>0?fmt(parseInt(d.rent))+'/เดือน':'—';
-  document.getElementById('ppMgr').textContent=v.manager||'—';
 
-  const stM={occupied:'✅ มีผู้เช่า',vacant:'🟡 ว่าง',cancelled:'🔴 ยกเลิก',unpaid:'🟠 ค้างชำระ'};
-  const stC={occupied:'background:#d8f3dc;color:#1b4332',vacant:'background:#fef3c7;color:#78350f',cancelled:'background:#fee2e2;color:#7f1d1d',unpaid:'background:#ffedd5;color:#7c2d12'};
+  const stM={occupied:'✅ มีผู้เช่า',vacant:'⚪ ไม่มีข้อมูล',cancelled:'🔴 ยกเลิก',unpaid:'🟠 ค้างชำระ'};
+  const stC={occupied:'background:#d8f3dc;color:#1b4332',vacant:'background:#e5e7eb;color:#475569',cancelled:'background:#fee2e2;color:#7f1d1d',unpaid:'background:#ffedd5;color:#7c2d12'};
   let stTxt=stM[d.status]||d.status;
   if(at==='leave')stTxt+=' · 🟣ลา'; if(at==='absent')stTxt+=' · 🔴ขาด'; if(isDaily)stTxt+=' · 🏷️จร';
   const stEl=document.getElementById('ppStatus');
@@ -879,6 +944,10 @@ function showPopup(el,ev){
 
   // ACTIONS — ลา/ขาด เป็น toggle
   let acts='';
+  if(isVacant){
+    // ล็อคนี้ไม่มีข้อมูลผู้ค้าประจำจริงในระบบ — เสนอปุ่มลงทะเบียนผู้ค้าใหม่ พร้อมเลือกล็อคนี้ให้อัตโนมัติ
+    acts+='<button class="pp-btn" style="background:var(--gm);color:#fff;flex-basis:100%" onclick="requestAddVendor(\''+lockId+'\')">➕ เพิ่มผู้ค้าประจำล็อคนี้</button>';
+  }
   if(isOccupied){
     if(!at){
       acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')">📋 แจ้งลา</button>';
@@ -914,6 +983,17 @@ function showPopup(el,ev){
   popWrap.classList.add('show');
 }
 function closePopup(){if(popWrap)popWrap.classList.remove('show');curLk=null;}
+
+// เปิดหน้า "ลงทะเบียนผู้ค้าใหม่" พร้อมเลือกล็อคนี้ให้อัตโนมัติ
+// ถ้าอยู่ใน iframe ของ pamai_app.html ให้สั่งหน้าแม่เปลี่ยนแท็บแทนการ redirect ทั้งหน้าจอ
+function requestAddVendor(lockId){
+  closePopup();
+  if(window.parent && window.parent!==window && typeof window.parent.openRegisterForLock==='function'){
+    window.parent.openRegisterForLock(lockId);
+  } else {
+    window.location.href='pamai_vendor_registration.html?lock='+encodeURIComponent(lockId);
+  }
+}
 // click listener moved to initPopup()
 
 // ════════════════════════════════════════════════════
@@ -981,7 +1061,9 @@ function buildAll(){
     if(el.dataset.status) el.classList.add(el.dataset.status);
     el.onclick=function(e){showPopup(this,e);};
   });
-  updateStats();
+  // เขียนทับข้อมูลตัวอย่างทั้งหมดด้วยข้อมูลจริงจากฐานข้อมูลผู้ค้าทันที
+  // (ล็อคที่ไม่มีข้อมูลจริงจะกลายเป็น "ไม่มีข้อมูล" ไม่ใช่ข้อมูลสมมติ)
+  applyRealVendorData();
 }
 
 function switchZone(z,btn){
@@ -1026,7 +1108,7 @@ function updateStats(){
   const rent=all.reduce(function(s,l){return s+(parseInt(l.dataset.rent)||0);},0);
   document.getElementById('statsBar').innerHTML=
     '<div class="sm"><div class="n" style="color:var(--gm)">'+occ+'</div><div class="l">มีผู้เช่า</div></div>'+
-    '<div class="sm"><div class="n" style="color:var(--y)">'+vac+'</div><div class="l">ว่าง</div></div>'+
+    '<div class="sm"><div class="n" style="color:var(--txl)">'+vac+'</div><div class="l">ไม่มีข้อมูล</div></div>'+
     '<div class="sm"><div class="n" style="color:#7c3aed">'+nL+'</div><div class="l">แจ้งลา</div></div>'+
     '<div class="sm"><div class="n" style="color:var(--r)">'+nA+'</div><div class="l">ขาดล็อค</div></div>'+
     '<div class="sm"><div class="n" style="color:var(--y)">'+nD+'</div><div class="l">จร</div></div>'+
@@ -1043,12 +1125,12 @@ async function manualSync(){
   const btn=document.getElementById('syncBtn');
   if(!getApiUrl()){ toast('⚠️ ยังไม่ได้เชื่อมต่อ Google Sheets — ตั้งค่าที่หน้าหลักก่อน','e'); return; }
   if(btn){ btn.disabled=true; btn.textContent='⏳ กำลังซิงค์...'; }
-  await loadFromSheets();
+  await Promise.all([loadFromSheets(), syncRealVendors()]);
   if(btn){ btn.disabled=false; btn.innerHTML='🔄 ซิงค์ข้อมูล'; }
   toast('✅ อัปเดตข้อมูลล่าสุดจาก Google Sheets แล้ว','s');
 }
 
-window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);};
+window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);};
 
 </script>
 </body>

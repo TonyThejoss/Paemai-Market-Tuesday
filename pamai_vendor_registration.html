@@ -684,9 +684,10 @@ textarea { resize: vertical; min-height: 70px; }
             <span class="err-msg" id="errDate">กรุณาเลือกวันที่</span>
           </div>
           <div class="field">
-            <label>ค่าเช่า/เดือน (฿) <span class="req">*</span></label>
-            <input type="number" id="rentPrice" placeholder="1500" min="0" oninput="livePreview();recalc()">
+            <label>ค่าเช่า/วัน (฿) <span class="req">*</span></label>
+            <input type="number" id="rentPrice" placeholder="450" min="0" oninput="livePreview();recalc();updateRentHint()">
             <span class="err-msg" id="errRent">กรุณากรอกราคา</span>
+            <span class="hint" id="rentMonthlyHint">= ฿0/เดือน</span>
           </div>
         </div>
         <div class="lock-zone-tabs" id="zoneTabs"></div>
@@ -930,12 +931,56 @@ function dateToTH(dateStr){ if(!dateStr) return nowTH(); const n=new Date(dateSt
 function nowTime(){const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');}
 function countTuesdaysInMonth(year,month){let c=0;const d=new Date(year,month,1);while(d.getMonth()===month){if(d.getDay()===2)c++;d.setDate(d.getDate()+1);}return c;}
 function thisMonthTuesdays(){const n=new Date();return countTuesdaysInMonth(n.getFullYear(),n.getMonth())||4;}
+// ค่าเช่าที่กรอกในขั้นตอนเลือกล็อคเป็น "ราคารายวัน" เสมอ — ระบบคำนวณรายเดือนอัตโนมัติ
+// จากจำนวนวันอังคารของเดือนปัจจุบัน (ไม่ใช่ให้ผู้ใช้กรอกราคารายเดือนเอง)
+function monthlyFromDaily(daily){ return Math.round((daily||0) * thisMonthTuesdays()); }
+function updateRentHint(){
+  const daily = parseFloat(document.getElementById('rentPrice')?.value)||0;
+  const monthly = monthlyFromDaily(daily);
+  const el = document.getElementById('rentMonthlyHint');
+  if(el) el.textContent = `= ฿${monthly.toLocaleString()}/เดือน (${daily.toLocaleString()}/วัน × ${thisMonthTuesdays()} อังคาร)`;
+}
 function getApiUrl(){ return localStorage.getItem('pm-api-url')||''; }
 function getCurrentUserName(){ try{const s=sessionStorage.getItem('pm-session');if(s){const u=JSON.parse(s);return u.username||'ผู้ใช้';}}catch(e){} return 'ผู้ใช้'; }
 async function apiPost(action,data={}){
   const url=getApiUrl(); if(!url) return null;
   try{ const r=await fetch(url,{method:'POST',body:JSON.stringify({action,...data})}); return await r.json(); }
   catch(e){ console.error('apiPost error:',action,e); return null; }
+}
+async function apiGet(action,params={}){
+  const url=getApiUrl(); if(!url) return null;
+  try{ const r=await fetch(url+'?'+new URLSearchParams({action,...params})); const j=await r.json(); return j.status==='ok'?j.data:null; }
+  catch(e){ console.error('apiGet error:',action,e); return null; }
+}
+
+// ══════════════════════════════════
+//  ล็อคที่มีผู้เช่าจริง — เชื่อมกับฐานข้อมูลจริงชุดเดียวกับหน้าข้อมูลผู้ค้า/ผังตลาด
+//  ป้องกันบั๊ก: เดิมกริดเลือกล็อคใช้สถานะ "ว่าง/มีคนเช่า" ที่สมมติขึ้นเอง
+//  ทำให้บางล็อคที่มีคนเช่าจริงกลับเลือกได้ และบางล็อคที่ว่างจริงกลับเลือกไม่ได้
+// ══════════════════════════════════
+let REAL_OCCUPIED = new Set([
+  'SA1','SA2','SA3','SA5','SA6','SA8','SA12','SA13','SA14','SA15',
+  'SB1','SC1','A1','A7','B9','C3','D1',
+]);
+function zoneForLock(id){
+  const keys = Object.keys(LOCKS).sort((a,b)=>b.length-a.length);
+  const up = (id||'').toUpperCase();
+  for(const k of keys){ if(up.startsWith(k)) return k; }
+  return null;
+}
+function applyRealOccupancy(){
+  Object.values(LOCKS).forEach(zoneObj=>{
+    zoneObj.data.forEach(l=>{ l.o = REAL_OCCUPIED.has(l.id) ? 1 : 0; });
+  });
+  updateLockGrid();
+}
+async function loadRealOccupancy(){
+  if(!getApiUrl()) return;
+  const rows = await apiGet('getVendors');
+  if(Array.isArray(rows)){
+    REAL_OCCUPIED = new Set(rows.filter(r=>r.status!=='terminated').map(r=>r.lock));
+    applyRealOccupancy();
+  }
 }
 
 // ══════════════════════════════════
@@ -946,7 +991,33 @@ window.onload = () => {
   document.getElementById('startDate').value = today;
   document.getElementById('payDate').value   = today;
   document.getElementById('feeAnnualYear').value = new Date().getFullYear() + 543;
+
+  // ── ถ้ามาจากผังตลาด (ปุ่ม "เพิ่มผู้ค้าประจำล็อคนี้" ที่ล็อคว่าง) ให้เลือกล็อคนั้นให้อัตโนมัติ ──
+  const params = new URLSearchParams(window.location.search);
+  const preLock = (params.get('lock')||'').toUpperCase().trim();
+  if (preLock) {
+    const zone = zoneForLock(preLock);
+    if (zone) selectedZone = zone;
+  }
+
   buildZoneTabs(); updateLockGrid(); recalc();
+  applyRealOccupancy();
+  setTimeout(loadRealOccupancy, 500);
+
+  if (preLock) {
+    const zone = zoneForLock(preLock);
+    if (zone && LOCKS[zone] && !LOCKS[zone].data.find(l=>l.id===preLock)) {
+      // ล็อคพิเศษที่ไม่มีอยู่ในกริดเดิม (เช่นรหัสใหม่) — เพิ่มเข้ากริดของโซนนั้นให้เลือกได้
+      LOCKS[zone].data.push({id:preLock, o:0});
+    }
+    if (zone && LOCKS[zone]) {
+      const cell = LOCKS[zone].data.find(l=>l.id===preLock);
+      if (cell) cell.o = 0; // บังคับให้เลือกได้แน่นอน แม้ REAL_OCCUPIED ยังโหลดไม่เสร็จ
+    }
+    updateLockGrid();
+    pickLock(preLock);
+    showToast('📍 เลือกล็อค '+preLock+' จากผังตลาดแล้ว — กรุณากรอกข้อมูลผู้ค้า', 'success');
+  }
 };
 
 // ══════════════════════════════════
@@ -963,8 +1034,9 @@ function livePreview() {
   document.getElementById('vpPhone').textContent   = document.getElementById('vendorPhone').value || '—';
   document.getElementById('vpProduct').textContent = document.getElementById('vendorProduct').value || '—';
   document.getElementById('vpLock').textContent    = selectedLock || 'ยังไม่เลือก';
-  const r = parseFloat(document.getElementById('rentPrice').value) || 0;
-  document.getElementById('vpRent').textContent    = r ? `฿${r.toLocaleString()}` : '—';
+  const dailyR = parseFloat(document.getElementById('rentPrice').value) || 0;
+  const monthlyR = monthlyFromDaily(dailyR);
+  document.getElementById('vpRent').textContent    = dailyR ? `฿${monthlyR.toLocaleString()}/เดือน (฿${dailyR.toLocaleString()}/วัน)` : '—';
 }
 
 // ══════════════════════════════════
@@ -988,8 +1060,8 @@ function nextStep(n, btn, goBack=false) {
 
   currentStep = n;
   if (n === 3) {
-    const r = parseFloat(document.getElementById('rentPrice').value) || 0;
-    document.getElementById('feeFirstRentAmt').value = r;
+    const dailyR = parseFloat(document.getElementById('rentPrice').value) || 0;
+    document.getElementById('feeFirstRentAmt').value = monthlyFromDaily(dailyR);
     recalc();
   }
   if (n === 4) buildConfirm();
@@ -1146,7 +1218,8 @@ function buildConfirm() {
   const nick    = document.getElementById('vendorNick').value;
   const phone   = document.getElementById('vendorPhone').value;
   const product = document.getElementById('vendorProduct').value;
-  const rent    = parse('rentPrice');
+  const dailyRent = parse('rentPrice');
+  const rent    = monthlyFromDaily(dailyRent);
   const date    = document.getElementById('startDate').value;
   const entry   = parse('feeEntryAmt');
   const annual  = parse('feeAnnualAmt');
@@ -1173,7 +1246,8 @@ function buildConfirm() {
       <div class="sum-row"><span class="sum-label">เบอร์โทร</span><span class="sum-val">${phone}</span></div>
       <div class="sum-row"><span class="sum-label">สินค้า</span><span class="sum-val">${product}</span></div>
       <div class="sum-row"><span class="sum-label">ล็อค</span><span class="sum-val green">${selectedLock} (โซน ${selectedZone})</span></div>
-      <div class="sum-row"><span class="sum-label">ค่าเช่า/เดือน</span><span class="sum-val">฿${rent.toLocaleString()}</span></div>
+      <div class="sum-row"><span class="sum-label">ค่าเช่า/วัน</span><span class="sum-val">฿${dailyRent.toLocaleString()}</span></div>
+      <div class="sum-row"><span class="sum-label">ค่าเช่า/เดือน (× ${thisMonthTuesdays()} อังคาร)</span><span class="sum-val">฿${rent.toLocaleString()}</span></div>
       <div class="sum-row"><span class="sum-label">วันเริ่มเช่า</span><span class="sum-val">${date}</span></div>
     </div>
     <div class="confirm-block gray-block">
@@ -1202,7 +1276,7 @@ async function submitForm(btn) {
   const line    = document.getElementById('vendorLine')?.value || '';
   const product = document.getElementById('vendorProduct').value;
   const detail  = document.getElementById('vendorProductDetail')?.value || '';
-  const rentMonthly = parse('rentPrice');
+  const dailyRate = parse('rentPrice'); // ช่องนี้คือค่าเช่ารายวันอยู่แล้ว ไม่ต้องแปลงกลับ
   const entry   = parse('feeEntryAmt');
   const annual  = parse('feeAnnualAmt');
   const fRent   = parse('feeFirstRentAmt');
@@ -1232,8 +1306,7 @@ async function submitForm(btn) {
     const fullName = name + (nick ? ` (${nick})` : '');
     const fullProduct = product + (detail ? ` · ${detail}` : '');
 
-    // 1) สร้าง/อัปเดตผู้ค้าในชีต vendors — เก็บเป็น dailyRate (ค่าเช่ารายวันอังคาร)
-    const dailyRate = Math.round(rentMonthly / thisMonthTuesdays());
+    // 1) สร้าง/อัปเดตผู้ค้าในชีต vendors — เก็บเป็น dailyRate (ค่าเช่ารายวันอังคาร) ตรง ๆ
     const vRes = await apiPost('saveVendor', { data: {
       lock: selectedLock, zone: selectedZone, name: fullName, phone, line,
       product: fullProduct, type: 'regular', dailyRate,
