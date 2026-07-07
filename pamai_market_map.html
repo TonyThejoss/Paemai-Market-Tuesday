@@ -1034,7 +1034,7 @@ function showPopup(el,ev){
   document.getElementById('ppHdr').style.background=hc[d.status]||hc.occupied;
   document.getElementById('ppLock').textContent=lockId+extraH;
   document.getElementById('ppZone').textContent='โซน '+(d.zone||lockId.replace(/[\d/].*/,''));
-  document.getElementById('ppAvatar').textContent=getAvatar(d.shop);
+  document.getElementById('ppAvatar').innerHTML=getAvatar(d.shop);
 
   const vname=v.name||'(ยังไม่ระบุ)';
   const noName=!v.name||vname.includes('รอกรอก')||vname.includes('ยังไม่');
