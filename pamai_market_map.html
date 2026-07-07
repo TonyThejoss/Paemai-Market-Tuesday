@@ -937,10 +937,11 @@ function showPopup(el,ev){
 
   const hist=lockHistory[lockId]||[];
   const hEl=document.getElementById('ppHist');
+  const histLink='<div style="margin-top:4px"><a href="#" onclick="viewFullHistory(\''+lockId+'\');return false" style="font-size:.62rem;color:var(--gm);font-weight:700;text-decoration:underline">🕘 ดูประวัติทั้งหมด</a></div>';
   if(hist.length){
     const chips=hist.slice(0,5).map(h=>{const cls=h.type==='leave'?'hi-leave':h.type==='absent'?'hi-absent':'hi-daily';return'<span class="hist-item '+cls+'">'+h.label+' '+h.date+'</span>';}).join('');
-    hEl.innerHTML='<div style="font-size:.62rem;font-weight:700;color:var(--txl);margin-bottom:2px">ประวัติ:</div>'+chips;
-  } else hEl.innerHTML='<span style="font-size:.62rem;color:var(--txl)">ยังไม่มีประวัติ</span>';
+    hEl.innerHTML='<div style="font-size:.62rem;font-weight:700;color:var(--txl);margin-bottom:2px">ประวัติ (เซสชันนี้):</div>'+chips+histLink;
+  } else hEl.innerHTML='<span style="font-size:.62rem;color:var(--txl)">ยังไม่มีประวัติในเซสชันนี้</span>'+histLink;
 
   // ACTIONS — ลา/ขาด เป็น toggle
   let acts='';
@@ -992,6 +993,14 @@ function requestAddVendor(lockId){
     window.parent.openRegisterForLock(lockId);
   } else {
     window.location.href='pamai_vendor_registration.html?lock='+encodeURIComponent(lockId);
+  }
+}
+function viewFullHistory(lockId){
+  closePopup();
+  if(window.parent && window.parent!==window && typeof window.parent.openLeaveHistoryForLock==='function'){
+    window.parent.openLeaveHistoryForLock(lockId);
+  } else {
+    window.location.href='pamai_leave_history.html?lock='+encodeURIComponent(lockId);
   }
 }
 // click listener moved to initPopup()

@@ -379,6 +379,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
     <div class="sb-sec">
       <div class="sb-lbl">ผู้ค้า</div>
       <button class="ni" id="ni-register" onclick="goTab('register')"><span class="ico">🆕</span>ลงทะเบียนผู้ค้าใหม่</button>
+      <button class="ni" id="ni-leavehist" onclick="goTab('leavehist')"><span class="ico">📋</span>ประวัติลา/ขาด/จร</button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
@@ -450,6 +451,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
               <div class="mc" onclick="goTab('install')"><div class="mc-i">📋</div><div class="mc-n">ผ่อนชำระ</div><div class="mc-d">ติดตามการผ่อนชำระ</div></div>
               <div class="mc" onclick="goTab('electric')"><div class="mc-i">⚡</div><div class="mc-n">ค่าไฟฟ้า</div><div class="mc-d">บันทึกอุปกรณ์</div></div>
               <div class="mc" onclick="goTab('register')"><div class="mc-i">🆕</div><div class="mc-n">ผู้ค้าใหม่</div><div class="mc-d">รับค่าแรกเข้า + รายปี</div></div>
+              <div class="mc" onclick="goTab('leavehist')"><div class="mc-i">📋</div><div class="mc-n">ประวัติลา/ขาด/จร</div><div class="mc-d">ดูย้อนหลังรายล็อค</div></div>
               <div class="mc" onclick="goTab('reports')"><div class="mc-i">📊</div><div class="mc-n">รายงาน PDF</div><div class="mc-d">ดาวน์โหลด 6 รายงาน</div></div>
               <div class="mc" onclick="goTab('actlog')"><div class="mc-i">📝</div><div class="mc-n">บันทึกกิจกรรม</div><div class="mc-d">ประวัติการใช้งาน</div></div>
             </div>
@@ -484,6 +486,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
     <div id="install"  class="pane" data-src="pamai_installment.html"><div class="module-loading">⏳ กำลังโหลด ผ่อนชำระ...</div></div>
     <div id="electric" class="pane" data-src="pamai_electric_system.html"><div class="module-loading">⏳ กำลังโหลด ค่าไฟฟ้า...</div></div>
     <div id="register" class="pane" data-src="pamai_vendor_registration.html"><div class="module-loading">⏳ กำลังโหลด ผู้ค้าใหม่...</div></div>
+    <div id="leavehist" class="pane" data-src="pamai_leave_history.html"><div class="module-loading">⏳ กำลังโหลด ประวัติลา/ขาด/จร...</div></div>
     <div id="reports"  class="pane" data-src="pamai_reports_launcher.html"><div class="module-loading">⏳ กำลังโหลด รายงาน...</div></div>
   </main>
 </div>
@@ -555,10 +558,11 @@ function goTab(id){
   // Log
   const names={dash:'หน้าหลัก',map:'ผังตลาด',payment:'รับชำระ',
                install:'ผ่อนชำระ',electric:'ค่าไฟฟ้า',register:'ผู้ค้าใหม่',
+               leavehist:'ประวัติลา/ขาด/จร',
                reports:'รายงาน',actlog:'บันทึกกิจกรรม'};
   if(id!=='actlog') logAct('nav','เปิดหน้า: '+(names[id]||id));
   // Lazy load iframe module when first accessed
-  const moduleIds=['map','payment','install','electric','register','reports'];
+  const moduleIds=['map','payment','install','electric','register','leavehist','reports'];
   if(moduleIds.includes(id)){
     setTimeout(()=>loadModule(id),50);
   }
@@ -646,7 +650,7 @@ function applyRole(role){
       });
     },500);
     // Disable sidebar buttons that viewer can't access
-    ['ni-map','ni-payment','ni-install','ni-electric','ni-register'].forEach(id=>{
+    ['ni-map','ni-payment','ni-install','ni-electric','ni-register','ni-leavehist'].forEach(id=>{
       const el=document.getElementById(id);
       if(el){el.style.opacity='.4';el.style.cursor='not-allowed';el.onclick=function(){showToast('⛔ ไม่มีสิทธิ์เข้าถึง','e');};}
     });
@@ -665,7 +669,7 @@ function doLogout(){
   document.getElementById('readonly-banner').style.display='none';
   // re-enable buttons
   document.querySelectorAll('.btn-p,.btn-d,.btn-icon').forEach(b=>{b.disabled=false;b.style.opacity='';b.style.cursor='';});
-  ['ni-map','ni-payment','ni-install','ni-electric','ni-register'].forEach(id=>{
+  ['ni-map','ni-payment','ni-install','ni-electric','ni-register','ni-leavehist'].forEach(id=>{
     const el=document.getElementById(id);
     if(el){el.style.opacity='';el.style.cursor='';}
   });
@@ -956,6 +960,21 @@ function openRegisterForLock(lockId) {
     pane.dataset.src = src;
     loadedModules.delete('register');
     loadModule('register');
+  }
+}
+
+function openLeaveHistoryForLock(lockId) {
+  goTab('leavehist');
+  const pane = document.getElementById('leavehist');
+  if (!pane) return;
+  const src = 'pamai_leave_history.html?lock=' + encodeURIComponent(lockId);
+  const existingFrame = pane.querySelector('iframe');
+  if (existingFrame) {
+    existingFrame.src = src;
+  } else {
+    pane.dataset.src = src;
+    loadedModules.delete('leavehist');
+    loadModule('leavehist');
   }
 }
 
