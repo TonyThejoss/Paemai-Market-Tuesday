@@ -255,6 +255,9 @@ select.filter-select:focus { border-color: #40916c; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 3px; }
+
+.ic{width:1em;height:1em;vertical-align:-.15em;display:inline-block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ic-dot{stroke:none}
 </style>
 </head>
 <body>
@@ -263,9 +266,9 @@ select.filter-select:focus { border-color: #40916c; }
 <div class="topbar">
   <div>
     <div style="display:flex;align-items:center;gap:10px">
-      <button class="btn-back">← กลับ</button>
+      <button class="btn-back"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 6 4 12 10 18"/></svg> กลับ</button>
       <div>
-        <h1>💰 รับชำระเงินรวม — ตลาดแพไม้</h1>
+        <h1><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg> รับชำระเงินรวม — ตลาดแพไม้</h1>
         <div class="meta" id="metaDate">วันอังคารที่ — · เดือน — · รอบการเก็บเงิน</div>
       </div>
     </div>
@@ -290,7 +293,7 @@ select.filter-select:focus { border-color: #40916c; }
   <!-- ════ LEFT PANEL ════ -->
   <div class="left-panel">
     <div class="panel-header">
-      <div class="panel-title">📋 รายการล็อค</div>
+      <div class="panel-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> รายการล็อค</div>
       <div class="filter-row">
         <input class="search-box" id="searchInput" placeholder="🔍 ค้นหาล็อค / ร้านค้า..." oninput="filterLocks()">
         <select class="filter-select" id="zoneFilter" onchange="filterLocks()">
@@ -329,7 +332,7 @@ select.filter-select:focus { border-color: #40916c; }
 
       <!-- SUMMARY -->
       <div class="summary-box">
-        <div class="summary-title">📊 สรุปรายการที่เลือก</div>
+        <div class="summary-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg> สรุปรายการที่เลือก</div>
         <div class="summary-grid">
           <div class="stat-card">
             <div class="stat-num" id="statSelected">0</div>
@@ -356,12 +359,12 @@ select.filter-select:focus { border-color: #40916c; }
       <!-- SELECTED ITEMS TABLE -->
       <div class="items-box">
         <div class="items-title">
-          <span>✏️ กรอกจำนวนที่รับมา</span>
+          <span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>️ กรอกจำนวนที่รับมา</span>
           <span style="font-size:0.75rem;color:#718096;font-weight:400">* กรอก 0 หมายถึงยังไม่ได้รับชำระ</span>
         </div>
         <div id="selectedTableWrap">
           <div class="empty-state">
-            <div class="empty-icon">👈</div>
+            <div class="empty-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 6 4 12 10 18"/></svg></div>
             <div class="empty-text">เลือกล็อคจากรายการด้านซ้ายก่อน<br>สามารถเลือกได้พร้อมกันหลายล็อค</div>
           </div>
         </div>
@@ -369,13 +372,13 @@ select.filter-select:focus { border-color: #40916c; }
 
       <!-- OPTIONS -->
       <div class="options-box">
-        <div class="options-title">⚙️ ตั้งค่าการบันทึก</div>
+        <div class="options-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.37a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.63 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.63 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.63a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.37 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>️ ตั้งค่าการบันทึก</div>
         <div class="option-row">
           <span class="option-label">ช่องทางชำระ</span>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="method-btn active" onclick="setMethod(this,'เงินสด')">💵 เงินสด</button>
-            <button class="method-btn" onclick="setMethod(this,'โอนเงิน')">📱 โอนเงิน</button>
-            <button class="method-btn" onclick="setMethod(this,'QR Code')">📷 QR Code</button>
+            <button class="method-btn active" onclick="setMethod(this,'เงินสด')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg> เงินสด</button>
+            <button class="method-btn" onclick="setMethod(this,'โอนเงิน')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg> โอนเงิน</button>
+            <button class="method-btn" onclick="setMethod(this,'QR Code')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2h6l2 2h3v11H4Z"/><circle cx="12" cy="13.5" r="3.5"/></svg> QR Code</button>
           </div>
         </div>
         <div class="option-row">
@@ -402,10 +405,10 @@ select.filter-select:focus { border-color: #40916c; }
         ยอดรวม <strong id="footerTotal">฿0</strong>
       </div>
       <div class="action-btns">
-        <button class="btn btn-outline" onclick="clearAll()">🗑️ ล้างทั้งหมด</button>
-        <button class="btn btn-outline" onclick="fillAllFull()">✅ กรอกเต็มทุกล็อค</button>
+        <button class="btn btn-outline" onclick="clearAll()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>️ ล้างทั้งหมด</button>
+        <button class="btn btn-outline" onclick="fillAllFull()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> กรอกเต็มทุกล็อค</button>
         <button class="btn btn-primary" id="saveBtn" disabled onclick="openConfirm()">
-          💾 บันทึกการรับเงิน
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> บันทึกการรับเงิน
         </button>
       </div>
     </div>
@@ -415,12 +418,12 @@ select.filter-select:focus { border-color: #40916c; }
 <!-- ═══════════ CONFIRM MODAL ═══════════ -->
 <div class="modal-overlay" id="confirmModal">
   <div class="modal">
-    <div class="modal-title">✅ ยืนยันการบันทึกรับเงิน</div>
+    <div class="modal-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ยืนยันการบันทึกรับเงิน</div>
     <div class="modal-sub">ตรวจสอบรายการก่อนกดยืนยัน</div>
     <div class="modal-receipt" id="receiptContent"></div>
     <div class="modal-btns">
       <button class="btn btn-outline" onclick="closeModal()">ยกเลิก</button>
-      <button class="btn btn-primary" onclick="confirmSave()">✅ ยืนยันบันทึก</button>
+      <button class="btn btn-primary" onclick="confirmSave()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ยืนยันบันทึก</button>
     </div>
   </div>
 </div>
@@ -475,13 +478,13 @@ let ALL_LOCKS = [];
 async function loadLocksFromSheets(){
   const wrap=document.getElementById('lockList');
   if(!getApiUrl()){
-    if(wrap) wrap.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-text">ยังไม่ได้เชื่อมต่อ Google Sheets<br>กรุณาตั้งค่าที่หน้าหลักก่อนใช้งานหน้านี้</div></div>';
+    if(wrap) wrap.innerHTML='<div class="empty-state"><div class="empty-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="empty-text">ยังไม่ได้เชื่อมต่อ Google Sheets<br>กรุณาตั้งค่าที่หน้าหลักก่อนใช้งานหน้านี้</div></div>';
     return;
   }
   if(wrap) wrap.innerHTML='<div class="empty-state"><div class="empty-icon">⏳</div><div class="empty-text">กำลังโหลดข้อมูลผู้ค้าจาก Google Sheets...</div></div>';
   const vendors = await apiGet('getVendors');
   if(!Array.isArray(vendors)){
-    if(wrap) wrap.innerHTML='<div class="empty-state"><div class="empty-icon">❌</div><div class="empty-text">โหลดข้อมูลผู้ค้าไม่สำเร็จ<br>ตรวจสอบการเชื่อมต่อ Google Sheets</div></div>';
+    if(wrap) wrap.innerHTML='<div class="empty-state"><div class="empty-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div class="empty-text">โหลดข้อมูลผู้ค้าไม่สำเร็จ<br>ตรวจสอบการเชื่อมต่อ Google Sheets</div></div>';
     return;
   }
   const tuesdays = thisMonthTuesdays();
@@ -552,7 +555,7 @@ function renderLockList() {
     </div>`;
   }).join('');
 
-  document.getElementById('lockList').innerHTML = html || '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">ไม่พบล็อคที่ตรงกัน</div></div>';
+  document.getElementById('lockList').innerHTML = html || '<div class="empty-state"><div class="empty-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="empty-text">ไม่พบล็อคที่ตรงกัน</div></div>';
   updateCheckAll();
 }
 
@@ -610,7 +613,7 @@ function renderTable() {
   if (selected.length === 0) {
     document.getElementById('selectedTableWrap').innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">👈</div>
+        <div class="empty-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 6 4 12 10 18"/></svg></div>
         <div class="empty-text">เลือกล็อคจากรายการด้านซ้ายก่อน<br>สามารถเลือกได้พร้อมกันหลายล็อค</div>
       </div>`;
     return;
@@ -664,7 +667,7 @@ function renderTable() {
           oninput="setNote('${l.id}', this.value)" style="width:85px">
       </td>
       <td>
-        <button class="remove-btn" onclick="removeLock('${l.id}')" title="ลบออก">✕</button>
+        <button class="remove-btn" onclick="removeLock('${l.id}')" title="ลบออก"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </td>
     </tr>`;
   }).join('');
@@ -677,9 +680,9 @@ function renderTable() {
           <th style="min-width:90px">สินค้า</th>
           <th style="text-align:right;min-width:72px">ค่าเช่า</th>
           <th style="text-align:right;min-width:58px">ค่าไฟ</th>
-          <th style="text-align:right;min-width:80px">⚠️ ค่าปรับ (฿)</th>
-          <th style="text-align:right;min-width:80px">📌 ค่าอื่น (฿)</th>
-          <th style="min-width:90px">📌 ระบุรายการ</th>
+          <th style="text-align:right;min-width:80px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ค่าปรับ (฿)</th>
+          <th style="text-align:right;min-width:80px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5c0 3 2 4.6 3.5 8.2L12 22l1.5-6.8C15 11.6 17 10 17 7a5 5 0 0 0-5-5Z"/><circle cx="12" cy="7" r="1.6" fill="currentColor" stroke="none"/></svg> ค่าอื่น (฿)</th>
+          <th style="min-width:90px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5c0 3 2 4.6 3.5 8.2L12 22l1.5-6.8C15 11.6 17 10 17 7a5 5 0 0 0-5-5Z"/><circle cx="12" cy="7" r="1.6" fill="currentColor" stroke="none"/></svg> ระบุรายการ</th>
           <th style="text-align:right;min-width:88px">รวมที่ต้องชำระ</th>
           <th style="text-align:right;min-width:96px">จำนวนที่รับ (฿)</th>
           <th style="min-width:85px">หมายเหตุ</th>
@@ -789,7 +792,7 @@ function openConfirm() {
     <div class="receipt-row"><span class="modal-label">จำนวนล็อคที่บันทึก</span><span>${paid.length} ล็อค</span></div>`;
 
   if (zero.length > 0) {
-    html += `<div class="receipt-row" style="color:#dd6b20"><span class="modal-label">⚠️ ยอด 0 (ข้าม)</span><span>${zero.map(l => l.id).join(', ')}</span></div>`;
+    html += `<div class="receipt-row" style="color:#dd6b20"><span class="modal-label"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยอด 0 (ข้าม)</span><span>${zero.map(l => l.id).join(', ')}</span></div>`;
   }
 
   const top5 = paid.slice(0, 5).map(l => `<div class="receipt-row"><span>${l.id} ${l.product}</span><span>฿${(parseFloat(payAmounts[l.id])||0).toLocaleString()}</span></div>`).join('');
@@ -808,7 +811,7 @@ function closeModal() {
 async function confirmSave() {
   closeModal();
   if(!getApiUrl()){
-    showToast('⚠️ ยังไม่ได้เชื่อมต่อ Google Sheets — บันทึกไม่สำเร็จ');
+    showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยังไม่ได้เชื่อมต่อ Google Sheets — บันทึกไม่สำเร็จ');
     return;
   }
   const selected = ALL_LOCKS.filter(l => selectedIds.has(l.id) && (parseFloat(payAmounts[l.id]) || 0) > 0);
@@ -845,12 +848,12 @@ async function confirmSave() {
     }
   }
 
-  if(saveBtn){ saveBtn.disabled=false; saveBtn.textContent='💾 บันทึกการรับชำระ'; }
+  if(saveBtn){ saveBtn.disabled=false; saveBtn.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> บันทึกการรับชำระ'; }
 
   if(failCount===0){
-    showToast(`✅ บันทึกสำเร็จ ${okCount} ล็อค · รวม ฿${total.toLocaleString()}`);
+    showToast(`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกสำเร็จ ${okCount} ล็อค · รวม ฿${total.toLocaleString()}`);
   } else {
-    showToast(`⚠️ บันทึกสำเร็จ ${okCount} ล็อค · ล้มเหลว ${failCount} ล็อค กรุณาตรวจสอบ`);
+    showToast(`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> บันทึกสำเร็จ ${okCount} ล็อค · ล้มเหลว ${failCount} ล็อค กรุณาตรวจสอบ`);
   }
   clearAll();
   renderLockList();

@@ -5,27 +5,27 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>ผังตลาดแพไม้</title>
 <style>
-:root{--g:#1a3d2b;--gm:#2d6a4f;--gb:#40916c;--gl:#d8f3dc;--gll:#f0fff4;--r:#b91c1c;--rl:#fee2e2;--o:#c2410c;--ol:#fff7ed;--b:#2563eb;--bl:#dbeafe;--y:#f59e0b;--yl:#fef3c7;--pu:#7c3aed;--pul:#ede9fe;--bg:#f0f4f8;--sf:#fff;--sf2:#f8fafc;--bd:#e2e8f0;--bd2:#cbd5e0;--tx:#0f172a;--txm:#475569;--txl:#94a3b8;--sdw:0 4px 20px rgba(0,0,0,.09);--ease:cubic-bezier(.4,0,.2,1);--lkw:60px;--lkh:46px;}
-[data-theme="dark"]{--bg:#0d1117;--sf:#161b22;--sf2:#1c2333;--bd:#30363d;--bd2:#484f58;--tx:#e6edf3;--txm:#8b949e;--txl:#484f58;--gl:#132a1d;--gll:#0d1f14;--rl:#2d0a0a;--ol:#2d1200;--bl:#0d1b3e;--pul:#1e0f3d;--yl:#2d2000;}
+:root{--g:#1a3d2b;--gm:#2d6a4f;--gb:#40916c;--gl:#d8f3dc;--gll:#f0fff4;--r:#b91c1c;--rl:#fee2e2;--o:#c2410c;--ol:#fff7ed;--b:#2563eb;--bl:#dbeafe;--y:#f59e0b;--yl:#fef3c7;--pu:#7c3aed;--pul:#ede9fe;--bg:#f0f4f8;--sf:#fff;--sf2:#f8fafc;--bd:#e2e8f0;--bd2:#cbd5e0;--tx:#0f172a;--txm:#475569;--txl:#57687a;--sdw:0 4px 20px rgba(0,0,0,.09);--ease:cubic-bezier(.4,0,.2,1);--lkw:60px;--lkh:46px;}
+[data-theme="dark"]{--bg:#0d1117;--sf:#161b22;--sf2:#1c2333;--bd:#30363d;--bd2:#484f58;--tx:#e6edf3;--txm:#8b949e;--txl:#8b95a3;--gl:#132a1d;--gll:#0d1f14;--rl:#2d0a0a;--ol:#2d1200;--bl:#0d1b3e;--pul:#1e0f3d;--yl:#2d2000;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:13px;min-height:100vh;transition:background .3s,color .3s;}
 .topbar{background:linear-gradient(135deg,#0d2618,var(--g),var(--gm));color:#fff;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.4);}
-.topbar h1{font-size:.88rem;font-weight:800;}.topbar p{font-size:.65rem;opacity:.7;margin-top:1px;}
-.dm-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.topbar h1{font-size:.88rem;font-weight:800;}.topbar p{font-size:.87rem;opacity:.7;margin-top:1px;}
+.dm-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .dm-btn:hover{background:rgba(255,255,255,.22);}
 .zone-bar{background:var(--sf);border-bottom:1px solid var(--bd);display:flex;overflow-x:auto;position:sticky;top:49px;z-index:90;}
 .zone-bar::-webkit-scrollbar{display:none;}
 .ztab{padding:10px 18px;border:none;background:none;cursor:pointer;font-size:.75rem;font-weight:700;color:var(--txl);border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .18s;font-family:inherit;}
 .ztab.active{color:var(--gm);border-bottom-color:var(--gm);}
 .toolbar{padding:8px 16px;background:var(--sf2);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.leg{display:flex;align-items:center;gap:4px;font-size:.66rem;color:var(--txl);cursor:pointer;padding:3px 8px;border-radius:16px;border:1.5px solid transparent;transition:all .14s;}
+.leg{display:flex;align-items:center;gap:4px;font-size:.88rem;color:var(--txl);cursor:pointer;padding:3px 8px;border-radius:16px;border:1.5px solid transparent;transition:all .14s;}
 .leg:hover,.leg.active{background:var(--sf);border-color:var(--bd2);}
 .leg-dot{width:10px;height:10px;border-radius:3px;}
 .sbox{padding:5px 10px;border:1.5px solid var(--bd);border-radius:7px;font-size:.74rem;background:var(--sf);color:var(--tx);outline:none;font-family:inherit;transition:border-color .18s;}
-.sbox:focus{border-color:var(--gm);}
+.sbox:focus{border-color:var(--gm);box-shadow:0 0 0 3px rgba(45,106,79,.15);}
 .stats-bar{margin-left:auto;display:flex;gap:12px;}
-.sm{text-align:center;}.sm .n{font-size:.9rem;font-weight:800;}.sm .l{font-size:.60rem;color:var(--txl);}
+.sm{text-align:center;}.sm .n{font-size:.9rem;font-weight:800;}.sm .l{font-size:.82rem;color:var(--txl);}
 .map-area{padding:16px;overflow:auto;position:relative;}
 .zone-map{display:none;}
 .zone-map.active{display:block;animation:fadeUp .25s var(--ease);}
@@ -33,15 +33,15 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .sec-title{font-size:.72rem;font-weight:800;color:var(--txm);margin:0 0 7px;display:flex;align-items:center;gap:7px;padding:0 2px;}
 .sec-title::after{content:'';flex:1;height:1px;background:var(--bd);}
 .bld{border:2px solid var(--bd);border-radius:12px;background:var(--sf);padding:12px 14px;margin-bottom:14px;position:relative;box-shadow:var(--sdw);}
-.bld-label{position:absolute;top:-9px;left:12px;background:var(--sf);padding:1px 8px;font-size:.65rem;font-weight:800;color:var(--gm);border:1.5px solid var(--gm);border-radius:16px;white-space:nowrap;}
+.bld-label{position:absolute;top:-9px;left:12px;background:var(--sf);padding:1px 8px;font-size:.87rem;font-weight:800;color:var(--gm);border:1.5px solid var(--gm);border-radius:16px;white-space:nowrap;}
 .bld.out{border-color:var(--bl);background:rgba(37,99,235,.02);}
 .aisle{display:flex;align-items:center;justify-content:center;margin:5px 0;}
 .aisle-line{flex:1;height:1.5px;background:repeating-linear-gradient(90deg,var(--bd) 0,var(--bd) 5px,transparent 5px,transparent 10px);}
-.aisle-label{font-size:.58rem;color:var(--txl);padding:0 7px;white-space:nowrap;}
+.aisle-label{font-size:.81rem;color:var(--txl);padding:0 7px;white-space:nowrap;}
 .lrow{display:flex;gap:3px;margin-bottom:3px;align-items:flex-start;}
-.row-label{font-size:.55rem;color:var(--txl);font-weight:700;min-width:16px;text-align:right;margin-right:2px;padding-top:13px;}
+.row-label{font-size:.79rem;color:var(--txl);font-weight:700;min-width:16px;text-align:right;margin-right:2px;padding-top:13px;}
 /* LOCK */
-.lk{width:var(--lkw);height:var(--lkh);border-radius:8px;border:1.5px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .14s var(--ease);position:relative;font-size:.58rem;font-weight:700;text-align:center;line-height:1.3;flex-shrink:0;user-select:none;}
+.lk{width:var(--lkw);height:var(--lkh);border-radius:8px;border:1.5px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .14s var(--ease);position:relative;font-size:.81rem;font-weight:700;text-align:center;line-height:1.3;flex-shrink:0;user-select:none;}
 .lk:hover{transform:translateY(-3px) scale(1.08);z-index:20;box-shadow:0 5px 14px rgba(0,0,0,.16);}
 .lk.occupied{background:var(--gl);border-color:var(--gb);color:#1b4332;}
 .lk.vacant{background:var(--sf2);border-color:var(--bd2);color:var(--txl);}
@@ -54,68 +54,68 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 [data-theme="dark"] .lk.vacant{background:#1c2333;border-color:#484f58;color:#8b949e;}
 [data-theme="dark"] .lk.cancelled{background:#2d0a0a;border-color:var(--r);color:#fca5a5;}
 [data-theme="dark"] .lk.unpaid{background:#2d1200;border-color:var(--o);color:#fdba74;}
-.lk.has-roof::after{content:'🏠';position:absolute;top:1px;right:2px;font-size:.38rem;}
-.lk-id{font-size:.58rem;font-weight:800;}
-.lk-shop{font-size:.50rem;opacity:.85;width:100%;text-align:center;padding:0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lk.has-roof::after{content:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>';position:absolute;top:1px;right:2px;font-size:.72rem;}
+.lk-id{font-size:.81rem;font-weight:800;}
+.lk-shop{font-size:.77rem;opacity:.85;width:100%;text-align:center;padding:0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .lk.hidden-filter{opacity:.1;transform:none!important;pointer-events:none;}
 .lk.highlight{outline:2.5px solid var(--gm);outline-offset:1px;z-index:30;}
 .lk-badges{position:absolute;top:-6px;left:50%;transform:translateX(-50%);display:flex;gap:2px;z-index:5;white-space:nowrap;}
-.lk-badge{padding:1px 5px;border-radius:8px;font-size:.44rem;font-weight:800;color:#fff;}
+.lk-badge{padding:1px 5px;border-radius:8px;font-size:.74rem;font-weight:800;color:#fff;}
 .lb-leave{background:#7c3aed;}.lb-absent{background:var(--r);}.lb-daily{background:#d97706;}
 .outdoor-strip{display:flex;gap:0;margin-bottom:14px;overflow-x:auto;}
 .outdoor-strip::-webkit-scrollbar{height:4px;}
 .outdoor-strip::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
 .oz-col{flex-shrink:0;}
 .oz-col+.oz-col{border-left:2px dashed var(--bd2);margin-left:8px;padding-left:8px;}
-.oz-hdr{font-size:.65rem;font-weight:800;padding:2px 7px;border-radius:16px;margin-bottom:6px;display:inline-block;}
+.oz-hdr{font-size:.87rem;font-weight:800;padding:2px 7px;border-radius:16px;margin-bottom:6px;display:inline-block;}
 .ff-wrap{display:flex;gap:12px;}
 .ff-side{display:flex;flex-direction:column;gap:3px;}
 .ff-div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 2px;}
 .ff-line{flex:1;width:1.5px;background:repeating-linear-gradient(180deg,var(--bd) 0,var(--bd) 4px,transparent 4px,transparent 8px);}
-.ff-arrow{font-size:.58rem;color:var(--txl);}
+.ff-arrow{font-size:.81rem;color:var(--txl);}
 /* POPUP */
 #popupWrap{display:none;position:absolute;z-index:500;}
 #popupWrap.show{display:block;}
 .popup-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:14px;width:290px;box-shadow:0 8px 32px rgba(0,0,0,.22);overflow:hidden;animation:popIn .17s var(--ease);}
 @keyframes popIn{from{transform:scale(.88) translateY(-6px);opacity:0}to{transform:scale(1);opacity:1}}
 .pp-hdr{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:linear-gradient(135deg,var(--g),var(--gm));color:#fff;}
-.pp-lock{font-size:.88rem;font-weight:800;}.pp-zone{font-size:.58rem;opacity:.78;margin-top:1px;}
-.pp-close{width:20px;height:20px;border-radius:50%;border:none;background:rgba(255,255,255,.2);cursor:pointer;font-size:.72rem;color:#fff;display:flex;align-items:center;justify-content:center;transition:all .14s;}
+.pp-lock{font-size:.88rem;font-weight:800;}.pp-zone{font-size:.81rem;opacity:.78;margin-top:1px;}
+.pp-close{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.2);cursor:pointer;font-size:.72rem;color:#fff;display:flex;align-items:center;justify-content:center;transition:all .14s;}
 .pp-close:hover{background:rgba(255,255,255,.35);}
 .pp-vendor{display:flex;align-items:center;gap:8px;padding:8px 13px;border-bottom:1px solid var(--bd);background:var(--sf2);}
 .pp-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gl),var(--gll));display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
 .pp-vname{font-size:.76rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.pp-phone{font-size:.66rem;color:var(--txl);margin-top:2px;display:flex;align-items:center;gap:3px;}
+.pp-phone{font-size:.88rem;color:var(--txl);margin-top:2px;display:flex;align-items:center;gap:3px;}
 .pp-phone a{color:var(--gm);font-weight:700;text-decoration:none;}
 .pp-body{padding:7px 13px 9px;}
-.pp-row{display:flex;justify-content:space-between;align-items:center;padding:3.5px 0;font-size:.70rem;border-bottom:1px solid var(--bd);}
+.pp-row{display:flex;justify-content:space-between;align-items:center;padding:3.5px 0;font-size:.91rem;border-bottom:1px solid var(--bd);}
 .pp-row:last-of-type{border:none;}.pp-lbl{color:var(--txl);}.pp-val{font-weight:700;text-align:right;}
-.pp-status{display:inline-block;padding:2px 8px;border-radius:9px;font-size:.61rem;font-weight:800;margin-top:6px;}
-.pp-call-btn{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:7px;padding:5px;background:var(--gll);border:1.5px solid var(--gm);border-radius:7px;font-size:.70rem;font-weight:700;color:var(--gm);text-decoration:none;transition:all .14s;}
+.pp-status{display:inline-block;padding:2px 8px;border-radius:9px;font-size:.83rem;font-weight:800;margin-top:6px;}
+.pp-call-btn{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:7px;padding:5px;background:var(--gll);border:1.5px solid var(--gm);border-radius:7px;font-size:.91rem;font-weight:700;color:var(--gm);text-decoration:none;transition:all .14s;}
 .pp-call-btn:hover{background:var(--gm);color:#fff;}
-.pp-daily-info{margin-top:7px;padding:5px 8px;background:var(--yl);border:1px solid #d97706;border-radius:7px;font-size:.66rem;font-weight:700;color:#78350f;}
+.pp-daily-info{margin-top:7px;padding:5px 8px;background:var(--yl);border:1px solid #d97706;border-radius:7px;font-size:.88rem;font-weight:700;color:#78350f;}
 .pp-actions{padding:7px 13px 9px;border-top:1px solid var(--bd);background:var(--sf2);display:flex;flex-wrap:wrap;gap:4px;}
-.pp-btn{flex:1;min-width:0;padding:5px 3px;border:none;border-radius:6px;font-size:.63rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .14s;text-align:center;}
+.pp-btn{flex:1;min-width:0;padding:5px 3px;border:none;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .14s;text-align:center;}
 .pp-btn:hover{transform:translateY(-1px);}
 .pp-btn.b-leave{background:var(--pul);color:#6d28d9;}.pp-btn.b-leave:hover{background:#7c3aed;color:#fff;}
 .pp-btn.b-absent{background:var(--rl);color:var(--r);}.pp-btn.b-absent:hover{background:var(--r);color:#fff;}
 .pp-btn.b-daily{background:var(--yl);color:#78350f;}.pp-btn.b-daily:hover{background:#d97706;color:#fff;}
 .pp-btn.b-cancel{background:var(--sf2);color:var(--txm);border:1px solid var(--bd);}
 .pp-btn.b-cancel:hover{background:var(--rl);color:var(--r);}
-.pp-hist{padding:5px 13px 7px;border-top:1px solid var(--bd);font-size:.64rem;color:var(--txl);}
-.hist-item{display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:8px;font-size:.58rem;font-weight:700;margin:2px 2px 0 0;}
+.pp-hist{padding:5px 13px 7px;border-top:1px solid var(--bd);font-size:.86rem;color:var(--txl);}
+.hist-item{display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:8px;font-size:.81rem;font-weight:700;margin:2px 2px 0 0;}
 .hi-leave{background:var(--pul);color:#6d28d9;}.hi-absent{background:var(--rl);color:var(--r);}.hi-daily{background:var(--yl);color:#78350f;}
 /* MODALS */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
 .modal-bg.show{display:flex;}
 .modal-box{background:var(--sf);border-radius:15px;padding:20px 24px;max-width:420px;width:93%;box-shadow:0 20px 50px rgba(0,0,0,.28);border:1px solid var(--bd);animation:popIn .2s var(--ease);}
-.m-title{font-size:.90rem;font-weight:800;margin-bottom:2px;}.m-sub{font-size:.70rem;color:var(--txl);margin-bottom:14px;}
+.m-title{font-size:.90rem;font-weight:800;margin-bottom:2px;}.m-sub{font-size:.91rem;color:var(--txl);margin-bottom:14px;}
 .m-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
 .m-row.c1{grid-template-columns:1fr;}
 .m-field{display:flex;flex-direction:column;gap:3px;}
-.m-field label{font-size:.64rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
+.m-field label{font-size:.86rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
 .m-field input,.m-field select{padding:7px 9px;border:1.5px solid var(--bd);border-radius:7px;font-size:.78rem;background:var(--sf2);color:var(--tx);outline:none;font-family:inherit;transition:border-color .18s;}
-.m-field input:focus,.m-field select:focus{border-color:var(--gm);}
+.m-field input:focus,.m-field select:focus{border-color:var(--gm);box-shadow:0 0 0 3px rgba(45,106,79,.15);}
 .m-summary{background:var(--gll);border:1.5px solid var(--gm);border-radius:8px;padding:9px 12px;margin-top:9px;}
 .ms-row{display:flex;justify-content:space-between;padding:3px 0;font-size:.74rem;border-bottom:1px solid var(--bd);}
 .ms-row:last-child{border:none;font-weight:800;color:var(--gm);font-size:.80rem;}
@@ -138,17 +138,29 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
 @media(max-width:700px){:root{--lkw:48px;--lkh:40px;}.lk-shop{display:none;}.stats-bar{display:none;}}
+
+.ic{width:1em;height:1em;vertical-align:-.15em;display:inline-block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ic-dot{stroke:none}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <div><h1>🗺️ ผังตลาดแพไม้</h1><p>คลิกล็อค → ดูข้อมูล · แจ้งลา · ขาดล็อค · จองผู้ค้าจร · ย้ายล็อค</p></div>
-  <button class="dm-btn" onclick="toggleDark()">🌓</button>
+  <div><h1><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>️ ผังตลาดแพไม้</h1><p>คลิกล็อค <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 6 20 12 14 18"/></svg> ดูข้อมูล · แจ้งลา · ขาดล็อค · จองผู้ค้าจร · ย้ายล็อค</p></div>
+  <button class="dm-btn" onclick="toggleDark()" aria-label="สลับโหมดมืด/สว่าง"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18Z" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/></svg></button>
 </div>
 <div class="zone-bar">
-  <button class="ztab active" onclick="switchZone('sa',this)">🏪 โรงหน้า (SA)</button>
-  <button class="ztab" onclick="switchZone('big',this)">🏢 โรงใหญ่ (SB–SF)</button>
-  <button class="ztab" onclick="switchZone('out',this)">🌳 โซนด้านนอก (A–F)</button>
+  <button class="ztab active" onclick="switchZone('sa',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg> โรงหน้า (SA)</button>
+  <button class="ztab" onclick="switchZone('big',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><path d="M9 22v-4h6v4"/></svg> โรงใหญ่ (SB–SF)</button>
+  <button class="ztab" onclick="switchZone('out',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 6 12h4l-4 8h12l-4-8h4Z"/><line x1="12" y1="22" x2="12" y2="20"/></svg> โซนด้านนอก (A–F)</button>
 </div>
 <div class="toolbar">
   <div style="display:flex;gap:5px;flex-wrap:wrap">
@@ -161,7 +173,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="leg" onclick="setFilter('daily',this)"><div class="leg-dot" style="background:var(--y)"></div>มีจร</div>
   </div>
   <input class="sbox" id="searchBox" placeholder="🔍 ค้นหาล็อค / ร้านค้า..." oninput="doSearch(this.value)">
-  <button id="syncBtn" onclick="manualSync()" title="ดึงข้อมูลล่าสุดจาก Google Sheets" style="background:var(--gll);border:1.5px solid var(--gm);color:var(--gm);border-radius:7px;padding:5px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px">🔄 ซิงค์ข้อมูล</button>
+  <button id="syncBtn" onclick="manualSync()" title="ดึงข้อมูลล่าสุดจาก Google Sheets" style="background:var(--gll);border:1.5px solid var(--gm);color:var(--gm);border-radius:7px;padding:5px 10px;font-size:.90rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ซิงค์ข้อมูล</button>
   <div class="stats-bar" id="statsBar"></div>
 </div>
 <div class="map-area" id="mapArea">
@@ -170,13 +182,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="popup-card" id="popupCard">
       <div class="pp-hdr" id="ppHdr">
         <div><div class="pp-lock" id="ppLock">—</div><div class="pp-zone" id="ppZone">—</div></div>
-        <button class="pp-close" onclick="closePopup()">✕</button>
+        <button class="pp-close" onclick="closePopup()" aria-label="ปิด"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
       <div class="pp-vendor">
-        <div class="pp-avatar" id="ppAvatar">🏪</div>
+        <div class="pp-avatar" id="ppAvatar"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></div>
         <div style="flex:1;min-width:0">
           <div class="pp-vname" id="ppVname">—</div>
-          <div class="pp-phone"><span>📞</span><span id="ppPhone">—</span></div>
+          <div class="pp-phone"><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.6 2Z"/></svg></span><span id="ppPhone">—</span></div>
         </div>
       </div>
       <div class="pp-body">
@@ -185,7 +197,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
         <div class="pp-row"><span class="pp-lbl">ค่าเช่า/เดือน</span><span class="pp-val" id="ppRent">—</span></div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
           <span class="pp-status" id="ppStatus">—</span>
-          <a class="pp-call-btn" id="ppCallBtn" href="#" style="display:none">📞 โทร</a>
+          <a class="pp-call-btn" id="ppCallBtn" href="#" style="display:none"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.6 2Z"/></svg> โทร</a>
         </div>
         <div class="pp-daily-info" id="ppDailyInfo" style="display:none"></div>
       </div>
@@ -196,7 +208,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   <!-- SA ZONE -->
   <div id="zone-sa" class="zone-map active">
     <div class="bld" style="max-width:980px">
-      <div class="bld-label">🏪 โรงหน้า SA</div>
+      <div class="bld-label"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg> โรงหน้า SA</div>
       <div class="sec-title" style="margin-top:6px">แถวนอก — ไม่มีหลังคา</div>
       <div class="lrow">
         <div class="lk" data-id="SA26/1" data-zone="SA" data-shop="ไก่ย่าง" data-rent="1750" data-roof="0" data-status="occupied"><div class="lk-id">SA26/1</div><div class="lk-shop">ไก่ย่าง</div></div>
@@ -215,7 +227,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
       <div class="sec-title">SA1–SA26 มีหลังคา+โต๊ะ</div>
       <div style="display:flex;gap:16px;align-items:flex-start">
         <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0">
-          <div style="font-size:.58rem;font-weight:800;color:var(--txl);margin-bottom:2px;text-align:center">SA21–26</div>
+          <div style="font-size:.81rem;font-weight:800;color:var(--txl);margin-bottom:2px;text-align:center">SA21–26</div>
           <div class="lk" data-id="SA26" data-zone="SA" data-shop="จับไม้" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA26</div><div class="lk-shop">จับไม้</div></div>
           <div class="lk" data-id="SA25" data-zone="SA" data-shop="ลูกชิ้น" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA25</div><div class="lk-shop">ลูกชิ้น</div></div>
           <div class="lk" data-id="SA24" data-zone="SA" data-shop="ลูกชิ้น" data-rent="1500" data-roof="0" data-status="occupied"><div class="lk-id">SA24</div><div class="lk-shop">ลูกชิ้น</div></div>
@@ -225,7 +237,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
         </div>
         <div style="flex:1">
           <div class="lrow" style="margin-bottom:2px">
-            <div class="row-label">↑</div>
+            <div class="row-label"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/></svg></div>
             <div class="lk has-roof" data-id="SA17" data-zone="SA" data-shop="ขนมปังปิ้ง" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA17</div><div class="lk-shop">ขนมปัง</div></div>
             <div class="lk has-roof" data-id="SA16" data-zone="SA" data-shop="ลูกชิ้น" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA16</div><div class="lk-shop">ลูกชิ้น</div></div>
             <div style="width:5px"></div>
@@ -236,7 +248,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
             <div class="lk has-roof" data-id="SA1/1" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="1" data-status="vacant" style="width:48px"><div class="lk-id">1/1</div><div class="lk-shop">ว่าง</div></div>
           </div>
           <div class="lrow">
-            <div class="row-label">↓</div>
+            <div class="row-label"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="6 14 12 20 18 14"/></svg></div>
             <div class="lk has-roof" data-id="SA18" data-zone="SA" data-shop="ข้าวแกง" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA18</div><div class="lk-shop">ข้าวแกง</div></div>
             <div class="lk has-roof" data-id="SA15" data-zone="SA" data-shop="ข้าวแต๋น" data-rent="1250" data-roof="1" data-status="occupied"><div class="lk-id">SA15</div><div class="lk-shop">ข้าวแต๋น</div></div>
             <div style="width:5px"></div>
@@ -247,7 +259,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
           </div>
           <div class="aisle"><div class="aisle-line"></div><span class="aisle-label">ทางเดิน</span><div class="aisle-line"></div></div>
           <div class="lrow" style="margin-bottom:2px">
-            <div class="row-label">↑</div>
+            <div class="row-label"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/></svg></div>
             <div class="lk has-roof" data-id="SA19" data-zone="SA" data-shop="ว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA19</div><div class="lk-shop">ว่าง</div></div>
             <div class="lk has-roof" data-id="SA14" data-zone="SA" data-shop="พี่ปุ้ย" data-rent="1750" data-roof="1" data-status="occupied"><div class="lk-id">SA14</div><div class="lk-shop">พี่ปุ้ย</div></div>
             <div style="width:5px"></div>
@@ -257,7 +269,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
             <div class="lk has-roof" data-id="SA3" data-zone="SA" data-shop="ปลาส้ม" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA3</div><div class="lk-shop">ปลาส้ม</div></div>
           </div>
           <div class="lrow">
-            <div class="row-label">↓</div>
+            <div class="row-label"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="6 14 12 20 18 14"/></svg></div>
             <div class="lk has-roof" data-id="SA20" data-zone="SA" data-shop="ข้าวเหนียวมะม่วง" data-rent="1500" data-roof="1" data-status="occupied"><div class="lk-id">SA20</div><div class="lk-shop">ข้าวเหนียว</div></div>
             <div class="lk has-roof" data-id="SA13" data-zone="SA" data-shop="พี่ปุ้ย" data-rent="1750" data-roof="1" data-status="occupied"><div class="lk-id">SA13</div><div class="lk-shop">พี่ปุ้ย</div></div>
             <div style="width:5px"></div>
@@ -273,12 +285,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   <!-- BIG ZONE -->
   <div id="zone-big" class="zone-map">
     <div class="bld">
-      <div class="bld-label">🏢 โรงใหญ่ SE·SD·SC·SB</div>
+      <div class="bld-label"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><path d="M9 22v-4h6v4"/></svg> โรงใหญ่ SE·SD·SC·SB</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px;margin-bottom:9px">
-        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:var(--b);background:var(--bl);border-radius:5px;padding:2px;margin-bottom:4px">SE</div><div style="display:flex;flex-direction:column;gap:2px" id="se-col"></div></div>
-        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:#7c3aed;background:var(--pul);border-radius:5px;padding:2px;margin-bottom:4px">SD</div><div style="display:flex;flex-direction:column;gap:2px" id="sd-col"></div></div>
-        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:var(--o);background:var(--ol);border-radius:5px;padding:2px;margin-bottom:4px">SC</div><div style="display:flex;flex-direction:column;gap:2px" id="sc-col"></div></div>
-        <div><div style="text-align:center;font-size:.62rem;font-weight:800;color:var(--gm);background:var(--gl);border-radius:5px;padding:2px;margin-bottom:4px">SB</div><div style="display:flex;flex-direction:column;gap:2px" id="sb-col"></div></div>
+        <div><div style="text-align:center;font-size:.84rem;font-weight:800;color:var(--b);background:var(--bl);border-radius:5px;padding:2px;margin-bottom:4px">SE</div><div style="display:flex;flex-direction:column;gap:2px" id="se-col"></div></div>
+        <div><div style="text-align:center;font-size:.84rem;font-weight:800;color:#7c3aed;background:var(--pul);border-radius:5px;padding:2px;margin-bottom:4px">SD</div><div style="display:flex;flex-direction:column;gap:2px" id="sd-col"></div></div>
+        <div><div style="text-align:center;font-size:.84rem;font-weight:800;color:var(--o);background:var(--ol);border-radius:5px;padding:2px;margin-bottom:4px">SC</div><div style="display:flex;flex-direction:column;gap:2px" id="sc-col"></div></div>
+        <div><div style="text-align:center;font-size:.84rem;font-weight:800;color:var(--gm);background:var(--gl);border-radius:5px;padding:2px;margin-bottom:4px">SB</div><div style="display:flex;flex-direction:column;gap:2px" id="sb-col"></div></div>
       </div>
       <div class="aisle"><div class="aisle-line"></div><span class="aisle-label">ทางเดิน</span><div class="aisle-line"></div></div>
       <div class="sec-title">SF</div>
@@ -288,14 +300,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   <!-- OUT ZONE -->
   <div id="zone-out" class="zone-map">
     <div class="bld out">
-      <div class="bld-label" style="color:var(--b);border-color:var(--b)">🌳 โซนด้านนอก A–D</div>
+      <div class="bld-label" style="color:var(--b);border-color:var(--b)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 6 12h4l-4 8h12l-4-8h4Z"/><line x1="12" y1="22" x2="12" y2="20"/></svg> โซนด้านนอก A–D</div>
       <div class="outdoor-strip" id="outdoor-strip"></div>
     </div>
     <div class="bld out" style="border-color:var(--rl)">
-      <div class="bld-label" style="color:var(--r);border-color:var(--r)">🌳 โซน F</div>
+      <div class="bld-label" style="color:var(--r);border-color:var(--r)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 6 12h4l-4 8h12l-4-8h4Z"/><line x1="12" y1="22" x2="12" y2="20"/></svg> โซน F</div>
       <div style="display:flex;gap:18px">
-        <div><div style="font-size:.58rem;color:var(--txl);margin-bottom:4px">F13–F16</div><div class="lrow" id="f-top"></div></div>
-        <div><div style="font-size:.58rem;color:var(--txl);margin-bottom:4px">F1–F6</div><div class="lrow" id="f-bot"></div></div>
+        <div><div style="font-size:.81rem;color:var(--txl);margin-bottom:4px">F13–F16</div><div class="lrow" id="f-top"></div></div>
+        <div><div style="font-size:.81rem;color:var(--txl);margin-bottom:4px">F1–F6</div><div class="lrow" id="f-bot"></div></div>
       </div>
     </div>
   </div>
@@ -303,42 +315,53 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 <!-- DAILY MODAL -->
 <div class="modal-bg" id="dailyModal">
   <div class="modal-box">
-    <div class="m-title" id="dm-title">🏷️ จองล็อคผู้ค้าจร</div>
+    <div class="m-title" id="dm-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg>️ จองล็อคผู้ค้าจร</div>
     <div class="m-sub" id="dm-sub">—</div>
-    <div class="m-row"><div class="m-field"><label>ชื่อร้าน/ผู้ค้า *</label><input type="text" id="dm-name" placeholder="ชื่อร้านหรือผู้ค้า"></div><div class="m-field"><label>เบอร์โทร</label><input type="tel" id="dm-phone" placeholder="0xx-xxx-xxxx"></div></div>
-    <div class="m-row"><div class="m-field"><label>สินค้า *</label><input type="text" id="dm-product" placeholder="ประเภทสินค้า"></div><div class="m-field"><label>ช่องทางชำระ</label><select id="dm-method"><option>💵 เงินสด</option><option>📱 โอนเงิน</option><option>📷 QR Code</option></select></div></div>
-    <div class="m-row"><div class="m-field"><label>ราคาล็อคจร (฿)</label><input type="number" id="dm-price" value="300" min="0" oninput="updateDailySummary()"></div><div class="m-field"><label>ค่าไฟเพิ่ม (฿)</label><input type="number" id="dm-elec" value="0" min="0" oninput="updateDailySummary()"></div></div>
+    <div class="m-row"><div class="m-field"><label for="dm-name">ชื่อร้าน/ผู้ค้า *</label><input type="text" id="dm-name" placeholder="ชื่อร้านหรือผู้ค้า"></div><div class="m-field"><label for="dm-phone">เบอร์โทร</label><input type="tel" id="dm-phone" placeholder="0xx-xxx-xxxx"></div></div>
+    <div class="m-row"><div class="m-field"><label for="dm-product">สินค้า *</label><input type="text" id="dm-product" placeholder="ประเภทสินค้า"></div><div class="m-field"><label for="dm-method">ช่องทางชำระ</label><select id="dm-method"><option>เงินสด</option><option>โอนเงิน</option><option>QR Code</option></select></div></div>
+    <div class="m-row"><div class="m-field"><label for="dm-price">ราคาล็อคจร (฿)</label><input type="number" id="dm-price" value="300" min="0" oninput="updateDailySummary()"></div><div class="m-field"><label for="dm-elec">ค่าไฟเพิ่ม (฿)</label><input type="number" id="dm-elec" value="0" min="0" oninput="updateDailySummary()"></div></div>
     <div class="m-summary"><div class="ms-row"><span>ค่าล็อคจร</span><span id="dm-s-price">฿300</span></div><div class="ms-row"><span>ค่าไฟ</span><span id="dm-s-elec">—</span></div><div class="ms-row"><span>รวม</span><span id="dm-s-total">฿300</span></div></div>
-    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('dailyModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmDailyBooking()">✅ บันทึก & รับเงิน</button></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('dailyModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmDailyBooking()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึก & รับเงิน</button></div>
+  </div>
+</div>
+<!-- CONFIRM MODAL (replaces native confirm()) -->
+<div class="modal-bg" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirm-msg">
+  <div class="modal-box" style="max-width:340px">
+    <div class="m-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยืนยันการทำรายการ</div>
+    <div class="m-sub" id="confirm-msg" style="color:var(--tx);font-weight:600">—</div>
+    <div class="m-footer">
+      <button class="m-btn secondary" id="confirm-cancel-btn">ยกเลิก</button>
+      <button class="m-btn primary" id="confirm-ok-btn">ยืนยัน</button>
+    </div>
   </div>
 </div>
 <!-- LEAVE MODAL -->
 <div class="modal-bg" id="leaveModal">
   <div class="modal-box" style="max-width:360px">
-    <div class="m-title" id="lm-title">📋 แจ้งลาล็อค</div>
+    <div class="m-title" id="lm-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลาล็อค</div>
     <div class="m-sub" id="lm-sub">—</div>
-    <div class="m-row c1"><div class="m-field"><label>หมายเหตุ (เหตุผล)</label><input type="text" id="lm-note" placeholder="เช่น ติดธุระ / ไม่สบาย"></div></div>
-    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('leaveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmLeave()">✅ บันทึกแจ้งลา</button></div>
+    <div class="m-row c1"><div class="m-field"><label for="lm-note">หมายเหตุ (เหตุผล)</label><input type="text" id="lm-note" placeholder="เช่น ติดธุระ / ไม่สบาย"></div></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('leaveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmLeave()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกแจ้งลา</button></div>
   </div>
 </div>
 <!-- MOVE MODAL -->
 <div class="modal-bg" id="moveModal">
   <div class="modal-box" style="max-width:400px">
-    <div class="m-title" id="mv-title">🔄 ย้ายล็อค</div>
+    <div class="m-title" id="mv-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ย้ายล็อค</div>
     <div class="m-sub" id="mv-sub">—</div>
-    <div class="m-row c1" style="margin-bottom:8px"><div class="m-field"><label>เลือกล็อคปลายทาง (ไม่มีข้อมูล) *</label><select id="mv-target" style="font-size:.78rem"></select></div></div>
+    <div class="m-row c1" style="margin-bottom:8px"><div class="m-field"><label for="mv-target">เลือกล็อคปลายทาง (ไม่มีข้อมูล) *</label><select id="mv-target" style="font-size:.78rem"></select></div></div>
     <div id="mv-target-info"></div>
-    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('moveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmMove()">✅ ยืนยันย้ายล็อค</button></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('moveModal').classList.remove('show')">ยกเลิก</button><button class="m-btn primary" onclick="confirmMove()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ยืนยันย้ายล็อค</button></div>
   </div>
 </div>
 <!-- CANCEL LEASE MODAL -->
 <div class="modal-bg" id="cancelLeaseModal">
   <div class="modal-box" style="max-width:380px">
-    <div class="m-title" id="cl-title">🚫 ยกเลิกการเช่า</div>
+    <div class="m-title" id="cl-title"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกการเช่า</div>
     <div class="m-sub" id="cl-sub">—</div>
     <div id="cl-warn"></div>
-    <div class="m-row c1"><div class="m-field"><label>หมายเหตุ</label><input type="text" id="cl-note" placeholder="เหตุผลการยกเลิก"></div></div>
-    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('cancelLeaseModal').classList.remove('show')">ยกเลิก</button><button class="m-btn" style="background:var(--r);color:#fff" onclick="confirmCancelLease()">🚫 ยืนยันยกเลิก</button></div>
+    <div class="m-row c1"><div class="m-field"><label for="cl-note">หมายเหตุ</label><input type="text" id="cl-note" placeholder="เหตุผลการยกเลิก"></div></div>
+    <div class="m-footer"><button class="m-btn secondary" onclick="document.getElementById('cancelLeaseModal').classList.remove('show')">ยกเลิก</button><button class="m-btn" style="background:var(--r);color:#fff" onclick="confirmCancelLease()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยืนยันยกเลิก</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -464,15 +487,15 @@ function showStateBanner(tue,dl){
   let b=document.getElementById('state-banner');
   if(!b){
     b=document.createElement('div'); b.id='state-banner';
-    b.style.cssText='background:linear-gradient(90deg,#1a3d2b,#2d6a4f);color:#fff;padding:5px 16px;font-size:.70rem;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;font-family:inherit;';
+    b.style.cssText='background:linear-gradient(90deg,#1a3d2b,#2d6a4f);color:#fff;padding:5px 16px;font-size:.91rem;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;font-family:inherit;';
     const zbar=document.querySelector('.zone-bar');
     if(zbar) zbar.insertAdjacentElement('afterend',b);
   }
   const d=new Date(tue);
   const dStr=d.getDate()+' '+MONS[d.getMonth()]+' '+(d.getFullYear()+543);
   const col=dl<=1?'#fca5a5':dl<=2?'#fde68a':'#86efac';
-  b.innerHTML='<span>📅 สถานะวันอังคาร <strong>'+dStr+'</strong> · รีเซ็ตอีก <span style="color:'+col+'">'+dl+' วัน</span></span>'
-    +'<button onclick="if(confirm(\'ล้างสถานะทั้งหมด?\'))clearMarketState()" style="background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.28);color:#fff;padding:3px 10px;border-radius:8px;cursor:pointer;font-size:.64rem;font-weight:700;font-family:inherit">🔄 รีเซ็ต</button>';
+  b.innerHTML='<span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> สถานะวันอังคาร <strong>'+dStr+'</strong> · รีเซ็ตอีก <span style="color:'+col+'">'+dl+' วัน</span></span>'
+    +'<button onclick="showConfirm(\'ล้างสถานะทั้งหมด?\', clearMarketState, {danger:true})" style="background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.28);color:#fff;padding:3px 10px;border-radius:8px;cursor:pointer;font-size:.86rem;font-weight:700;font-family:inherit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> รีเซ็ต</button>';
 }
 function hideBanner(){const b=document.getElementById('state-banner');if(b)b.remove();}
 
@@ -557,9 +580,9 @@ function refreshLk(el){
   if(hd) el.classList.add('is-daily');
   el.querySelectorAll('.lk-badges').forEach(b=>b.remove());
   const badges=[];
-  if(at==='leave') badges.push('<span class="lk-badge lb-leave">🟣ลา</span>');
-  if(at==='absent') badges.push('<span class="lk-badge lb-absent">🔴ขาด</span>');
-  if(hd) badges.push('<span class="lk-badge lb-daily">🏷️จร</span>');
+  if(at==='leave') badges.push('<span class="lk-badge lb-leave"><svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--pu)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>ลา</span>');
+  if(at==='absent') badges.push('<span class="lk-badge lb-absent"><svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>ขาด</span>');
+  if(hd) badges.push('<span class="lk-badge lb-daily"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg>จร</span>');
   if(badges.length){
     const wrap=document.createElement('div');
     wrap.className='lk-badges'; wrap.innerHTML=badges.join('');
@@ -575,7 +598,7 @@ function doLeave(lockId){openLeaveModal(lockId);}
 function openLeaveModal(lockId){
   pendingLeaveId=lockId;
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
-  document.getElementById('lm-title').textContent='📋 แจ้งลาล็อค '+lockId;
+  document.getElementById('lm-title').textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลาล็อค '+lockId;
   document.getElementById('lm-sub').textContent='ร้าน: '+(el?.dataset.shop||'—');
   document.getElementById('lm-note').value='';
   closePopup();
@@ -589,11 +612,11 @@ function confirmLeave(){
   const zone=el?.dataset.zone||'';
   const shop=el?.dataset.shop||'';
   lockAbsent[id]='leave';
-  addHist(id,{type:'leave',label:'📋 แจ้งลา',note:note||'—'});
+  addHist(id,{type:'leave',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลา',note:note||'—'});
   if(el) refreshLk(el);
   document.getElementById('leaveModal').classList.remove('show');
   saveMarketState(); updateExpireBanner();
-  toast('✅ บันทึกแจ้งลาล็อค '+id+' (คงอยู่ 3 วัน)','s');
+  toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกแจ้งลาล็อค '+id+' (คงอยู่ 3 วัน)','s');
   updateStats(); pendingLeaveId=null;
   apiPost('logLeave',{data:{lock_id:id,zone,shop,type:'leave',note:note||'—',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
 }
@@ -602,11 +625,11 @@ function doAbsent(lockId){
   const zone=el?.dataset.zone||'';
   const shop=el?.dataset.shop||'';
   lockAbsent[lockId]='absent';
-  addHist(lockId,{type:'absent',label:'⚠️ ขาดล็อค (ไม่แจ้ง)',note:'บันทึกโดยผู้ดูแล'});
+  addHist(lockId,{type:'absent',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ขาดล็อค (ไม่แจ้ง)',note:'บันทึกโดยผู้ดูแล'});
   if(el) refreshLk(el);
   saveMarketState(); updateExpireBanner();
   closePopup();
-  toast('⚠️ บันทึกขาดล็อค '+lockId+' (คงอยู่ 3 วัน)','e');
+  toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> บันทึกขาดล็อค '+lockId+' (คงอยู่ 3 วัน)','e');
   updateStats();
   apiPost('logLeave',{data:{lock_id:lockId,zone,shop,type:'absent',note:'บันทึกโดยผู้ดูแล',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
 }
@@ -617,11 +640,11 @@ function cancelAbsent(lockId){
   const zone=el?.dataset.zone||'';
   const shop=el?.dataset.shop||'';
   lockAbsent[lockId]='';
-  addHist(lockId,{type:'leave',label:'↩️ ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'บันทึกขาดล็อค'),note:'คืนสถานะปกติโดยผู้ดูแล'});
+  addHist(lockId,{type:'leave',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'บันทึกขาดล็อค'),note:'คืนสถานะปกติโดยผู้ดูแล'});
   if(el) refreshLk(el);
   saveMarketState(); updateExpireBanner();
   closePopup();
-  toast('↩️ ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'ขาดล็อค')+' '+lockId+' — คืนสถานะปกติแล้ว','i');
+  toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'ขาดล็อค')+' '+lockId+' — คืนสถานะปกติแล้ว','i');
   updateStats();
   apiPost('logLeave',{data:{lock_id:lockId,zone,shop,type:'cancel',note:'ยกเลิก'+(prevType==='leave'?'การแจ้งลา':'ขาดล็อค')+'โดยผู้ดูแล',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
 }
@@ -635,7 +658,7 @@ function openDailyModal(lockId){
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
   const at=lockAbsent[lockId]||'';
   const statusTxt=at==='leave'?'ลาล็อค':at==='absent'?'ขาดล็อค':el?.dataset.status==='vacant'?'ไม่มีข้อมูล':'—';
-  document.getElementById('dm-title').textContent='🏷️ จองล็อคจร — '+lockId;
+  document.getElementById('dm-title').textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg> จองล็อคจร — '+lockId;
   document.getElementById('dm-sub').textContent='สถานะ: '+statusTxt+' · '+(el?.dataset.shop||'');
   document.getElementById('dm-name').value='';
   document.getElementById('dm-phone').value='';
@@ -667,23 +690,24 @@ function confirmDailyBooking(){
     price,elec,total:price+elec,method:document.getElementById('dm-method').value,
     date:nowTH(),time:nowTime()};
   dailyBookings[lockId]=booking;
-  addHist(lockId,{type:'daily',label:'🏷️ จร: '+name,note:product+' · '+fmt(booking.total)});
+  addHist(lockId,{type:'daily',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg> จร: '+name,note:product+' · '+fmt(booking.total)});
   if(el) refreshLk(el);
   document.getElementById('dailyModal').classList.remove('show');
   saveMarketState(); updateExpireBanner();
-  toast('✅ จองล็อคจร '+lockId+' — '+name+' · '+fmt(booking.total)+' (คงอยู่ 3 วัน)','s');
+  toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> จองล็อคจร '+lockId+' — '+name+' · '+fmt(booking.total)+' (คงอยู่ 3 วัน)','s');
   updateStats(); pendingDailyId=null;
   apiPost('saveDailyBooking',{data:{lock_id:lockId,zone,vendor_name:name,phone:booking.phone,product,price,elec,total:booking.total,method:booking.method,date:booking.date,time:booking.time,original_status:originalStatus}});
 }
 function cancelDaily(lockId){
-  if(!confirm('ยกเลิกผู้ค้าจรล็อค '+lockId+'?'))return;
-  const booking=dailyBookings[lockId];
-  delete dailyBookings[lockId];
-  const el=document.querySelector('.lk[data-id="'+lockId+'"]');
-  if(el) refreshLk(el);
-  saveMarketState(); updateExpireBanner();
-  closePopup(); toast('↩️ ยกเลิกผู้ค้าจร '+lockId,'i'); updateStats();
-  apiPost('cancelDailyBooking',{lockId,date:booking?booking.date:nowTH()});
+  showConfirm('ยกเลิกผู้ค้าจรล็อค '+lockId+'?', ()=>{
+    const booking=dailyBookings[lockId];
+    delete dailyBookings[lockId];
+    const el=document.querySelector('.lk[data-id="'+lockId+'"]');
+    if(el) refreshLk(el);
+    saveMarketState(); updateExpireBanner();
+    closePopup(); toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> ยกเลิกผู้ค้าจร '+lockId,'i'); updateStats();
+    apiPost('cancelDailyBooking',{lockId,date:booking?booking.date:nowTH()});
+  }, {danger:true});
 }
 
 // ════════════════════════════════════════════════════
@@ -694,7 +718,7 @@ function openMoveModal(lockId){
   pendingMoveId=lockId;
   const src=document.querySelector('.lk[data-id="'+lockId+'"]');
   const isDaily=!!dailyBookings[lockId];
-  document.getElementById('mv-title').textContent='🔄 ย้ายล็อค '+lockId;
+  document.getElementById('mv-title').textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ย้ายล็อค '+lockId;
   document.getElementById('mv-sub').textContent=(isDaily?'ผู้ค้าจร':'ผู้ค้าประจำ')+': '+(src?.dataset.shop||'—');
   const sel=document.getElementById('mv-target');
   sel.innerHTML='';
@@ -725,8 +749,8 @@ function confirmMove(){
     const db=dailyBookings[pendingMoveId];
     dailyBookings[targetId]={...db,lockId:targetId};
     delete dailyBookings[pendingMoveId];
-    addHist(targetId,{type:'daily',label:'🔄 รับย้ายจาก '+pendingMoveId,note:'จร: '+db.name});
-    addHist(pendingMoveId,{type:'daily',label:'🔄 ย้ายออกไป '+targetId,note:'จร: '+db.name});
+    addHist(targetId,{type:'daily',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> รับย้ายจาก '+pendingMoveId,note:'จร: '+db.name});
+    addHist(pendingMoveId,{type:'daily',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ย้ายออกไป '+targetId,note:'จร: '+db.name});
   } else {
     const os=srcEl.dataset.shop,or=srcEl.dataset.rent,oSt=srcEl.dataset.status;
     srcEl.dataset.shop=tgtEl.dataset.shop; srcEl.dataset.rent=tgtEl.dataset.rent; srcEl.dataset.status=tgtEl.dataset.status;
@@ -736,13 +760,13 @@ function confirmMove(){
     ['occupied','vacant','cancelled','unpaid'].forEach(c=>{srcEl.classList.remove(c);tgtEl.classList.remove(c);});
     srcEl.classList.add(srcEl.dataset.status); tgtEl.classList.add(tgtEl.dataset.status);
     if(lockAbsent[pendingMoveId]){lockAbsent[targetId]=lockAbsent[pendingMoveId];lockAbsent[pendingMoveId]='';}
-    addHist(targetId,{type:'leave',label:'🔄 ย้ายมาจากล็อค '+pendingMoveId,note:'ย้ายล็อค'});
-    addHist(pendingMoveId,{type:'leave',label:'🔄 ย้ายไปล็อค '+targetId,note:'ย้ายล็อค'});
+    addHist(targetId,{type:'leave',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ย้ายมาจากล็อค '+pendingMoveId,note:'ย้ายล็อค'});
+    addHist(pendingMoveId,{type:'leave',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ย้ายไปล็อค '+targetId,note:'ย้ายล็อค'});
   }
   refreshLk(srcEl); refreshLk(tgtEl);
   saveMarketState();
   document.getElementById('moveModal').classList.remove('show');
-  toast('✅ ย้ายล็อค '+pendingMoveId+' → '+targetId+' สำเร็จ','s');
+  toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ย้ายล็อค '+pendingMoveId+' <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 6 20 12 14 18"/></svg> '+targetId+' สำเร็จ','s');
   updateStats(); pendingMoveId=null;
 }
 
@@ -755,11 +779,11 @@ function openCancelLeaseModal(lockId){
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
   const isDaily=!!dailyBookings[lockId];
   const db=dailyBookings[lockId];
-  document.getElementById('cl-title').textContent='🚫 ยกเลิกการเช่า — '+lockId;
+  document.getElementById('cl-title').textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกการเช่า — '+lockId;
   document.getElementById('cl-sub').textContent=(isDaily?'ผู้ค้าจร':el?.dataset.status==='unpaid'?'ผู้ค้าประจำ (ค้างชำระ)':'ผู้ค้าประจำ')+': '+(el?.dataset.shop||'—');
   const wEl=document.getElementById('cl-warn');
-  if(isDaily&&db){wEl.innerHTML='⚠️ รายได้จากผู้ค้าจรจะถูกยกเลิก<br>ยอด: <strong>'+fmt(db.total)+'</strong> ('+db.name+')';wEl.style.display='block';}
-  else if(el?.dataset.status==='unpaid'){wEl.innerHTML='⚠️ ผู้ค้ารายนี้มียอดค้างชำระ — กรุณาดำเนินการก่อนหรือบันทึกเพื่อดำเนินการต่อ';wEl.style.display='block';}
+  if(isDaily&&db){wEl.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> รายได้จากผู้ค้าจรจะถูกยกเลิก<br>ยอด: <strong>'+fmt(db.total)+'</strong> ('+db.name+')';wEl.style.display='block';}
+  else if(el?.dataset.status==='unpaid'){wEl.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ผู้ค้ารายนี้มียอดค้างชำระ — กรุณาดำเนินการก่อนหรือบันทึกเพื่อดำเนินการต่อ';wEl.style.display='block';}
   else wEl.style.display='none';
   document.getElementById('cl-note').value='';
   closePopup();
@@ -773,11 +797,11 @@ function confirmCancelLease(){
   const note=document.getElementById('cl-note').value.trim();
   if(isDaily){
     const db=dailyBookings[lockId];
-    addHist(lockId,{type:'daily',label:'🚫 ยกเลิกจร: '+db.name,note:note||'ยกเลิก'});
+    addHist(lockId,{type:'daily',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกจร: '+db.name,note:note||'ยกเลิก'});
     delete dailyBookings[lockId];
     el.dataset.daily='';
   } else {
-    addHist(lockId,{type:'absent',label:'🚫 ยกเลิกการเช่า',note:note||'สิ้นสุดสัญญา'});
+    addHist(lockId,{type:'absent',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกการเช่า',note:note||'สิ้นสุดสัญญา'});
     el.dataset.status='vacant'; el.dataset.shop='ว่าง'; el.dataset.rent='0';
     el.querySelector('.lk-shop').textContent='ว่าง';
     ['occupied','unpaid','cancelled'].forEach(c=>el.classList.remove(c));
@@ -786,7 +810,7 @@ function confirmCancelLease(){
   }
   refreshLk(el); saveMarketState();
   document.getElementById('cancelLeaseModal').classList.remove('show');
-  toast('🚫 ยกเลิกการเช่าล็อค '+lockId+' แล้ว','i');
+  toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกการเช่าล็อค '+lockId+' แล้ว','i');
   updateStats(); pendingCancelId=null;
 }
 
@@ -875,7 +899,7 @@ async function syncRealVendors(){
   applyRealVendorData();
 }
 
-function getAvatar(shop){const m=[['ไก่','🍗'],['หมู','🥩'],['ปลา','🐟'],['กุ้ง','🦐'],['ผลไม้','🍓'],['ผัก','🥬'],['ข้าว','🍚'],['ส้มตำ','🌶️'],['ลูกชิ้น','🍢'],['น้ำ','🧃'],['ชา','🍵'],['ขนม','🍡'],['ทะเล','🦞'],['เนื้อ','🥩']];for(const[k,v]of m)if(shop.includes(k))return v;return'🏪';}
+function getAvatar(shop){const m=[['ไก่','🍗'],['หมู','🥩'],['ปลา','🐟'],['กุ้ง','🦐'],['ผลไม้','🍓'],['ผัก','🥬'],['ข้าว','🍚'],['ส้มตำ','🌶️'],['ลูกชิ้น','🍢'],['น้ำ','🧃'],['ชา','🍵'],['ขนม','🍡'],['ทะเล','🦞'],['เนื้อ','🥩']];for(const[k,v]of m)if(shop.includes(k))return v;return'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>';}
 
 let mapArea, popWrap;
 let curLk=null;
@@ -921,54 +945,54 @@ function showPopup(el,ev){
   else{phEl.innerHTML='<span style="color:var(--txl)">'+(isOccupied?'ยังไม่ระบุเบอร์':'—')+'</span>';cBtn.style.display='none';}
 
   document.getElementById('ppShop').textContent=d.shop||'—';
-  document.getElementById('ppRoof').textContent=d.roof==='1'?'✅ มีหลังคา+โต๊ะ':'❌ ไม่มี';
+  document.getElementById('ppRoof').textContent=d.roof==='1'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีหลังคา+โต๊ะ':'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ไม่มี';
   document.getElementById('ppRent').textContent=parseInt(d.rent)>0?fmt(parseInt(d.rent))+'/เดือน':'—';
 
-  const stM={occupied:'✅ มีผู้เช่า',vacant:'⚪ ไม่มีข้อมูล',cancelled:'🔴 ยกเลิก',unpaid:'🟠 ค้างชำระ'};
+  const stM={occupied:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีผู้เช่า',vacant:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--txl)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ไม่มีข้อมูล',cancelled:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ยกเลิก',unpaid:'🟠 ค้างชำระ'};
   const stC={occupied:'background:#d8f3dc;color:#1b4332',vacant:'background:#e5e7eb;color:#475569',cancelled:'background:#fee2e2;color:#7f1d1d',unpaid:'background:#ffedd5;color:#7c2d12'};
   let stTxt=stM[d.status]||d.status;
-  if(at==='leave')stTxt+=' · 🟣ลา'; if(at==='absent')stTxt+=' · 🔴ขาด'; if(isDaily)stTxt+=' · 🏷️จร';
+  if(at==='leave')stTxt+=' · <svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--pu)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>ลา'; if(at==='absent')stTxt+=' · <svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>ขาด'; if(isDaily)stTxt+=' · <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg>จร';
   const stEl=document.getElementById('ppStatus');
   stEl.textContent=stTxt; stEl.style.cssText=stC[d.status]||'';
 
   const diEl=document.getElementById('ppDailyInfo');
-  if(db){diEl.innerHTML='🏷️ จร: <strong>'+db.name+'</strong> · '+db.product+' · '+fmt(db.total)+' · '+db.time;diEl.style.display='block';}
+  if(db){diEl.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg> จร: <strong>'+db.name+'</strong> · '+db.product+' · '+fmt(db.total)+' · '+db.time;diEl.style.display='block';}
   else diEl.style.display='none';
 
   const hist=lockHistory[lockId]||[];
   const hEl=document.getElementById('ppHist');
-  const histLink='<div style="margin-top:4px"><a href="#" onclick="viewFullHistory(\''+lockId+'\');return false" style="font-size:.62rem;color:var(--gm);font-weight:700;text-decoration:underline">🕘 ดูประวัติทั้งหมด</a></div>';
+  const histLink='<div style="margin-top:4px"><a href="#" onclick="viewFullHistory(\''+lockId+'\');return false" style="font-size:.84rem;color:var(--gm);font-weight:700;text-decoration:underline">🕘 ดูประวัติทั้งหมด</a></div>';
   if(hist.length){
     const chips=hist.slice(0,5).map(h=>{const cls=h.type==='leave'?'hi-leave':h.type==='absent'?'hi-absent':'hi-daily';return'<span class="hist-item '+cls+'">'+h.label+' '+h.date+'</span>';}).join('');
-    hEl.innerHTML='<div style="font-size:.62rem;font-weight:700;color:var(--txl);margin-bottom:2px">ประวัติ (เซสชันนี้):</div>'+chips+histLink;
-  } else hEl.innerHTML='<span style="font-size:.62rem;color:var(--txl)">ยังไม่มีประวัติในเซสชันนี้</span>'+histLink;
+    hEl.innerHTML='<div style="font-size:.84rem;font-weight:700;color:var(--txl);margin-bottom:2px">ประวัติ (เซสชันนี้):</div>'+chips+histLink;
+  } else hEl.innerHTML='<span style="font-size:.84rem;color:var(--txl)">ยังไม่มีประวัติในเซสชันนี้</span>'+histLink;
 
   // ACTIONS — ลา/ขาด เป็น toggle
   let acts='';
   if(isVacant){
     // ล็อคนี้ไม่มีข้อมูลผู้ค้าประจำจริงในระบบ — เสนอปุ่มลงทะเบียนผู้ค้าใหม่ พร้อมเลือกล็อคนี้ให้อัตโนมัติ
-    acts+='<button class="pp-btn" style="background:var(--gm);color:#fff;flex-basis:100%" onclick="requestAddVendor(\''+lockId+'\')">➕ เพิ่มผู้ค้าประจำล็อคนี้</button>';
+    acts+='<button class="pp-btn" style="background:var(--gm);color:#fff;flex-basis:100%" onclick="requestAddVendor(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> เพิ่มผู้ค้าประจำล็อคนี้</button>';
   }
   if(isOccupied){
     if(!at){
-      acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')">📋 แจ้งลา</button>';
-      acts+='<button class="pp-btn b-absent" onclick="doAbsent(\''+lockId+'\')">⚠️ ขาดล็อค</button>';
+      acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลา</button>';
+      acts+='<button class="pp-btn b-absent" onclick="doAbsent(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ขาดล็อค</button>';
     } else if(at==='leave'){
-      acts+='<button class="pp-btn" style="background:#7c3aed;color:#fff;font-size:.64rem" onclick="cancelAbsent(\''+lockId+'\')">📋 ยกเลิกแจ้งลา ↩️</button>';
-      acts+='<button class="pp-btn b-absent" onclick="doAbsent(\''+lockId+'\')">⚠️ ขาดล็อค</button>';
+      acts+='<button class="pp-btn" style="background:#7c3aed;color:#fff;font-size:.86rem" onclick="cancelAbsent(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> ยกเลิกแจ้งลา <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg></button>';
+      acts+='<button class="pp-btn b-absent" onclick="doAbsent(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ขาดล็อค</button>';
     } else if(at==='absent'){
-      acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')">📋 แจ้งลา</button>';
-      acts+='<button class="pp-btn" style="background:var(--r);color:#fff;font-size:.64rem" onclick="cancelAbsent(\''+lockId+'\')">⚠️ ยกเลิกขาดล็อค ↩️</button>';
+      acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลา</button>';
+      acts+='<button class="pp-btn" style="background:var(--r);color:#fff;font-size:.86rem" onclick="cancelAbsent(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยกเลิกขาดล็อค <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg></button>';
     }
   }
-  if(isAvailForDaily&&!isDaily) acts+='<button class="pp-btn b-daily" onclick="openDailyModal(\''+lockId+'\')">🏷️ จองจร</button>';
-  if(isDaily) acts+='<button class="pp-btn b-cancel" onclick="cancelDaily(\''+lockId+'\')">✕ ยกเลิกจร</button>';
+  if(isAvailForDaily&&!isDaily) acts+='<button class="pp-btn b-daily" onclick="openDailyModal(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg> จองจร</button>';
+  if(isDaily) acts+='<button class="pp-btn b-cancel" onclick="cancelDaily(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ยกเลิกจร</button>';
   if(isOccupied||isDaily){
-    acts+='<button class="pp-btn" style="background:var(--bl);color:var(--b)" onclick="openMoveModal(\''+lockId+'\')">🔄 ย้ายล็อค</button>';
-    acts+='<button class="pp-btn" style="background:var(--rl);color:var(--r)" onclick="openCancelLeaseModal(\''+lockId+'\')">🚫 ยกเลิกเช่า</button>';
+    acts+='<button class="pp-btn" style="background:var(--bl);color:var(--b)" onclick="openMoveModal(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ย้ายล็อค</button>';
+    acts+='<button class="pp-btn" style="background:var(--rl);color:var(--r)" onclick="openCancelLeaseModal(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกเช่า</button>';
   }
   const actEl=document.getElementById('ppActions');
-  actEl.innerHTML=acts||'<span style="font-size:.62rem;color:var(--txl)">ล็อคนี้ไม่มีผู้เช่า</span>';
+  actEl.innerHTML=acts||'<span style="font-size:.84rem;color:var(--txl)">ล็อคนี้ไม่มีผู้เช่า</span>';
 
   // POSITION
   const er=el.getBoundingClientRect(), ar=mapArea.getBoundingClientRect();
@@ -1124,6 +1148,16 @@ function updateStats(){
     '<div class="sm"><div class="n" style="color:var(--b)">฿'+(rent/1000).toFixed(0)+'K</div><div class="l">รายได้/เดือน</div></div>';
 }
 
+function showConfirm(message, onConfirm, opts={}){
+  const ov = document.getElementById('confirmModal');
+  document.getElementById('confirm-msg').textContent = message;
+  const okBtn = document.getElementById('confirm-ok-btn');
+  okBtn.textContent = opts.okText || 'ยืนยัน';
+  okBtn.style.background = opts.danger ? 'var(--r)' : '';
+  okBtn.onclick = () => { ov.classList.remove('show'); onConfirm(); };
+  document.getElementById('confirm-cancel-btn').onclick = () => ov.classList.remove('show');
+  ov.classList.add('show');
+}
 function toast(msg,type){
   const t=document.getElementById('toast');
   t.textContent=msg;t.className='toast '+type+' show';
@@ -1132,11 +1166,11 @@ function toast(msg,type){
 
 async function manualSync(){
   const btn=document.getElementById('syncBtn');
-  if(!getApiUrl()){ toast('⚠️ ยังไม่ได้เชื่อมต่อ Google Sheets — ตั้งค่าที่หน้าหลักก่อน','e'); return; }
+  if(!getApiUrl()){ toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยังไม่ได้เชื่อมต่อ Google Sheets — ตั้งค่าที่หน้าหลักก่อน','e'); return; }
   if(btn){ btn.disabled=true; btn.textContent='⏳ กำลังซิงค์...'; }
   await Promise.all([loadFromSheets(), syncRealVendors()]);
-  if(btn){ btn.disabled=false; btn.innerHTML='🔄 ซิงค์ข้อมูล'; }
-  toast('✅ อัปเดตข้อมูลล่าสุดจาก Google Sheets แล้ว','s');
+  if(btn){ btn.disabled=false; btn.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> ซิงค์ข้อมูล'; }
+  toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> อัปเดตข้อมูลล่าสุดจาก Google Sheets แล้ว','s');
 }
 
 window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);};

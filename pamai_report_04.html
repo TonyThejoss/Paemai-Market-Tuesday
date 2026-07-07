@@ -53,19 +53,22 @@ tfoot.zone-total td{font-weight:800;background:var(--rl);border-top:2px solid va
   .zone-section{page-break-inside:avoid;}
   @page{size:A4 landscape;margin:12mm;}
 }
+
+.ic{width:1em;height:1em;vertical-align:-.15em;display:inline-block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ic-dot{stroke:none}
 </style>
 </head>
 <body>
 
 <div class="toolbar">
   <div>
-    <h1>⚠️ รายงานผู้ค้าค้างชำระแยกโซน</h1>
+    <h1><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>️ รายงานผู้ค้าค้างชำระแยกโซน</h1>
     <p>ตลาดแพไม้ วันอังคาร · ข้อมูลสด จาก Google Sheets</p>
   </div>
   <div class="tb-actions">
-    <button class="tb-btn refresh" onclick="render()">🔄 รีเฟรช</button>
-    <button class="tb-btn back" onclick="window.close()">← ปิด</button>
-    <button class="tb-btn print" onclick="window.print()">🖨️ พิมพ์ / บันทึกเป็น PDF</button>
+    <button class="tb-btn refresh" onclick="render()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> รีเฟรช</button>
+    <button class="tb-btn back" onclick="window.close()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 6 4 12 10 18"/></svg> ปิด</button>
+    <button class="tb-btn print" onclick="window.print()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>️ พิมพ์ / บันทึกเป็น PDF</button>
   </div>
 </div>
 
@@ -127,7 +130,7 @@ async function render(){
 
   if(!getApiUrl()){
     document.getElementById('dataWarn').innerHTML =
-      '<div class="warn">⚠️ ยังไม่ได้เชื่อมต่อ Google Sheets — กรุณาตั้งค่าที่หน้าหลักของระบบก่อน</div>';
+      '<div class="warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยังไม่ได้เชื่อมต่อ Google Sheets — กรุณาตั้งค่าที่หน้าหลักของระบบก่อน</div>';
     document.getElementById('reportBody').innerHTML = '';
     return;
   }
@@ -159,7 +162,7 @@ async function render(){
   </div>`;
 
   if(withDebt.length===0){
-    html += '<div class="empty">✅ ไม่มีผู้ค้าค้างชำระในขณะนี้</div>';
+    html += '<div class="empty"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ไม่มีผู้ค้าค้างชำระในขณะนี้</div>';
   } else {
     // จัดกลุ่มตามโซน
     const byZone = {};
@@ -179,7 +182,7 @@ async function render(){
       const groupName = ZONE_GROUP_NAME[zone] || '—';
 
       html += `<div class="zone-section">
-        <div class="zone-head"><span>📍 โซน ${zone} (${groupName})</span><span class="zsub">${list.length} ล็อคค้างชำระ · รวม ${baht(zoneTotal)}</span></div>
+        <div class="zone-head"><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg> โซน ${zone} (${groupName})</span><span class="zsub">${list.length} ล็อคค้างชำระ · รวม ${baht(zoneTotal)}</span></div>
         <table>
           <thead><tr>
             <th style="width:22px">#</th><th>ล็อค</th><th>ร้านค้า</th><th>เบอร์โทร</th>
@@ -215,7 +218,7 @@ async function render(){
       </div>`;
     });
 
-    html += `<div class="grand-total"><span>💰 ยอดค้างชำระรวมทั้งหมดทุกโซน</span><span>${baht(totalDebt)}</span></div>`;
+    html += `<div class="grand-total"><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg> ยอดค้างชำระรวมทั้งหมดทุกโซน</span><span>${baht(totalDebt)}</span></div>`;
   }
 
   document.getElementById('reportBody').innerHTML = html;

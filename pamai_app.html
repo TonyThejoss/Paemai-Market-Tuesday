@@ -16,7 +16,7 @@
   --pu:#6d28d9;--pul:#f5f3ff;
   --bg:#eef2f0;--sf:#fff;--sf2:#f4f8f5;--sf3:#e8f0eb;
   --bd:#d0ddd5;--bd2:#a8c0b0;
-  --tx:#0a1a10;--txm:#2e4a38;--txl:#6b8c76;
+  --tx:#0a1a10;--txm:#2e4a38;--txl:#4d6b57;
   --sdw:0 2px 12px rgba(10,26,16,.08);
   --sdw2:0 8px 32px rgba(10,26,16,.14);
   --rad:12px;
@@ -26,7 +26,7 @@
 [data-theme="dark"]{
   --bg:#090f0b;--sf:#0f1a13;--sf2:#141f17;--sf3:#1a2b1e;
   --bd:#243028;--bd2:#364d3c;
-  --tx:#d8ead0;--txm:#8aab8e;--txl:#4a6550;
+  --tx:#d8ead0;--txm:#8aab8e;--txl:#88a692;
   --gl:#0f2318;--gll:#091510;--rl:#1f0a0a;--ol:#1a0f06;
   --bl:#091228;--pul:#12092a;--yl:#120f06;
 }
@@ -44,12 +44,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
 .logo-ico{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:1rem;}
 .logo-t h1{font-size:.80rem;font-weight:800;color:#fff;line-height:1.2;}
-.logo-t p{font-size:.56rem;color:rgba(255,255,255,.65);}
+.logo-t p{font-size:.80rem;color:rgba(255,255,255,.65);}
 .top-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.top-badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:3px 8px;font-size:.62rem;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:4px;}
+.top-badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:3px 8px;font-size:.84rem;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:4px;}
 .ndot{width:6px;height:6px;border-radius:50%;background:#f87171;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.icon-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
 .icon-btn:hover{background:rgba(255,255,255,.22);}
 .hamburger{display:none;}
 
@@ -74,14 +74,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   color:#fff;flex-shrink:0;
 }
 .sb-user-name{font-size:.80rem;font-weight:800;}
-.sb-user-role{font-size:.60rem;opacity:.72;margin-top:1px;}
+.sb-user-role{font-size:.82rem;opacity:.72;margin-top:1px;}
 .sb-user-actions{display:flex;gap:6px;margin-top:8px;}
-.sb-ua-btn{font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-family:inherit;transition:all .15s;}
+.sb-ua-btn{font-size:.84rem;font-weight:700;padding:3px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-family:inherit;transition:all .15s;}
 .sb-ua-btn:hover{background:rgba(255,255,255,.24);}
 .sb-ua-btn.danger:hover{background:var(--r);border-color:var(--r);}
 
 .sb-sec{padding:10px 10px 4px;}
-.sb-lbl{font-size:.58rem;font-weight:800;color:var(--txl);text-transform:uppercase;letter-spacing:.7px;padding:0 6px;margin-bottom:4px;}
+.sb-lbl{font-size:.81rem;font-weight:800;color:var(--txl);text-transform:uppercase;letter-spacing:.7px;padding:0 6px;margin-bottom:4px;}
 .ni{
   display:flex;align-items:center;gap:9px;
   padding:9px 10px;border-radius:8px;
@@ -93,7 +93,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .ni:hover{background:var(--gll);color:var(--gm);}
 .ni.active{background:var(--gl);color:var(--g);font-weight:800;box-shadow:inset 3px 0 0 var(--gm);}
 .ni .ico{font-size:.95rem;flex-shrink:0;width:20px;text-align:center;}
-.ni .nb{margin-left:auto;background:var(--r);color:#fff;font-size:.54rem;font-weight:800;padding:1px 5px;border-radius:7px;}
+.ni .nb{margin-left:auto;background:var(--r);color:#fff;font-size:.78rem;font-weight:800;padding:1px 5px;border-radius:7px;}
 .ni .nb.gr{background:var(--gm);}
 .ni .nb.or{background:var(--o);}
 .sb-div{height:1px;background:var(--bd);margin:5px 10px;}
@@ -102,7 +102,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .sb-db-badge{
   margin:8px 10px;padding:7px 10px;border-radius:8px;
   background:var(--sf2);border:1px solid var(--bd);
-  font-size:.68rem;cursor:pointer;display:flex;align-items:center;gap:6px;
+  font-size:.90rem;cursor:pointer;display:flex;align-items:center;gap:6px;
   transition:all .15s;font-family:inherit;font-weight:700;color:var(--txm);
 }
 .sb-db-badge:hover{background:var(--gll);border-color:var(--gm);color:var(--gm);}
@@ -122,19 +122,19 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 #dash::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
 .dw{max-width:1040px;margin:0 auto;padding:18px 16px 40px;}
 .hero{background:linear-gradient(135deg,var(--g),var(--gm));border-radius:var(--rad);padding:18px 22px;color:#fff;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 20px rgba(26,61,43,.25);position:relative;overflow:hidden;}
-.hero::after{content:'🌿';position:absolute;right:14px;bottom:-8px;font-size:4rem;opacity:.08;pointer-events:none;}
+.hero::after{content:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20c8 0 10-6 10-14 0 0-10 0-10 10 0 2 0 4 0 4Z"/><path d="M4 20c4-2 6-6 6-10"/></svg>';position:absolute;right:14px;bottom:-8px;font-size:4rem;opacity:.08;pointer-events:none;}
 .hero-t{font-size:1.1rem;font-weight:800;margin-bottom:2px;}
-.hero-s{font-size:.70rem;opacity:.8;}
-.hero-d{font-size:.62rem;opacity:.6;margin-top:2px;}
+.hero-s{font-size:.91rem;opacity:.8;}
+.hero-d{font-size:.84rem;opacity:.6;margin-top:2px;}
 .hero-time{font-size:1.7rem;font-weight:800;font-variant-numeric:tabular-nums;}
-.hero-day{font-size:.65rem;opacity:.72;text-align:right;}
+.hero-day{font-size:.87rem;opacity:.72;text-align:right;}
 .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;}
 .kc{background:var(--sf);border-radius:10px;padding:12px 14px;border:1px solid var(--bd);box-shadow:var(--sdw);border-left:4px solid var(--gm);transition:all .2s;}
 .kc:hover{transform:translateY(-2px);box-shadow:var(--sdw2);}
 .kc.r{border-left-color:var(--r);}.kc.o{border-left-color:var(--o);}.kc.b{border-left-color:var(--b);}
 .knum{font-size:1.5rem;font-weight:800;}
-.klbl{font-size:.63rem;color:var(--txl);margin-top:2px;}
-.ksub{font-size:.64rem;font-weight:700;margin-top:2px;}
+.klbl{font-size:.85rem;color:var(--txl);margin-top:2px;}
+.ksub{font-size:.86rem;font-weight:700;margin-top:2px;}
 .g2{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px;}
 .dc{background:var(--sf);border-radius:var(--rad);border:1px solid var(--bd);box-shadow:var(--sdw);overflow:hidden;transition:background .3s,border-color .3s;}
 .dch{padding:11px 14px 8px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
@@ -148,7 +148,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .pf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gm),var(--gt));}
 .zone-row{margin-bottom:10px;}
 .zone-name{display:flex;justify-content:space-between;margin-bottom:3px;font-size:.74rem;font-weight:700;}
-.zone-detail{font-size:.62rem;color:var(--txl);margin-top:2px;}
+.zone-detail{font-size:.84rem;color:var(--txl);margin-top:2px;}
 .al-item{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:.74rem;}
 .al-item:last-child{border:none;}
 .al-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px;}
@@ -158,26 +158,26 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .mc:hover{transform:translateY(-3px);box-shadow:var(--sdw2);border-color:var(--gm);background:var(--gll);}
 .mc.dim{opacity:.5;cursor:default;}
 .mc.dim:hover{transform:none;box-shadow:var(--sdw);background:var(--sf);border-color:var(--bd);}
-.mc-i{font-size:1.6rem;}.mc-n{font-size:.72rem;font-weight:800;line-height:1.3;}.mc-d{font-size:.58rem;color:var(--txl);}
+.mc-i{font-size:1.6rem;}.mc-n{font-size:.72rem;font-weight:800;line-height:1.3;}.mc-d{font-size:.81rem;color:var(--txl);}
 .mlocks{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:3px;}
-.mlk{height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.48rem;font-weight:800;border:1px solid transparent;cursor:pointer;transition:all .14s;}
+.mlk{height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:800;border:1px solid transparent;cursor:pointer;transition:all .14s;}
 .mlk:hover{transform:scale(1.12);}
 .ok{background:var(--gl);border-color:var(--gt);color:var(--g);}
 .vc{background:var(--yl);border-color:#d97706;color:var(--y);}
 .ow{background:var(--ol);border-color:var(--o);color:var(--o);}
 .bd2c{background:var(--rl);border-color:var(--r);color:var(--r);}
-.badge{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:10px;font-size:.60rem;font-weight:800;}
+.badge{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:10px;font-size:.82rem;font-weight:800;}
 .bg{background:var(--gl);color:var(--gm);}.br{background:var(--rl);color:var(--r);}
 .bo{background:var(--ol);color:var(--o);}.bb{background:var(--bl);color:var(--b);}
 
 /* ─── VENDOR DB ───────────────────────────────────── */
 .vtbl{width:100%;border-collapse:collapse;font-size:.76rem;background:var(--sf);}
-.vtbl th{background:var(--g);color:#fff;padding:7px 9px;text-align:left;font-weight:700;font-size:.66rem;text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;z-index:10;white-space:nowrap;}
+.vtbl th{background:var(--g);color:#fff;padding:7px 9px;text-align:left;font-weight:700;font-size:.88rem;text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;z-index:10;white-space:nowrap;}
 .vtbl td{padding:7px 9px;border-bottom:1px solid var(--bd);vertical-align:middle;}
 .vtbl tbody tr:nth-child(even) td{background:var(--sf2);}
 .vtbl tbody tr:hover td{background:var(--gll);}
-.elec-chip{display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:8px;font-size:.60rem;font-weight:700;background:var(--ol);color:var(--o);}
-.btn-icon{background:none;border:1.5px solid var(--bd);border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.68rem;font-weight:700;transition:all .14s;font-family:inherit;color:var(--txm);}
+.elec-chip{display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:8px;font-size:.82rem;font-weight:700;background:var(--ol);color:var(--o);}
+.btn-icon{background:none;border:1.5px solid var(--bd);border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.90rem;font-weight:700;transition:all .14s;font-family:inherit;color:var(--txm);}
 .btn-icon:hover{background:var(--gll);border-color:var(--gm);color:var(--gm);}
 .btn-icon.del:hover{background:var(--rl);border-color:var(--r);color:var(--r);}
 
@@ -190,7 +190,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
 .frow.c3{grid-template-columns:1fr 1fr 1fr;}.frow.c1{grid-template-columns:1fr;}
 .field{display:flex;flex-direction:column;gap:3px;}
-.field label{font-size:.63rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
+.field label{font-size:.85rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
 .req{color:var(--r);}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
 .overlay.show{display:flex;}
@@ -199,7 +199,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 .modal::-webkit-scrollbar-thumb{background:var(--bd2);}
 @keyframes mIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
 .mt{font-size:.90rem;font-weight:800;margin-bottom:2px;}
-.ms{font-size:.70rem;color:var(--txl);margin-bottom:14px;}
+.ms{font-size:.91rem;color:var(--txl);margin-bottom:14px;}
 .mc-btn{float:right;background:none;border:none;font-size:1rem;cursor:pointer;color:var(--txl);}
 .mc-btn:hover{color:var(--r);}
 .mfooter{display:flex;gap:8px;margin-top:14px;justify-content:flex-end;}
@@ -211,8 +211,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 .btn-d{background:var(--rl);color:var(--r);border:none;}
 .btn-d:hover{background:var(--r);color:#fff;}
 .sbox{flex:1;min-width:120px;padding:7px 10px;border:1.5px solid var(--bd);border-radius:7px;font-size:.74rem;background:var(--sf);color:var(--tx);outline:none;font-family:inherit;}
-.sbox:focus{border-color:var(--gm);}
-.fsel{padding:6px 8px;border:1.5px solid var(--bd);border-radius:7px;font-size:.70rem;background:var(--sf2);color:var(--tx);outline:none;cursor:pointer;font-family:inherit;}
+.sbox:focus{border-color:var(--gm);box-shadow:0 0 0 3px rgba(45,106,79,.15);}
+.fsel{padding:6px 8px;border:1.5px solid var(--bd);border-radius:7px;font-size:.91rem;background:var(--sf2);color:var(--tx);outline:none;cursor:pointer;font-family:inherit;}
 
 /* ─── LOGIN ───────────────────────────────────────── */
 #login-screen{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#0a1a10,#1a3d2b 50%,#2d6a4f);display:flex;align-items:center;justify-content:center;}
@@ -222,9 +222,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 .login-logo .li{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1a3d2b,#2d6a4f);display:inline-flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:8px;box-shadow:0 6px 18px rgba(45,106,79,.38);}
 .login-logo h2{font-size:1.05rem;font-weight:800;color:#0a1a10;margin-bottom:2px;}
 [data-theme="dark"] .login-logo h2{color:#d8ead0;}
-.login-logo p{font-size:.70rem;color:#6b8c76;}
+.login-logo p{font-size:.91rem;color:#6b8c76;}
 .login-field{margin-bottom:12px;}
-.login-field label{display:block;font-size:.68rem;font-weight:700;color:#3d5247;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.login-field label{display:block;font-size:.90rem;font-weight:700;color:#3d5247;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
 [data-theme="dark"] .login-field label{color:#8aab8e;}
 .login-field input{width:100%;padding:10px 13px;border:1.5px solid #d0ddd5;border-radius:9px;font-size:.86rem;background:#f4f8f5;color:#0a1a10;outline:none;transition:all .2s;font-family:inherit;}
 [data-theme="dark"] .login-field input{background:#141f17;color:#d8ead0;border-color:#243028;}
@@ -236,16 +236,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 .login-btn:hover{transform:translateY(-1px);filter:brightness(1.07);}
 .login-err{background:#fee2e2;border:1px solid #fca5a5;border-radius:7px;padding:8px 12px;font-size:.74rem;font-weight:700;color:#b91c1c;margin-bottom:11px;text-align:center;display:none;animation:shake .3s;}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.login-footer{text-align:center;margin-top:18px;font-size:.62rem;color:#94a3b8;}
+.login-footer{text-align:center;margin-top:18px;font-size:.84rem;color:#94a3b8;}
 
 /* ─── CHANGE PW MODAL ─────────────────────────────── */
 .chpw-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
 .chpw-overlay.show{display:flex;}
 .chpw-box{background:var(--sf);border-radius:14px;padding:22px 26px;max-width:370px;width:93%;box-shadow:0 20px 50px rgba(0,0,0,.3);border:1px solid var(--bd);}
 .chpw-field{display:flex;flex-direction:column;gap:3px;margin-bottom:9px;}
-.chpw-field label{font-size:.63rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
+.chpw-field label{font-size:.85rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
 .chpw-field input{padding:8px 11px;border:1.5px solid var(--bd);border-radius:7px;font-size:.78rem;background:var(--sf2);color:var(--tx);outline:none;font-family:inherit;}
-.chpw-field input:focus{border-color:var(--gm);}
+.chpw-field input:focus{border-color:var(--gm);box-shadow:0 0 0 3px rgba(45,106,79,.15);}
 
 /* ─── TOAST ───────────────────────────────────────── */
 .toast{position:fixed;bottom:20px;right:20px;z-index:9999;padding:9px 15px;border-radius:9px;font-size:.76rem;font-weight:700;color:#fff;transform:translateY(60px);opacity:0;transition:all .26s;}
@@ -285,6 +285,18 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 .open-btn{padding:10px 22px;background:linear-gradient(135deg,var(--gm),var(--gb));color:#fff;border:none;border-radius:9px;font-size:.80rem;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
 .open-btn:hover{filter:brightness(1.08);}
 
+
+.ic{width:1em;height:1em;vertical-align:-.15em;display:inline-block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ic-dot{stroke:none}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -293,20 +305,20 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 <div id="login-screen" style="display:flex">
   <div class="login-box">
     <div class="login-logo">
-      <div class="li">🏪</div>
+      <div class="li"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></div>
       <h2>ตลาดแพไม้</h2>
       <p>ระบบบริหารจัดการตลาด · กรุณาเข้าสู่ระบบ</p>
     </div>
     <div class="login-err" id="login-err">Username หรือ Password ไม่ถูกต้อง</div>
     <div class="login-field">
-      <label>Username</label>
+      <label for="login-user">Username</label>
       <input type="text" id="login-user" placeholder="กรอก username" autocomplete="username" maxlength="20">
     </div>
     <div class="login-field">
-      <label>Password</label>
+      <label for="login-pass">Password</label>
       <div class="pw-wrap">
         <input type="password" id="login-pass" placeholder="กรอก password" autocomplete="current-password" maxlength="20">
-        <button class="pw-eye" onclick="togglePwVis()" tabindex="-1" id="pw-eye">👁️</button>
+        <button class="pw-eye" onclick="togglePwVis()" tabindex="-1" id="pw-eye"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>️</button>
       </div>
     </div>
     <button class="login-btn" onclick="doLogin()">เข้าสู่ระบบ</button>
@@ -317,32 +329,32 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
 <!-- ═══ CHANGE PASSWORD ════════════════════════════ -->
 <div class="chpw-overlay" id="chpw-modal">
   <div class="chpw-box">
-    <button style="float:right;background:none;border:none;cursor:pointer;font-size:.95rem;color:var(--txl)" onclick="closeChPw()">✕</button>
-    <div class="mt" style="margin-bottom:3px">🔑 เปลี่ยน Password</div>
+    <button style="float:right;background:none;border:none;cursor:pointer;font-size:.95rem;color:var(--txl)" onclick="closeChPw()" aria-label="ปิดหน้าต่างเปลี่ยนรหัสผ่าน"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="mt" style="margin-bottom:3px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2 11.5 11.5"/><path d="M15.5 7.5 19 11"/><path d="M13 10l2.5 2.5"/></svg> เปลี่ยน Password</div>
     <div class="ms" id="chpw-sub">—</div>
-    <div class="chpw-field"><label>Password ปัจจุบัน</label><input type="password" id="chpw-old" placeholder="password เดิม"></div>
-    <div class="chpw-field"><label>Password ใหม่ (อย่างน้อย 6 ตัว)</label><input type="password" id="chpw-new" placeholder="password ใหม่"></div>
-    <div class="chpw-field"><label>ยืนยัน Password ใหม่</label><input type="password" id="chpw-cfm" placeholder="พิมพ์อีกครั้ง"></div>
-    <div id="chpw-err" style="font-size:.70rem;color:var(--r);font-weight:700;min-height:16px;margin-top:3px"></div>
+    <div class="chpw-field"><label for="chpw-old">Password ปัจจุบัน</label><input type="password" id="chpw-old" placeholder="password เดิม"></div>
+    <div class="chpw-field"><label for="chpw-new">Password ใหม่ (อย่างน้อย 6 ตัว)</label><input type="password" id="chpw-new" placeholder="password ใหม่"></div>
+    <div class="chpw-field"><label for="chpw-cfm">ยืนยัน Password ใหม่</label><input type="password" id="chpw-cfm" placeholder="พิมพ์อีกครั้ง"></div>
+    <div id="chpw-err" style="font-size:.91rem;color:var(--r);font-weight:700;min-height:16px;margin-top:3px"></div>
     <div class="mfooter">
       <button class="btn btn-s" onclick="closeChPw()">ยกเลิก</button>
-      <button class="btn btn-p" onclick="confirmChPw()">💾 บันทึก</button>
+      <button class="btn btn-p" onclick="confirmChPw()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> บันทึก</button>
     </div>
   </div>
 </div>
 
 <!-- ═══ TOPBAR ═════════════════════════════════════ -->
 <header class="topbar">
-  <button class="icon-btn hamburger" id="hamburger-btn" onclick="toggleSidebar()" title="เมนู">☰</button>
+  <button class="icon-btn hamburger" id="hamburger-btn" onclick="toggleSidebar()" aria-label="เปิด/ปิดเมนู" title="เมนู"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
   <a class="logo" href="#" onclick="goTab('dash');return false">
-    <div class="logo-ico">🏪</div>
+    <div class="logo-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></div>
     <div class="logo-t"><h1>ตลาดแพไม้</h1><p>Pamai Market Management</p></div>
   </a>
   <div class="top-right">
-    <div class="top-badge" id="db-status-badge" onclick="showApiSetup()" style="cursor:pointer" title="Google Sheets">📋 Local</div>
+    <div class="top-badge" id="db-status-badge" onclick="showApiSetup()" style="cursor:pointer" title="Google Sheets"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local</div>
     <div class="top-badge"><div class="ndot"></div><span>แจ้งเตือน</span></div>
     <div class="top-badge" id="clock">--:--</div>
-    <button class="icon-btn" onclick="toggleDark()">🌓</button>
+    <button class="icon-btn" onclick="toggleDark()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18Z" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/></svg></button>
   </div>
 </header>
 
@@ -358,40 +370,40 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
       <div class="sb-user-name" id="sb-uname">—</div>
       <div class="sb-user-role" id="sb-urole">—</div>
       <div class="sb-user-actions">
-        <button class="sb-ua-btn" onclick="openChPw()">🔑 เปลี่ยน Password</button>
-        <button class="sb-ua-btn danger" onclick="doLogout()">🚪 ออก</button>
+        <button class="sb-ua-btn" onclick="openChPw()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2 11.5 11.5"/><path d="M15.5 7.5 19 11"/><path d="M13 10l2.5 2.5"/></svg> เปลี่ยน Password</button>
+        <button class="sb-ua-btn danger" onclick="doLogout()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v17"/><path d="M19 21H5"/><path d="M15 21V3"/><circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none"/></svg> ออก</button>
       </div>
     </div>
 
     <div class="sb-sec">
       <div class="sb-lbl">ภาพรวม</div>
-      <button class="ni active" id="ni-dash" onclick="goTab('dash')"><span class="ico">🏠</span>หน้าหลัก</button>
-      <button class="ni" id="ni-map" onclick="goTab('map')"><span class="ico">🗺️</span>ผังตลาด</button>
+      <button class="ni active" id="ni-dash" onclick="goTab('dash')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span>หน้าหลัก</button>
+      <button class="ni" id="ni-map" onclick="goTab('map')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>️</span>ผังตลาด</button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
       <div class="sb-lbl">การเงิน</div>
-      <button class="ni" id="ni-payment" onclick="goTab('payment')"><span class="ico">💰</span>รับชำระหลายล็อค</button>
-      <button class="ni" id="ni-install" onclick="goTab('install')"><span class="ico">📋</span>ผ่อนชำระ</button>
-      <button class="ni" id="ni-electric" onclick="goTab('electric')"><span class="ico">⚡</span>ค่าไฟฟ้า</button>
+      <button class="ni" id="ni-payment" onclick="goTab('payment')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg></span>รับชำระหลายล็อค</button>
+      <button class="ni" id="ni-install" onclick="goTab('install')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg></span>ผ่อนชำระ</button>
+      <button class="ni" id="ni-electric" onclick="goTab('electric')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg></span>ค่าไฟฟ้า</button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
       <div class="sb-lbl">ผู้ค้า</div>
       <button class="ni" id="ni-register" onclick="goTab('register')"><span class="ico">🆕</span>ลงทะเบียนผู้ค้าใหม่</button>
-      <button class="ni" id="ni-leavehist" onclick="goTab('leavehist')"><span class="ico">📋</span>ประวัติลา/ขาด/จร</button>
+      <button class="ni" id="ni-leavehist" onclick="goTab('leavehist')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg></span>ประวัติลา/ขาด/จร</button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
       <div class="sb-lbl">ระบบ</div>
-      <button class="ni" id="ni-reports" onclick="goTab('reports')"><span class="ico">📊</span>รายงาน PDF</button>
-      <button class="ni" id="ni-actlog" onclick="goTab('actlog')"><span class="ico">📝</span>บันทึกกิจกรรม</button>
+      <button class="ni" id="ni-reports" onclick="goTab('reports')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg></span>รายงาน PDF</button>
+      <button class="ni" id="ni-actlog" onclick="goTab('actlog')"><span class="ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>บันทึกกิจกรรม</button>
     </div>
     <div class="sb-div"></div>
     <button class="sb-db-badge" onclick="showApiSetup()" id="sb-db-badge">
-      📋 Local — คลิกเชื่อมต่อ Google Sheets
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local — คลิกเชื่อมต่อ Google Sheets
     </button>
-    <div style="padding:8px 10px;font-size:.60rem;color:var(--txl);text-align:center">
+    <div style="padding:8px 10px;font-size:.82rem;color:var(--txl);text-align:center">
       ตลาดแพไม้ v1.0 · 082-581-1144
     </div>
   </aside>
@@ -399,7 +411,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
   <!-- ═══ CONTENT ════════════════════════════════════ -->
   <main class="content">
     <div class="readonly-banner" id="readonly-banner">
-      👁️ โหมดดูอย่างเดียว — ไม่สามารถแก้ไขข้อมูลได้
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>️ โหมดดูอย่างเดียว — ไม่สามารถแก้ไขข้อมูลได้
     </div>
 
     <!-- DASHBOARD -->
@@ -424,58 +436,58 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
         </div>
         <div class="g2">
           <div class="dc">
-            <div class="dch"><div class="dct">💰 รายได้ที่คาดว่าจะได้รับ/เดือน — <span id="rev-month">—</span></div></div>
+            <div class="dch"><div class="dct"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg> รายได้ที่คาดว่าจะได้รับ/เดือน — <span id="rev-month">—</span></div></div>
             <div class="dcb">
               <div style="margin-bottom:10px">
-                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-size:.70rem;color:var(--txl)">รวมค่าเช่า+ค่าไฟ (ผู้ค้าที่ยังไม่สิ้นสุดสัญญา)</span><span style="font-size:1.3rem;font-weight:800;color:var(--gm)" id="rev-total">฿0</span></div>
-                <div style="font-size:.60rem;color:var(--txl);margin-top:2px">คำนวณจากข้อมูลผู้ค้าจริงในระบบ · ยังไม่รวมยอดที่รับชำระแล้วจริง (ยังไม่มีข้อมูลนี้)</div>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span style="font-size:.91rem;color:var(--txl)">รวมค่าเช่า+ค่าไฟ (ผู้ค้าที่ยังไม่สิ้นสุดสัญญา)</span><span style="font-size:1.3rem;font-weight:800;color:var(--gm)" id="rev-total">฿0</span></div>
+                <div style="font-size:.82rem;color:var(--txl);margin-top:2px">คำนวณจากข้อมูลผู้ค้าจริงในระบบ · ยังไม่รวมยอดที่รับชำระแล้วจริง (ยังไม่มีข้อมูลนี้)</div>
               </div>
-              <div class="sr"><span class="sl">🏠 ค่าเช่าประจำ</span><span class="sv g" id="rev-rent">฿0</span></div>
-              <div class="sr"><span class="sl">⚡ ค่าไฟฟ้า</span><span class="sv" id="rev-elec">฿0</span></div>
-              <div class="sr" style="border:none"><span class="sl">🏷️ ผู้ค้าจร (รายวัน)</span><span class="sv" id="rev-daily">฿0</span></div>
+              <div class="sr"><span class="sl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg> ค่าเช่าประจำ</span><span class="sv g" id="rev-rent">฿0</span></div>
+              <div class="sr"><span class="sl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg> ค่าไฟฟ้า</span><span class="sv" id="rev-elec">฿0</span></div>
+              <div class="sr" style="border:none"><span class="sl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg>️ ผู้ค้าจร (รายวัน)</span><span class="sv" id="rev-daily">฿0</span></div>
             </div>
           </div>
           <div class="dc">
-            <div class="dch"><div class="dct">📊 จำนวนผู้ค้าตามโซน (ข้อมูลจริง)</div></div>
+            <div class="dch"><div class="dct"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg> จำนวนผู้ค้าตามโซน (ข้อมูลจริง)</div></div>
             <div class="dcb" id="zone-list">
               <div style="text-align:center;padding:12px;color:var(--txl);font-size:.72rem">กำลังโหลด...</div>
             </div>
           </div>
         </div>
         <div class="dc" style="margin-bottom:12px">
-          <div class="dch"><div class="dct">🚀 ไปยังโมดูล</div></div>
+          <div class="dch"><div class="dct"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s5 2.5 5 9-2.5 9-2.5 9-2.5-2.5-2.5-9 5-9 5-9Z" transform="scale(0.85) translate(1.8 1.8)"/><path d="M8 15c-3 0-4 4-4 4s4-1 4-4Z"/><path d="M16 15c3 0 4 4 4 4s-4-1-4-4Z"/></svg> ไปยังโมดูล</div></div>
           <div class="dcb">
             <div class="mgrid">
-              <div class="mc" onclick="goTab('map')"><div class="mc-i">🗺️</div><div class="mc-n">ผังตลาด</div><div class="mc-d">ดูตำแหน่งล็อค</div></div>
-              <div class="mc" onclick="goTab('payment')"><div class="mc-i">💰</div><div class="mc-n">รับชำระ</div><div class="mc-d">บันทึกชำระ + ค่าปรับ</div></div>
-              <div class="mc" onclick="goTab('install')"><div class="mc-i">📋</div><div class="mc-n">ผ่อนชำระ</div><div class="mc-d">ติดตามการผ่อนชำระ</div></div>
-              <div class="mc" onclick="goTab('electric')"><div class="mc-i">⚡</div><div class="mc-n">ค่าไฟฟ้า</div><div class="mc-d">บันทึกอุปกรณ์</div></div>
+              <div class="mc" onclick="goTab('map')"><div class="mc-i"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>️</div><div class="mc-n">ผังตลาด</div><div class="mc-d">ดูตำแหน่งล็อค</div></div>
+              <div class="mc" onclick="goTab('payment')"><div class="mc-i"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg></div><div class="mc-n">รับชำระ</div><div class="mc-d">บันทึกชำระ + ค่าปรับ</div></div>
+              <div class="mc" onclick="goTab('install')"><div class="mc-i"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg></div><div class="mc-n">ผ่อนชำระ</div><div class="mc-d">ติดตามการผ่อนชำระ</div></div>
+              <div class="mc" onclick="goTab('electric')"><div class="mc-i"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg></div><div class="mc-n">ค่าไฟฟ้า</div><div class="mc-d">บันทึกอุปกรณ์</div></div>
               <div class="mc" onclick="goTab('register')"><div class="mc-i">🆕</div><div class="mc-n">ผู้ค้าใหม่</div><div class="mc-d">รับค่าแรกเข้า + รายปี</div></div>
-              <div class="mc" onclick="goTab('leavehist')"><div class="mc-i">📋</div><div class="mc-n">ประวัติลา/ขาด/จร</div><div class="mc-d">ดูย้อนหลังรายล็อค</div></div>
-              <div class="mc" onclick="goTab('reports')"><div class="mc-i">📊</div><div class="mc-n">รายงาน PDF</div><div class="mc-d">ดาวน์โหลด 6 รายงาน</div></div>
-              <div class="mc" onclick="goTab('actlog')"><div class="mc-i">📝</div><div class="mc-n">บันทึกกิจกรรม</div><div class="mc-d">ประวัติการใช้งาน</div></div>
+              <div class="mc" onclick="goTab('leavehist')"><div class="mc-i"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg></div><div class="mc-n">ประวัติลา/ขาด/จร</div><div class="mc-d">ดูย้อนหลังรายล็อค</div></div>
+              <div class="mc" onclick="goTab('reports')"><div class="mc-i"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg></div><div class="mc-n">รายงาน PDF</div><div class="mc-d">ดาวน์โหลด 6 รายงาน</div></div>
+              <div class="mc" onclick="goTab('actlog')"><div class="mc-i"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><div class="mc-n">บันทึกกิจกรรม</div><div class="mc-d">ประวัติการใช้งาน</div></div>
             </div>
           </div>
         </div>
-        <div style="text-align:center;font-size:.60rem;color:var(--txl)">ตลาดแพไม้ v1.0 · ติดต่อ 082-581-1144</div>
+        <div style="text-align:center;font-size:.82rem;color:var(--txl)">ตลาดแพไม้ v1.0 · ติดต่อ 082-581-1144</div>
       </div>
     </div>
 
     <!-- ACTIVITY LOG -->
     <div id="actlog" class="pane" style="flex-direction:column;overflow:hidden;background:var(--bg)">
       <div style="padding:10px 14px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap">
-        <div style="font-size:.82rem;font-weight:800">📝 บันทึกกิจกรรมการใช้งาน</div>
+        <div style="font-size:.82rem;font-weight:800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> บันทึกกิจกรรมการใช้งาน</div>
         <select class="fsel" id="al-filter" onchange="renderActLog()">
           <option value="">ทุกประเภท</option>
-          <option value="vendor">👥 ข้อมูลผู้ค้า</option>
-          <option value="payment">💰 รับชำระ</option>
-          <option value="leave">📋 แจ้งลา/ขาด</option>
-          <option value="daily">🏷️ ผู้ค้าจร</option>
-          <option value="nav">🗺️ การนำทาง</option>
-          <option value="system">⚙️ ระบบ</option>
+          <option value="vendor">ข้อมูลผู้ค้า</option>
+          <option value="payment">รับชำระ</option>
+          <option value="leave">แจ้งลา/ขาด</option>
+          <option value="daily">ผู้ค้าจร</option>
+          <option value="nav">การนำทาง</option>
+          <option value="system">ระบบ</option>
         </select>
-        <button class="btn btn-s" style="padding:5px 10px;font-size:.68rem;margin-left:auto" onclick="clearActLog()">🗑️ ล้าง</button>
-        <span id="al-count" style="font-size:.68rem;color:var(--txl)"></span>
+        <button class="btn btn-s" style="padding:5px 10px;font-size:.90rem;margin-left:auto" onclick="clearActLog()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>️ ล้าง</button>
+        <span id="al-count" style="font-size:.90rem;color:var(--txl)"></span>
       </div>
       <div style="flex:1;overflow:auto;padding:12px 14px"><div id="al-list"></div></div>
     </div>
@@ -491,6 +503,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--gm);box-shadow:0 0 0 
   </main>
 </div>
 
+<div class="overlay" id="confirm-overlay" role="alertdialog" aria-modal="true" aria-labelledby="confirm-message">
+  <div class="modal" style="max-width:360px">
+    <div style="font-weight:800;font-size:.86rem;margin-bottom:10px;display:flex;align-items:center;gap:6px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยืนยันการทำรายการ</div>
+    <div id="confirm-message" style="font-size:.8rem;color:var(--txm);margin-bottom:16px">—</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-s" id="confirm-cancel-btn">ยกเลิก</button>
+      <button class="btn btn-p" id="confirm-ok-btn">ยืนยัน</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -539,7 +561,7 @@ function goTab(id){
   // Viewer role check
   const viewerAllowed=['dash','reports','actlog'];
   if(window._viewerRole && !viewerAllowed.includes(id)){
-    showToast('⛔ คุณไม่มีสิทธิ์เข้าถึงส่วนนี้ (ดูได้อย่างเดียว)','e');
+    showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5" y1="12" x2="19" y2="12"/></svg> คุณไม่มีสิทธิ์เข้าถึงส่วนนี้ (ดูได้อย่างเดียว)','e');
     return;
   }
   // Switch pane
@@ -652,13 +674,15 @@ function applyRole(role){
     // Disable sidebar buttons that viewer can't access
     ['ni-map','ni-payment','ni-install','ni-electric','ni-register','ni-leavehist'].forEach(id=>{
       const el=document.getElementById(id);
-      if(el){el.style.opacity='.4';el.style.cursor='not-allowed';el.onclick=function(){showToast('⛔ ไม่มีสิทธิ์เข้าถึง','e');};}
+      if(el){el.style.opacity='.4';el.style.cursor='not-allowed';el.onclick=function(){showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ไม่มีสิทธิ์เข้าถึง','e');};}
     });
   }
 }
 
 function doLogout(){
-  if(!confirm('ต้องการออกจากระบบใช่หรือไม่?'))return;
+  showConfirm('ต้องการออกจากระบบใช่หรือไม่?', doLogoutConfirmed);
+}
+function doLogoutConfirmed(){
   logAct('system','ออกจากระบบ: '+(currentUser?.displayName||'—'));
   sessionStorage.removeItem('pm-session');
   currentUser=null; window._viewerRole=false;
@@ -682,7 +706,7 @@ function doLogout(){
 function togglePwVis(){
   const i=document.getElementById('login-pass'), e=document.getElementById('pw-eye');
   if(i.type==='password'){i.type='text';e.textContent='🙈';}
-  else{i.type='password';e.textContent='👁️';}
+  else{i.type='password';e.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>';}
 }
 ['login-user','login-pass'].forEach(id=>{
   document.getElementById(id)?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
@@ -707,7 +731,7 @@ function confirmChPw(){
   if(n!==c){err.textContent='Password ใหม่ไม่ตรงกัน';return;}
   const users=getUsers(); const idx=users.findIndex(u=>u.username===currentUser.username);
   if(idx>=0){users[idx].password=n;saveUsers(users);currentUser.password=n;}
-  closeChPw(); showToast('✅ เปลี่ยน Password เรียบร้อย','s');
+  closeChPw(); showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> เปลี่ยน Password เรียบร้อย','s');
   logAct('system','เปลี่ยน Password: '+currentUser.displayName);
 }
 
@@ -715,11 +739,11 @@ function confirmChPw(){
 // ACTIVITY LOG
 // ════════════════════════════════════════════════════
 const ACT_LOG=[];
-const ACT_ICONS={vendor:'👥',payment:'💰',leave:'📋',daily:'🏷️',installment:'📋',nav:'🗺️',system:'⚙️'};
+const ACT_ICONS={vendor:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1a5 5 0 0 1 5-5h3a5 5 0 0 1 5 5v1"/><path d="M16.5 5a3.5 3.5 0 0 1 0 6.9"/><path d="M21.5 20v-1a5 5 0 0 0-3.5-4.8"/></svg>',payment:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg>',leave:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg>',daily:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg>',installment:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg>',nav:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>',system:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.37a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.63 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.63 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.63a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.37 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>'};
 function logAct(type,msg,detail=''){
   const n=new Date();
   const ts=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
-  ACT_LOG.unshift({ts,type,icon:ACT_ICONS[type]||'📌',msg,detail,date:n.getDate()+'/'+(n.getMonth()+1)+'/'+(n.getFullYear()+543)});
+  ACT_LOG.unshift({ts,type,icon:ACT_ICONS[type]||'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5c0 3 2 4.6 3.5 8.2L12 22l1.5-6.8C15 11.6 17 10 17 7a5 5 0 0 0-5-5Z"/><circle cx="12" cy="7" r="1.6" fill="currentColor" stroke="none"/></svg>',msg,detail,date:n.getDate()+'/'+(n.getMonth()+1)+'/'+(n.getFullYear()+543)});
   if(ACT_LOG.length>200) ACT_LOG.pop();
   if(curTab==='actlog') renderActLog();
 }
@@ -737,15 +761,19 @@ function renderActLog(){
       <div style="width:28px;height:28px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:.80rem;flex-shrink:0">${a.icon}</div>
       <div style="flex:1;min-width:0">
         <div style="font-size:.74rem;font-weight:700;color:${tc[a.type]||'var(--tx)'}">${a.msg}</div>
-        ${a.detail?`<div style="font-size:.67rem;color:var(--txl);margin-top:1px">${a.detail}</div>`:''}
+        ${a.detail?`<div style="font-size:.89rem;color:var(--txl);margin-top:1px">${a.detail}</div>`:''}
       </div>
       <div style="flex-shrink:0;text-align:right">
-        <div style="font-size:.66rem;font-weight:700;color:var(--txl)">${a.ts}</div>
-        <div style="font-size:.58rem;color:var(--txl)">${a.date}</div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--txl)">${a.ts}</div>
+        <div style="font-size:.81rem;color:var(--txl)">${a.date}</div>
       </div>
     </div>`).join('');
 }
-function clearActLog(){if(!confirm('ล้างบันทึกกิจกรรมทั้งหมด?'))return;ACT_LOG.length=0;renderActLog();showToast('🗑️ ล้างบันทึกแล้ว','i');}
+function clearActLog(){
+  showConfirm('ล้างบันทึกกิจกรรมทั้งหมด?', ()=>{
+    ACT_LOG.length=0;renderActLog();showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> ล้างบันทึกแล้ว','i');
+  }, {danger:true});
+}
 
 
 // ════════════════════════════════════════════════════
@@ -803,7 +831,7 @@ let VENDORS=[
 ];
 
 function calcElec(e){if(!e)return 0;return(e.bulb||0)*10+(e.fan||0)*20+(e.small||0)*50+(e.large||0)*100+(e.special||[]).reduce((s,x)=>s+(x.price||0),0);}
-function elecStr(e){if(!e)return'—';const p=[];if(e.bulb)p.push('💡×'+e.bulb);if(e.fan)p.push('🌀×'+e.fan);if(e.small)p.push('🔌×'+e.small);if(e.large)p.push('⚙️×'+e.large);(e.special||[]).forEach(x=>{if(x.price>0)p.push('⭐'+x.name);});return p.join(' ')||'—';}
+function elecStr(e){if(!e)return'—';const p=[];if(e.bulb)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.5.4.8 1 .8 1.6V17h6.4v-.7c0-.6.3-1.2.8-1.6A7 7 0 0 0 12 2Z"/></svg>×'+e.bulb);if(e.fan)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7a5 5 0 1 0 5 5"/></svg>×'+e.fan);if(e.small)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v6"/><path d="M8 8h8v4a4 4 0 0 1-8 0V8Z"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/></svg>×'+e.small);if(e.large)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.37a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.63 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.63 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.63a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.37 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>×'+e.large);(e.special||[]).forEach(x=>{if(x.price>0)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15 9 22 9.3 16.5 14 18.2 21 12 17.3 5.8 21 7.5 14 2 9.3 9 9"/></svg>'+x.name);});return p.join(' ')||'—';}
 function baht(n){return'฿'+Math.round(n).toLocaleString();}
 
 // ════════════════════════════════════════════════════
@@ -889,33 +917,33 @@ async function loadVendorsFromSheets(){
   VENDORS.length=0;
   data.forEach(row=>{VENDORS.push({lock:row.lock,zone:row.zone,name:row.name||'(ยังไม่ระบุ)',phone:row.phone||'—',line:row.line||'—',product:row.product||'—',type:row.type||'regular',dailyRate:parseInt(row.dailyRate||row.daily_rate||row.rent)||0,elec:{bulb:parseInt(row.elec_bulb)||0,fan:parseInt(row.elec_fan)||0,small:parseInt(row.elec_small)||0,large:parseInt(row.elec_large)||0,special:Array.isArray(row.elec_special)?row.elec_special:[]},status:row.status||'active',unpaidPenalty:parseFloat(row.unpaid_penalty)||0,unpaidOther:parseFloat(row.unpaid_other)||0,unpaidOtherLabel:row.unpaid_other_label||''});});
   renderDashboard();
-  showToast('✅ โหลดข้อมูล '+VENDORS.length+' ราย จาก Sheets','s');
+  showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> โหลดข้อมูล '+VENDORS.length+' ราย จาก Sheets','s');
 }
 function updateDbStatus(){
   const url=getApiUrl();
   const badge=document.getElementById('db-status-badge');
   const sb=document.getElementById('sb-db-badge');
   if(url){
-    if(badge){badge.textContent='☁️ Sheets';badge.style.background='rgba(82,183,136,.22)';badge.style.color='#86efac';}
-    if(sb) sb.textContent='☁️ เชื่อมต่อ Google Sheets แล้ว';
+    if(badge){badge.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> Sheets';badge.style.background='rgba(82,183,136,.22)';badge.style.color='#86efac';}
+    if(sb) sb.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> เชื่อมต่อ Google Sheets แล้ว';
   } else {
-    if(badge){badge.textContent='📋 Local';badge.style.background='rgba(255,255,255,.14)';badge.style.color='rgba(255,255,255,.82)';}
-    if(sb) sb.textContent='📋 Local — คลิกเชื่อมต่อ Google Sheets';
+    if(badge){badge.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local';badge.style.background='rgba(255,255,255,.14)';badge.style.color='rgba(255,255,255,.82)';}
+    if(sb) sb.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local — คลิกเชื่อมต่อ Google Sheets';
   }
 }
 function showApiSetup(){
   const existing=getApiUrl();
-  const url=prompt('🔗 Google Sheets API URL - วาง Web App URL จาก Apps Script (ปัจจุบัน: '+(existing||'ยังไม่ได้ตั้งค่า')+')',existing||'');
+  const url=prompt('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.2"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.2"/></svg> Google Sheets API URL - วาง Web App URL จาก Apps Script (ปัจจุบัน: '+(existing||'ยังไม่ได้ตั้งค่า')+')',existing||'');
   if(url===null)return;
   if(url.trim()){
     localStorage.setItem('pm-api-url',url.trim());
     updateDbStatus();
-    showToast('✅ บันทึก API URL — กำลังทดสอบ...','s');
+    showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึก API URL — กำลังทดสอบ...','s');
     testConnection(url.trim());
   } else {
     localStorage.removeItem('pm-api-url');
     updateDbStatus();
-    showToast('📋 ยกเลิกการเชื่อมต่อ Sheets','i');
+    showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> ยกเลิกการเชื่อมต่อ Sheets','i');
   }
 }
 async function testConnection(url){
@@ -924,14 +952,24 @@ async function testConnection(url){
     const r=await fetch(url+'?action=initSheets');
     const j=await r.json();
     hideLoading();
-    if(j.status==='ok'){showToast('✅ เชื่อมต่อ Sheets สำเร็จ!','s');setTimeout(loadVendorsFromSheets,800);}
-    else showToast('⚠️ เชื่อมต่อได้แต่มีปัญหา: '+(j.message||''),'e');
-  }catch(e){hideLoading();showToast('❌ เชื่อมต่อไม่ได้ — ตรวจสอบ URL','e');}
+    if(j.status==='ok'){showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> เชื่อมต่อ Sheets สำเร็จ!','s');setTimeout(loadVendorsFromSheets,800);}
+    else showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> เชื่อมต่อได้แต่มีปัญหา: '+(j.message||''),'e');
+  }catch(e){hideLoading();showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> เชื่อมต่อไม่ได้ — ตรวจสอบ URL','e');}
 }
 
 // ════════════════════════════════════════════════════
 // TOAST
 // ════════════════════════════════════════════════════
+function showConfirm(message, onConfirm, opts={}){
+  const ov = document.getElementById('confirm-overlay');
+  document.getElementById('confirm-message').textContent = message;
+  const okBtn = document.getElementById('confirm-ok-btn');
+  okBtn.textContent = opts.okText || 'ยืนยัน';
+  okBtn.className = opts.danger ? 'btn btn-d' : 'btn btn-p';
+  okBtn.onclick = () => { ov.classList.remove('show'); onConfirm(); };
+  document.getElementById('confirm-cancel-btn').onclick = () => ov.classList.remove('show');
+  ov.classList.add('show');
+}
 function showToast(msg,type='i'){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className='toast '+type+' show';
@@ -1063,17 +1101,17 @@ function showModuleFallback(pane, src, id) {
     map:'ผังตลาด', payment:'รับชำระหลายล็อค', install:'ผ่อนชำระ',
     electric:'ค่าไฟฟ้า', register:'ลงทะเบียนผู้ค้าใหม่', reports:'รายงาน PDF'
   };
-  const icons = {map:'🗺️',payment:'💰',install:'📋',electric:'⚡',register:'🆕',reports:'📊'};
+  const icons = {map:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>',payment:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg>',install:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg>',electric:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg>',register:'🆕',reports:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg>'};
   pane.innerHTML = `
     <div class="module-error">
-      <div style="font-size:2.5rem">${icons[id]||'📄'}</div>
-      <h3>${icons[id]||'📄'} ${names[id]||id}</h3>
+      <div style="font-size:2.5rem">${icons[id]||'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/></svg>'}</div>
+      <h3>${icons[id]||'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/></svg>'} ${names[id]||id}</h3>
       <p>ไม่สามารถโหลดโมดูลในหน้าเดียวกันได้<br>
          กรุณาวางไฟล์ทั้งหมดในโฟลเดอร์เดียวกัน แล้วกดปุ่มด้านล่าง</p>
       <a class="open-btn" href="${src}" target="_blank">
-        🔗 เปิด ${names[id]||id} ในแท็บใหม่
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.2"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.2"/></svg> เปิด ${names[id]||id} ในแท็บใหม่
       </a>
-      <p style="font-size:.68rem;color:var(--txl);margin-top:8px">
+      <p style="font-size:.90rem;color:var(--txl);margin-top:8px">
         หรืออัปโหลดไฟล์ทั้งหมดขึ้น server แล้วเปิดผ่าน URL เดียวกัน
       </p>
     </div>`;

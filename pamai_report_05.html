@@ -53,19 +53,22 @@ tbody tr:nth-child(even) td{background:var(--sf2);}
   .page{box-shadow:none;margin:0;max-width:100%;padding:0;border-radius:0;}
   @page{size:A4 portrait;margin:14mm;}
 }
+
+.ic{width:1em;height:1em;vertical-align:-.15em;display:inline-block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ic-dot{stroke:none}
 </style>
 </head>
 <body>
 
 <div class="toolbar">
   <div>
-    <h1>📋 รายงานแจ้งลา & ขาดล็อค</h1>
+    <h1><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> รายงานแจ้งลา & ขาดล็อค</h1>
     <p>ตลาดแพไม้ วันอังคาร · ข้อมูลสด จาก Google Sheets</p>
   </div>
   <div class="tb-actions">
-    <button class="tb-btn refresh" onclick="render()">🔄 รีเฟรช</button>
-    <button class="tb-btn back" onclick="window.close()">← ปิด</button>
-    <button class="tb-btn print" onclick="window.print()">🖨️ พิมพ์ / บันทึกเป็น PDF</button>
+    <button class="tb-btn refresh" onclick="render()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> รีเฟรช</button>
+    <button class="tb-btn back" onclick="window.close()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 6 4 12 10 18"/></svg> ปิด</button>
+    <button class="tb-btn print" onclick="window.print()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>️ พิมพ์ / บันทึกเป็น PDF</button>
   </div>
 </div>
 
@@ -84,7 +87,7 @@ tbody tr:nth-child(even) td{background:var(--sf2);}
   <div class="date-filter">
     <label>เลือกวันที่:</label>
     <input type="date" id="dateInput">
-    <button onclick="render()">🔍 ดูข้อมูล</button>
+    <button onclick="render()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> ดูข้อมูล</button>
   </div>
 
   <div id="dataWarn"></div>
@@ -114,7 +117,7 @@ async function apiGet(action,params={}){
 const todayISO = new Date().toISOString().split('T')[0];
 document.getElementById('dateInput').value = todayISO;
 
-const STATUS_LABEL = { leave:'📋 แจ้งลา', absent:'⚠️ ขาดล็อค (ไม่แจ้ง)', cancel:'↩️ ยกเลิกสถานะ' };
+const STATUS_LABEL = { leave:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลา', absent:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ขาดล็อค (ไม่แจ้ง)', cancel:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> ยกเลิกสถานะ' };
 const STATUS_CLASS = { leave:'status-leave', absent:'status-absent', cancel:'status-cancel' };
 
 async function render(){
@@ -125,7 +128,7 @@ async function render(){
 
   if(!getApiUrl()){
     document.getElementById('dataWarn').innerHTML =
-      '<div class="warn">⚠️ ยังไม่ได้เชื่อมต่อ Google Sheets — กรุณาตั้งค่าที่หน้าหลักของระบบก่อน</div>';
+      '<div class="warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยังไม่ได้เชื่อมต่อ Google Sheets — กรุณาตั้งค่าที่หน้าหลักของระบบก่อน</div>';
     document.getElementById('reportBody').innerHTML = '';
     return;
   }
