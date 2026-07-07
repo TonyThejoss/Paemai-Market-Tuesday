@@ -705,8 +705,8 @@ function doLogoutConfirmed(){
 
 function togglePwVis(){
   const i=document.getElementById('login-pass'), e=document.getElementById('pw-eye');
-  if(i.type==='password'){i.type='text';e.textContent='🙈';}
-  else{i.type='password';e.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>';}
+  if(i.type==='password'){i.type='text';e.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A10.4 10.4 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';}
+  else{i.type='password';e.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>';}
 }
 ['login-user','login-pass'].forEach(id=>{
   document.getElementById(id)?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
@@ -847,7 +847,7 @@ function renderDashboard(){
   const setText=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=val;};
 
   setText('kc-total', VENDORS.length);
-  const zones=[...new Set(VENDORS.map(v=>v.zone))].sort();
+  const zones=[...new Set(VENDORS.map(v=>v.zone||'ไม่ระบุ'))].sort();
   setText('kc-total-sub', VENDORS.length ? zones.length+' โซน ('+zones.join(', ')+')' : 'ยังไม่มีข้อมูลผู้ค้า');
 
   setText('kc-active', active.length);
@@ -877,7 +877,7 @@ function renderDashboard(){
       zl.innerHTML='<div style="text-align:center;padding:12px;color:var(--txl);font-size:.72rem">ยังไม่มีข้อมูลผู้ค้าในระบบ</div>';
     } else {
       const byZone={};
-      VENDORS.forEach(v=>{(byZone[v.zone]=byZone[v.zone]||[]).push(v);});
+      VENDORS.forEach(v=>{const zk=v.zone||'ไม่ระบุ';(byZone[zk]=byZone[zk]||[]).push(v);});
       const zoneKeys=Object.keys(byZone).sort();
       zl.innerHTML=zoneKeys.map((z,i)=>{
         const list=byZone[z];
@@ -924,11 +924,11 @@ function updateDbStatus(){
   const badge=document.getElementById('db-status-badge');
   const sb=document.getElementById('sb-db-badge');
   if(url){
-    if(badge){badge.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> Sheets';badge.style.background='rgba(82,183,136,.22)';badge.style.color='#86efac';}
-    if(sb) sb.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> เชื่อมต่อ Google Sheets แล้ว';
+    if(badge){badge.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> Sheets';badge.style.background='rgba(82,183,136,.22)';badge.style.color='#86efac';}
+    if(sb) sb.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> เชื่อมต่อ Google Sheets แล้ว';
   } else {
-    if(badge){badge.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local';badge.style.background='rgba(255,255,255,.14)';badge.style.color='rgba(255,255,255,.82)';}
-    if(sb) sb.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local — คลิกเชื่อมต่อ Google Sheets';
+    if(badge){badge.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local';badge.style.background='rgba(255,255,255,.14)';badge.style.color='rgba(255,255,255,.82)';}
+    if(sb) sb.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> Local — คลิกเชื่อมต่อ Google Sheets';
   }
 }
 function showApiSetup(){
@@ -972,7 +972,7 @@ function showConfirm(message, onConfirm, opts={}){
 }
 function showToast(msg,type='i'){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.className='toast '+type+' show';
+  t.innerHTML=msg; t.className='toast '+type+' show';
   clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),3200);
 }
 

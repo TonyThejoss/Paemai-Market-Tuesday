@@ -294,12 +294,12 @@ function updateDbStatus(){
   const notice = document.getElementById('apiNotice');
   const url = getApiUrl();
   if(url){
-    badge.textContent = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> เชื่อมต่อ Sheets แล้ว';
+    badge.innerHTML = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> เชื่อมต่อ Sheets แล้ว';
     badge.style.background = 'rgba(82,183,136,.25)';
     notice.style.display = 'block';
     notice.className = 'notice';
   } else {
-    badge.textContent = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> ยังไม่เชื่อมต่อ — คลิกตั้งค่า';
+    badge.innerHTML = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> ยังไม่เชื่อมต่อ — คลิกตั้งค่า';
     badge.style.background = 'rgba(255,255,255,.14)';
     notice.style.display = 'block';
     notice.className = 'notice warn';

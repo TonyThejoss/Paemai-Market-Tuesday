@@ -948,7 +948,7 @@ function openEditFromTable(lid) {
   modalCounts = {...v.elec};
   modalSpecials = [];
   modalSpCnt = 0;
-  document.getElementById('editModalTitle').textContent = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg> แก้ไขค่าไฟ — ${lid}`;
+  document.getElementById('editModalTitle').innerHTML = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg> แก้ไขค่าไฟ — ${lid}`;
   document.getElementById('editModalSub').textContent   = `${v.shop} | ค่าเช่า ${fmt(v.rent)}/เดือน`;
 
   let html = '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">';
@@ -1188,7 +1188,7 @@ document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{
 // ══════════════════════════════════════
 function showToast(msg, type='info') {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast ${type} show`;
+  t.innerHTML = msg; t.className = `toast ${type} show`;
   clearTimeout(t._t);
   t._t = setTimeout(()=>t.classList.remove('show'), 3200);
 }

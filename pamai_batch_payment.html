@@ -848,7 +848,7 @@ async function confirmSave() {
     }
   }
 
-  if(saveBtn){ saveBtn.disabled=false; saveBtn.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> บันทึกการรับชำระ'; }
+  if(saveBtn){ saveBtn.disabled=false; saveBtn.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> บันทึกการรับชำระ'; }
 
   if(failCount===0){
     showToast(`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกสำเร็จ ${okCount} ล็อค · รวม ฿${total.toLocaleString()}`);
@@ -863,7 +863,7 @@ function filterChanged() { renderLockList(); }
 
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
+  t.innerHTML = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
 }

@@ -1356,7 +1356,7 @@ async function submitForm(btn) {
     saveNote = (vOk && payOk)
       ? '<div style="margin-top:10px;padding:8px 12px;background:#e6f7ee;border-radius:8px;color:#1a7f4b;font-weight:700;font-size:.72rem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a5 5 0 1 1 1.6-9.7A6 6 0 0 1 22 11.5 4.5 4.5 0 0 1 17.5 19Z"/></svg> บันทึกขึ้น Google Sheets แล้ว</div>'
       : '<div style="margin-top:10px;padding:8px 12px;background:#fff3cd;border-radius:8px;color:#92400e;font-weight:700;font-size:.72rem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> บันทึกบางส่วนไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ</div>';
-    if (btn){ btn.disabled = false; btn.textContent = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ยืนยันลงทะเบียน & รับชำระ'; }
+    if (btn){ btn.disabled = false; btn.innerHTML = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ยืนยันลงทะเบียน & รับชำระ'; }
   } else if (!getApiUrl()) {
     saveNote = '<div style="margin-top:10px;padding:8px 12px;background:#fff3cd;border-radius:8px;color:#92400e;font-weight:700;font-size:.72rem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยังไม่ได้เชื่อมต่อ Google Sheets — รายการนี้ยังไม่ถูกบันทึกลงระบบกลาง</div>';
   }
@@ -1414,7 +1414,7 @@ function ripple(btn) {
 // ══════════════════════════════════
 function showToast(msg, type='info') {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast ${type} show`;
+  t.innerHTML = msg; t.className = `toast ${type} show`;
   clearTimeout(t._timer);
   t._timer = setTimeout(()=>t.classList.remove('show'), 3000);
 }

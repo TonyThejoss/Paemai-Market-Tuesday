@@ -250,7 +250,7 @@ let ALL_LEAVE=[], ALL_DAILY=[];
 async function loadAll(){
   const badge=document.getElementById('conn-badge');
   if(!getApiUrl()){
-    badge.textContent='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v6"/><path d="M8 8h8v4a4 4 0 0 1-8 0V8Z"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/></svg> ยังไม่เชื่อมต่อ Google Sheets';
+    badge.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v6"/><path d="M8 8h8v4a4 4 0 0 1-8 0V8Z"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/></svg> ยังไม่เชื่อมต่อ Google Sheets';
     badge.className='conn-badge off';
     document.getElementById('leave-tbody').innerHTML=emptyRow('ยังไม่ได้เชื่อมต่อ Google Sheets — ตั้งค่าที่หน้าหลักก่อน (ปุ่มมุมล่างซ้าย)',7);
     document.getElementById('daily-tbody').innerHTML=emptyRow('ยังไม่ได้เชื่อมต่อ Google Sheets — ตั้งค่าที่หน้าหลักก่อน (ปุ่มมุมล่างซ้าย)',7);
@@ -261,7 +261,7 @@ async function loadAll(){
   const [leave,daily]=await Promise.all([apiGet('getLeaveLog'),apiGet('getDailyBookings')]);
   ALL_LEAVE=Array.isArray(leave)?leave:[];
   ALL_DAILY=Array.isArray(daily)?daily:[];
-  badge.textContent='<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--gm)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> เชื่อมต่อแล้ว · ล่าสุด '+nowClock();
+  badge.innerHTML='<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--gm)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> เชื่อมต่อแล้ว · ล่าสุด '+nowClock();
   badge.className='conn-badge on';
   renderLeave();
   renderDaily();

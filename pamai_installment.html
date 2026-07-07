@@ -729,8 +729,8 @@ function renderOv(){
       <td style="font-size:.70rem;color:${dl!=='—'?'var(--r)':'var(--txl)'}"><strong>${dl}</strong></td>
       <td>${statusBadge[st]||''}</td>
       <td style="text-align:center;white-space:nowrap">
-        ${!v.plan?`<button class="btn btn-sm b-blue" style="background:var(--bl);color:var(--b);border:none" onclick="openInstFor('${v.lock}')">📋 ตั้งผ่อน</button>`:''}
-        ${v.plan&&rem>0?`<button class="btn btn-sm btn-pay" onclick="openPay('${v.lock}')">💰 รับงวด</button>`:''}
+        ${!v.plan?`<button class="btn btn-sm b-blue" style="background:var(--bl);color:var(--b);border:none" onclick="openInstFor('${v.lock}')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> ตั้งผ่อน</button>`:''}
+        ${v.plan&&rem>0?`<button class="btn btn-sm btn-pay" onclick="openPay('${v.lock}')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg> รับงวด</button>`:''}
         <button class="btn btn-sm btn-secondary" style="margin-top:2px" onclick="showMapDetailFor('${v.lock}')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> ดู</button>
       </td>
     </tr>`;
@@ -783,7 +783,7 @@ function loadDebt(){
   document.getElementById('date-first').textContent=fmtDate(firstPay);
   document.getElementById('date-deadline').textContent=fmtDate(dl);
   const daysLeft=Math.round((dl-today)/(1000*60*60*24));
-  document.getElementById('date-warning').textContent=daysLeft<=14?`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> เหลือเวลาอีก ${daysLeft} วัน — เร่งดำเนินการ`:'';
+  document.getElementById('date-warning').innerHTML=daysLeft<=14?`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> เหลือเวลาอีก ${daysLeft} วัน — เร่งดำเนินการ`:'';
   document.getElementById('p-deadline-box').style.display='block';
   calcPlan();
 }
@@ -892,7 +892,7 @@ function renderTracking(){
         <div style="text-align:right;flex-shrink:0">
           <div style="font-size:.86rem;font-weight:800;color:${rem>0?'var(--r)':'var(--gm)'}">${baht(rem)}</div>
           <div style="font-size:.64rem;color:var(--txl)">คงเหลือ / ${baht(v.total_debt)}</div>
-          ${daysLeft<=14?`<div style="font-size:.62rem;color:var(--r);font-weight:700;margin-top:2px">⚠️ ครบกำหนด ${dl}</div>`:`<div style="font-size:.62rem;color:var(--txl)">ครบกำหนด ${dl}</div>`}
+          ${daysLeft<=14?`<div style="font-size:.62rem;color:var(--r);font-weight:700;margin-top:2px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ครบกำหนด ${dl}</div>`:`<div style="font-size:.62rem;color:var(--txl)">ครบกำหนด ${dl}</div>`}
         </div>
       </div>
       <div class="prog" style="margin-bottom:5px"><div class="prog-fill ${progCls}" style="width:${p}%"></div></div>
@@ -900,7 +900,7 @@ function renderTracking(){
       <div class="steps">${stepHtml}</div>
       <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
         ${unpaid.map(s=>`<button class="btn btn-pay btn-sm" onclick="openPay('${v.lock}',${s.term})">
-          💰 งวด ${s.term} — ${baht(s.amount)} ${s.status==='overdue'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>':''}
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg> งวด ${s.term} — ${baht(s.amount)} ${s.status==='overdue'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>':''}
         </button>`).join('')}
       </div>
     </div>`;
@@ -914,14 +914,14 @@ function openPay(lock, term){
   const s=term?v.plan.schedule.find(s=>s.term===term):v.plan.schedule.find(s=>s.status!=='paid');
   if(!s) return;
   payTarget={lock,term:s.term};
-  document.getElementById('pm-title').textContent=`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg> รับชำระงวดที่ ${s.term}`;
+  document.getElementById('pm-title').innerHTML=`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 1.6-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2"/></svg> รับชำระงวดที่ ${s.term}`;
   document.getElementById('pm-sub').textContent=`${lock} — ${v.shop}  ·  ครบกำหนด ${fmtDate(s.due)}`;
   const daysLate=Math.round((new Date()-s.due)/(1000*60*60*24));
   document.getElementById('pm-body').innerHTML=`
     <div style="background:var(--sf2);border-radius:8px;padding:11px 14px;margin-bottom:12px;font-size:.78rem">
       <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--txl)">งวดที่ ${s.term} / ${v.plan.terms}</span><span style="font-weight:700;color:var(--o)">${baht(s.amount)}</span></div>
       <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--txl)">ครบกำหนด</span><span>${fmtDate(s.due)}</span></div>
-      ${daysLate>0?`<div style="background:var(--rl);border-radius:6px;padding:5px 8px;margin-top:7px;font-size:.70rem;color:var(--r);font-weight:700">⚠️ เลยกำหนดชำระแล้ว ${daysLate} วัน</div>`:''}
+      ${daysLate>0?`<div style="background:var(--rl);border-radius:6px;padding:5px 8px;margin-top:7px;font-size:.70rem;color:var(--r);font-weight:700"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> เลยกำหนดชำระแล้ว ${daysLate} วัน</div>`:''}
       ${v.plan.deadline?`<div style="margin-top:6px;font-size:.68rem;color:var(--txl)">วันครบกำหนดทั้งแผน: <strong style="color:var(--r)">${fmtDate(v.plan.deadline)}</strong></div>`:''}
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px">
@@ -990,8 +990,8 @@ function showMapDetailFor(lockId){
       <div class="plan-row ${s.status==='paid'?'paid-row':s.status==='overdue'?'overdue-row':''}">
         <div class="plan-num ${s.status==='paid'?'pn-paid':s.status==='overdue'?'pn-over':'pn-next'}">${s.status==='paid'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>':s.term}</div>
         <div style="flex:1;font-size:.74rem"><strong>งวด ${s.term}</strong> — ${fmtDate(s.due)}
-          ${s.status==='paid'?`<span class="badge b-green" style="margin-left:6px">✅ ชำระแล้ว ${fmtDate(s.paid_date)}</span>`:''}
-          ${s.status==='overdue'?`<span class="badge b-red" style="margin-left:6px">⚠️ เลยกำหนด</span>`:''}
+          ${s.status==='paid'?`<span class="badge b-green" style="margin-left:6px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ชำระแล้ว ${fmtDate(s.paid_date)}</span>`:''}
+          ${s.status==='overdue'?`<span class="badge b-red" style="margin-left:6px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> เลยกำหนด</span>`:''}
         </div>
         <div style="font-weight:700;color:${s.status==='paid'?'var(--gm)':s.status==='overdue'?'var(--r)':'var(--txm)'}">${baht(s.amount)}</div>
       </div>`).join('');
@@ -1006,7 +1006,7 @@ function showMapDetailFor(lockId){
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
-function showToast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3500);}
+function showToast(msg,type='info'){const t=document.getElementById('toast');t.innerHTML=msg;t.className=`toast ${type} show`;clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3500);}
 </script>
 </body>
 </html>
