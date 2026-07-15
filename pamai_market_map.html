@@ -114,9 +114,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .m-title{font-size:.90rem;font-weight:800;margin-bottom:2px;}.m-sub{font-size:.91rem;color:var(--txl);margin-bottom:14px;}
 .m-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
 .m-row.c1{grid-template-columns:1fr;}
-.m-field{display:flex;flex-direction:column;gap:3px;}
-.m-field label{font-size:.86rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;}
-.m-field input,.m-field select{padding:7px 9px;border:1.5px solid var(--bd);border-radius:7px;font-size:.78rem;background:var(--sf2);color:var(--tx);outline:none;font-family:inherit;transition:border-color .18s;}
+.m-field{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.m-field label{font-size:.86rem;font-weight:700;color:var(--txl);text-transform:uppercase;letter-spacing:.4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.m-field input,.m-field select{padding:7px 9px;border:1.5px solid var(--bd);border-radius:7px;font-size:.78rem;background:var(--sf2);color:var(--tx);outline:none;font-family:inherit;transition:border-color .18s;width:100%;min-width:0;box-sizing:border-box;}
 .m-field input:focus,.m-field select:focus{border-color:var(--gm);box-shadow:0 0 0 3px rgba(45,106,79,.15);}
 .m-summary{background:var(--gll);border:1.5px solid var(--gm);border-radius:8px;padding:9px 12px;margin-top:9px;}
 .ms-row{display:flex;justify-content:space-between;padding:3px 0;font-size:.74rem;border-bottom:1px solid var(--bd);}
@@ -387,9 +387,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="m-row"><div class="m-field"><label for="ev-name">ชื่อร้าน/ผู้ค้า</label><input type="text" id="ev-name" placeholder="ชื่อร้านหรือผู้ค้า"></div><div class="m-field"><label for="ev-phone">เบอร์โทร</label><input type="tel" id="ev-phone" placeholder="0xx-xxx-xxxx"></div></div>
     <div class="m-row"><div class="m-field"><label for="ev-product">สินค้า</label><input type="text" id="ev-product" placeholder="ประเภทสินค้า"></div><div class="m-field"><label for="ev-rate">ค่าเช่า/วัน (฿)</label><input type="number" id="ev-rate" min="0" oninput="emUpdateHint()"></div></div>
     <div class="m-sub" style="margin:10px 0 4px;font-weight:800;color:var(--txm)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg> ค่าไฟฟ้า</div>
-    <div class="m-row" style="grid-template-columns:1fr 1fr 1fr 1fr">
-      <div class="m-field"><label for="ev-bulb">หลอดไฟ</label><input type="number" id="ev-bulb" min="0" oninput="emUpdateHint()"></div>
-      <div class="m-field"><label for="ev-fan">พัดลม</label><input type="number" id="ev-fan" min="0" oninput="emUpdateHint()"></div>
+    <div class="m-row">
+      <div class="m-field"><label for="ev-bulb">หลอดไฟ (ดวง)</label><input type="number" id="ev-bulb" min="0" oninput="emUpdateHint()"></div>
+      <div class="m-field"><label for="ev-fan">พัดลม (ตัว)</label><input type="number" id="ev-fan" min="0" oninput="emUpdateHint()"></div>
+    </div>
+    <div class="m-row">
       <div class="m-field"><label for="ev-small">เครื่องเล็ก</label><input type="number" id="ev-small" min="0" oninput="emUpdateHint()"></div>
       <div class="m-field"><label for="ev-large">เครื่องใหญ่</label><input type="number" id="ev-large" min="0" oninput="emUpdateHint()"></div>
     </div>
@@ -1056,9 +1058,9 @@ function emAddSpecial(item){
   evSpecials.push(id);
   const div=document.createElement('div');
   div.id='es-'+id; div.style.cssText='display:flex;gap:5px';
-  div.innerHTML='<input type="text" placeholder="ชื่ออุปกรณ์ เช่น ตู้แช่ไอศกรีม..." id="esn-'+id+'" oninput="emUpdateHint()" style="flex:2;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:.78rem;background:var(--sf2);color:var(--tx);font-family:inherit">'
-    +'<input type="number" placeholder="฿/เดือน" min="0" id="esp-'+id+'" oninput="emUpdateHint()" style="flex:1;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:.78rem;background:var(--sf2);color:var(--tx);font-family:inherit;text-align:right">'
-    +'<button type="button" onclick="emRemoveSpecial('+id+')" style="border:none;background:var(--rl);color:var(--r);border-radius:6px;width:30px;cursor:pointer" title="ลบ"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+  div.innerHTML='<input type="text" placeholder="ชื่ออุปกรณ์ เช่น ตู้แช่ไอศกรีม..." id="esn-'+id+'" oninput="emUpdateHint()" style="flex:2;min-width:0;box-sizing:border-box;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:.78rem;background:var(--sf2);color:var(--tx);font-family:inherit">'
+    +'<input type="number" placeholder="฿/เดือน" min="0" id="esp-'+id+'" oninput="emUpdateHint()" style="flex:1;min-width:0;box-sizing:border-box;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:.78rem;background:var(--sf2);color:var(--tx);font-family:inherit;text-align:right">'
+    +'<button type="button" onclick="emRemoveSpecial('+id+')" style="border:none;background:var(--rl);color:var(--r);border-radius:6px;width:30px;flex-shrink:0;cursor:pointer" title="ลบ"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
   document.getElementById('ev-specialList').appendChild(div);
   if(item){document.getElementById('esn-'+id).value=item.name||'';document.getElementById('esp-'+id).value=item.price||'';}
   emUpdateHint();
