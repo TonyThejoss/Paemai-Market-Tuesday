@@ -236,6 +236,11 @@ textarea{resize:vertical;min-height:56px;}
   <button class="tab"       onclick="showTab('t4',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>️ แผนที่สถานะ</button>
 </div>
 
+<div id="no-db-banner" style="display:none;background:var(--rl);border-bottom:2px solid var(--r);color:var(--r);text-align:center;font-weight:700;font-size:.78rem;padding:8px 14px">
+  <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  ยังไม่ได้เชื่อมต่อฐานข้อมูล (pm-api-url) — หน้านี้จะไม่แสดงข้อมูลจนกว่าจะตั้งค่าการเชื่อมต่อจากหน้าหลัก
+</div>
+
 <!-- ═══ TAB 1 ═══ -->
 <div id="t1" class="page active">
   <div class="kpi-grid">
@@ -255,8 +260,9 @@ textarea{resize:vertical;min-height:56px;}
       <select class="fsel" id="s1z" onchange="renderOv()">
         <option value="">ทุกโซน</option>
         <option>SA</option><option>SB</option><option>SC</option>
-        <option>SD</option><option>SE</option><option>A</option>
-        <option>B</option><option>C</option><option>D</option>
+        <option>SD</option><option>SE</option><option>SF</option>
+        <option>A</option><option>B</option><option>C</option>
+        <option>D</option><option>F</option>
       </select>
       <select class="fsel" id="s1s" onchange="renderOv()">
         <option value="">ทุกสถานะ</option>
@@ -267,7 +273,6 @@ textarea{resize:vertical;min-height:56px;}
       </select>
       <select class="fsel" id="s1o" onchange="renderOv()">
         <option value="remain_desc">คงเหลือมากน้อย</option>
-        <option value="months_desc">ค้างนานสั้น</option>
         <option value="lock">เลขล็อค</option>
       </select>
     </div>
@@ -325,7 +330,7 @@ textarea{resize:vertical;min-height:56px;}
           <div style="margin-top:5px;font-size:.70rem;color:var(--r);font-weight:600" id="date-warning"></div>
         </div>
 
-        <div class="field-row c3" style="margin-bottom:10px">
+        <div class="field-row" style="margin-bottom:10px">
           <div class="field">
             <label>จำนวนงวด <span class="req">*</span></label>
             <select id="ins-terms" onchange="calcPlan()">
@@ -338,10 +343,7 @@ textarea{resize:vertical;min-height:56px;}
             <label>งวดแรก (฿)</label>
             <input type="number" id="ins-first" placeholder="0 = เฉลี่ย" min="0" oninput="calcPlan()">
           </div>
-          <div class="field">
-            <label>ดอกเบี้ย (%/เดือน)</label>
-            <input type="number" id="ins-rate" value="0" min="0" step="0.1" oninput="calcPlan()">
-          </div>
+          <!-- ดอกเบี้ยถูกตัดออกจากระบบจริง 2026-07-14 (ตกลงกับผู้ดูแลระบบ — ตลาดไม่มีนโยบายคิดดอกเบี้ยผ่อนชำระ) -->
         </div>
 
         <!-- กฎระเบียบ -->
@@ -384,7 +386,6 @@ textarea{resize:vertical;min-height:56px;}
           <div class="sum-row"><span class="sum-lbl">งวดแรก (ครั้ง/วัน)</span><span class="sum-val" id="p-d1">—</span></div>
           <div class="sum-row"><span class="sum-lbl">ค่างวดเฉลี่ย</span><span class="sum-val" id="p-avg">—</span></div>
           <div class="sum-row"><span class="sum-lbl">วันครบกำหนด</span><span class="sum-val" style="color:var(--r)" id="p-deadline">—</span></div>
-          <div class="sum-row"><span class="sum-lbl">ดอกเบี้ยรวม</span><span class="sum-val" style="color:var(--o)" id="p-interest">฿0</span></div>
           <div class="sum-row"><span class="sum-lbl">ยอดรวม</span><span class="sum-val" style="color:var(--r)" id="p-grand">—</span></div>
         </div>
 
@@ -408,7 +409,7 @@ textarea{resize:vertical;min-height:56px;}
       <input class="sbox" id="s3q" placeholder="🔍 ค้นหา..." oninput="renderTracking()">
       <select class="fsel" id="s3s" onchange="renderTracking()">
         <option value="">ทุกสถานะ</option>
-        <option value="active">กำลังผ่อน</option>
+        <option value="paying">กำลังผ่อน</option>
         <option value="overdue_term">ค้างงวด</option>
         <option value="near_deadline">ใกล้หมดสิทธิ์</option>
       </select>
@@ -515,104 +516,94 @@ function computeSchedule(terms, debtRemain, firstAmt, interestRate, refDate=null
   return {schedule, deadline, firstPayDate, totalWithInt, first, restAmt};
 }
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
-const VENDORS = [
-  {lock:'SA6',  zone:'SA',shop:'เนื้อสด',     months:3,total_debt:3750,collected:0,
-   debt:[{t:'ค่าเช่า 3 เดือน',a:3750}], plan:null},
-  {lock:'SA15', zone:'SA',shop:'ข้าวแต๋น',    months:2,total_debt:4150,collected:1400,
-   debt:[{t:'ค่าเช่า 2 เดือน',a:2500},{t:'ค่าไฟ',a:400},{t:'ค่าปรับลา',a:1250}],
-   plan:{terms:3,paid_terms:1,schedule:[
-     {term:1,due:new Date(2025,4,6), amount:1400,paid:1400,paid_date:new Date(2025,4,6),status:'paid'},
-     {term:2,due:new Date(2025,4,20),amount:1375,paid:0,paid_date:null,status:'overdue'},
-     {term:3,due:new Date(2025,4,27),amount:1375,paid:0,paid_date:null,status:'upcoming'},
-   ],deadline:new Date(2025,5,3)}},
-  {lock:'SB4',  zone:'SB',shop:'สปาเก็ตตี้', months:2,total_debt:3500,collected:1200,
-   debt:[{t:'ค่าเช่า 2 เดือน',a:2000},{t:'ค่าธรรมเนียมรายปี',a:1500}],
-   plan:{terms:3,paid_terms:1,schedule:[
-     {term:1,due:new Date(2025,4,13),amount:1200,paid:1200,paid_date:new Date(2025,4,13),status:'paid'},
-     {term:2,due:new Date(2025,4,20),amount:1150,paid:0,paid_date:null,status:'overdue'},
-     {term:3,due:new Date(2025,4,27),amount:1150,paid:0,paid_date:null,status:'upcoming'},
-   ],deadline:new Date(2025,5,3)}},
-  {lock:'A7',   zone:'A', shop:'ทะเลถัง',     months:3,total_debt:6300,collected:2100,
-   debt:[{t:'ค่าเช่า 3 เดือน',a:4500},{t:'ค่าไฟ',a:300},{t:'ค่าปรับ',a:1500}],
-   plan:{terms:3,paid_terms:1,schedule:[
-     {term:1,due:new Date(2025,3,15),amount:2100,paid:2100,paid_date:new Date(2025,3,15),status:'paid'},
-     {term:2,due:new Date(2025,3,22),amount:2100,paid:0,paid_date:null,status:'overdue'},
-     {term:3,due:new Date(2025,3,29),amount:2100,paid:0,paid_date:null,status:'upcoming'},
-   ],deadline:new Date(2025,4,6)}},
-  {lock:'C3',   zone:'C', shop:'ชาชีส',       months:1,total_debt:1580,collected:800,
-   debt:[{t:'ค่าเช่า',a:1500},{t:'ค่าไฟ',a:80}],
-   plan:{terms:2,paid_terms:1,schedule:[
-     {term:1,due:new Date(2025,5,3), amount:800,paid:800,paid_date:new Date(2025,5,3),status:'paid'},
-     {term:2,due:new Date(2025,5,10),amount:780,paid:0,paid_date:null,status:'upcoming'},
-   ],deadline:new Date(2025,5,17)}},
-  {lock:'B9',   zone:'B', shop:'ทะเลดอง',     months:1,total_debt:1500,collected:0,
-   debt:[{t:'ค่าเช่า',a:1500}], plan:null},
-  {lock:'SE17', zone:'SE',shop:'(ว่าง/ค้าง)', months:2,total_debt:2000,collected:0,
-   debt:[{t:'ค่าเช่า 2 เดือน',a:2000}], plan:null},
-];
+// ─── DATA (เชื่อมข้อมูลจริงจาก Google Sheets — แก้ 2026-07-14, บั๊ก #19: เดิมเป็น mock data ทั้งหมด) ──
+// ยอดหนี้ (total_debt) = vendors.unpaid_penalty + vendors.unpaid_other (ตกลงกับผู้ดูแลระบบแล้ว)
+// ไม่มีดอกเบี้ย (ตัดออกจากระบบจริง — ตลาดไม่มีนโยบายคิดดอกเบี้ยผ่อนชำระ)
+// เงินที่รับตามแผนผ่อนบันทึกที่ชีต payments เดิม (type='installment') ไม่ใช่ชีตแยก
+function getApiUrl(){return localStorage.getItem('pm-api-url')||'';}
+async function apiGet(action,params={}){
+  const url=getApiUrl(); if(!url)return null;
+  try{const r=await fetch(url+'?'+new URLSearchParams({action,...params}));const j=await r.json();return j.status==='ok'?j.data:null;}catch(e){return null;}
+}
+async function apiPost(action,data={}){
+  const url=getApiUrl(); if(!url)return null;
+  try{const r=await fetch(url,{method:'POST',body:JSON.stringify({action,...data})});return await r.json();}catch(e){return null;}
+}
 
-const SA_LOCKS=[
-  {id:'SA1',shop:'เส้นผัด',st:'full'},{id:'SA2',shop:'สายไหม',st:'full'},
-  {id:'SA3',shop:'ปลาส้ม',st:'full'},{id:'SA4',shop:'ปลาส้ม',st:'full'},
-  {id:'SA5',shop:'ฝรั่ง',st:'full'},{id:'SA6',shop:'เนื้อสด',st:'overdue'},
-  {id:'SA7',shop:'ว่าง',st:'vacant'},{id:'SA8',shop:'ข้าวหมก',st:'full'},
-  {id:'SA9',shop:'ยกเลิก',st:'vacant'},{id:'SA10',shop:'ลูกชิ้น',st:'full'},
-  {id:'SA11',shop:'ว่าง',st:'vacant'},{id:'SA12',shop:'ต้มเนื้อ',st:'full'},
-  {id:'SA13',shop:'พี่ปุ้ย',st:'full'},{id:'SA14',shop:'พี่ปุ้ย',st:'full'},
-  {id:'SA15',shop:'ข้าวแต๋น',st:'partial'},{id:'SA16',shop:'ลูกชิ้น',st:'full'},
-  {id:'SA17',shop:'ขนมปัง',st:'full'},{id:'SA18',shop:'ข้าวแกง',st:'full'},
-  {id:'SA19',shop:'ว่าง',st:'vacant'},{id:'SA20',shop:'ข้าวเหนียว',st:'full'},
-  {id:'SA21',shop:'ว่าง',st:'vacant'},{id:'SA22',shop:'ว่าง',st:'vacant'},
-  {id:'SA24',shop:'ลูกชิ้น',st:'full'},{id:'SA25',shop:'ลูกชิ้น',st:'full'},
-  {id:'SA26',shop:'จับไม้',st:'full'},{id:'SA27',shop:'หัวไชเถา',st:'full'},
-  {id:'SA28',shop:'ว่าง',st:'vacant'},{id:'SA29',shop:'ไส้ย่าง',st:'full'},
-  {id:'SA30',shop:'ป๊อบคอน',st:'full'},{id:'SA31',shop:'เนื้อย่าง',st:'full'},
-  {id:'SA32',shop:'ลูกชิ้นเนื้อ',st:'full'},{id:'SA33',shop:'ปลาเผา',st:'full'},
-];
-const BIG_LOCKS=[
-  // SB
-  {id:'SB1',shop:'อาหารเหนือ',st:'full'},{id:'SB2',shop:'สาหราย',st:'full'},
-  {id:'SB3',shop:'สาหราย',st:'full'},{id:'SB4',shop:'สปาเก็ตตี้',st:'full'},
-  {id:'SB5',shop:'ขนมเบื่อง',st:'full'},{id:'SB6',shop:'ผลไม้',st:'full'},
-  {id:'SB7',shop:'ยำ',st:'full'},{id:'SB8',shop:'กับข้าว',st:'full'},
-  {id:'SB9',shop:'กับข้าว',st:'full'},{id:'SB10',shop:'ว่าง',st:'vacant'},
-  {id:'SB11',shop:'ไดฟุกุ',st:'full'},{id:'SB12',shop:'หมี่ไก่',st:'full'},
-  {id:'SB13',shop:'ขนมไทย',st:'full'},{id:'SB14',shop:'หมูทอด',st:'full'},
-  {id:'SB15',shop:'กะเพรา',st:'full'},{id:'SB23',shop:'ว่าง',st:'vacant'},
-  // SC
-  {id:'SC1',shop:'เป็ดพะโล้',st:'full'},{id:'SC5',shop:'ไก่อบ',st:'full'},
-  {id:'SC9',shop:'ว่าง',st:'vacant'},{id:'SC14',shop:'ว่าง',st:'vacant'},
-  {id:'SC23',shop:'ว่าง',st:'vacant'},{id:'SC10',shop:'น้ำส้ม',st:'full'},
-  {id:'SC15',shop:'ข้าวเหนียว',st:'full'},{id:'SC20',shop:'ทะเลทอด',st:'full'},
-  // SD
-  {id:'SD1',shop:'ก๋วยเตี๋ยว',st:'full'},{id:'SD2',shop:'ว่าง',st:'vacant'},
-  {id:'SD9',shop:'ว่าง',st:'vacant'},{id:'SD16',shop:'ว่าง',st:'vacant'},
-  {id:'SD17',shop:'ผลไม้',st:'full'},{id:'SD23',shop:'ว่าง',st:'vacant'},
-  // SE
-  {id:'SE1',shop:'พี่ฝน',st:'full'},{id:'SE4',shop:'ว่าง',st:'vacant'},
-  {id:'SE5',shop:'ส้มตำ',st:'full'},{id:'SE13',shop:'ยกเลิก',st:'vacant'},
-  {id:'SE17',shop:'ว่าง',st:'overdue'},{id:'SE18',shop:'ว่าง',st:'vacant'},
-  {id:'SE23',shop:'ว่าง',st:'vacant'},
-  // SF
-  {id:'SF1',shop:'ทุเรียน',st:'full'},{id:'SF2',shop:'ทุเรียน',st:'full'},
-  {id:'SF3',shop:'ว่าง',st:'vacant'},{id:'SF4',shop:'ว่าง',st:'vacant'},
-  {id:'SF5',shop:'ว่าง',st:'vacant'},
-];
-const OUT_LOCKS=[
-  {id:'A1',shop:'ไก่แซบ',st:'full'},{id:'A2',shop:'ปลาไข่',st:'full'},
-  {id:'A3',shop:'เฟรนฟราย',st:'full'},{id:'A5',shop:'กุ้งเผา',st:'full'},
-  {id:'A7',shop:'ทะเลถัง',st:'partial'},{id:'A10',shop:'หอยทอด',st:'full'},
-  {id:'A11',shop:'นมปั่น',st:'full'},{id:'A20',shop:'กระเพา',st:'full'},
-  {id:'B1',shop:'ไส้กรอก',st:'full'},{id:'B5',shop:'กะเพรา',st:'full'},
-  {id:'B9',shop:'ทะเลดอง',st:'overdue'},{id:'B20',shop:'เนื้อย่าง',st:'full'},
-  {id:'C1',shop:'น้ำอัดลม',st:'full'},{id:'C3',shop:'ชาชีส',st:'full'},
-  {id:'C7',shop:'ซูชิ',st:'full'},{id:'C21',shop:'นกย่าง',st:'full'},
-  {id:'D1',shop:'น้ำยาปู',st:'full'},{id:'D5',shop:'น้ำส้ม',st:'full'},
-  {id:'D11',shop:'เคบับ',st:'full'},
-  {id:'F1',shop:'หมูทอด',st:'full'},{id:'F5',shop:'บาบีคิว',st:'full'},
-  {id:'F6',shop:'ยกเลิก',st:'vacant'},{id:'F13',shop:'โดนัท',st:'full'},
-];
+let VENDORS=[];     // ผู้ค้าที่มียอดค้างชำระ (total_debt>0) เท่านั้น
+let ALL_VENDORS=[];  // ผู้ค้าทั้งหมด (ไม่รวมล็อคที่ยกเลิก) — ใช้วาดแผนที่โซนในแท็บ 4
+
+// จัดกลุ่มโซนสำหรับปุ่มแท็บแผนที่ 3 ปุ่มเดิม (โรงหน้า SA / โรงใหญ่ SB-SF / โซนนอก A-F)
+const ZONE_GROUPS={sa:['SA'],big:['SB','SC','SD','SE','SF'],out:['A','B','C','D','F']};
+
+function buildDebtBreakdown(v){
+  const items=[];
+  const penalty=parseFloat(v.unpaid_penalty)||0;
+  const other=parseFloat(v.unpaid_other)||0;
+  if(penalty>0) items.push({t:'ค่าปรับค้างชำระ',a:penalty});
+  if(other>0)   items.push({t:v.unpaid_other_label||'ค่าอื่นๆ ค้างชำระ',a:other});
+  return items;
+}
+
+// ผสานแผนผ่อน (installment_plans) + ประวัติจ่ายจริง (payments type='installment') เข้ากับยอดหนี้ปัจจุบัน
+// หมายเหตุ: จำนวนงวด/วันที่เริ่ม/deadline ถูกบันทึกไว้ตอนตั้งแผน แต่ "ยอดต่องวด" คำนวณใหม่จาก total_debt
+// ปัจจุบันเสมอ (เพื่อความง่าย ไม่เก็บ snapshot แยก) — ถ้าผู้จัดตลาดแก้ยอดค้างของล็อคนั้นตรงๆ ยอดต่องวดจะขยับตาม
+function mergePlan(v, planRow, installmentPayments){
+  if(!planRow) return null;
+  const terms=parseInt(planRow.terms)||3;
+  const firstAmt=parseFloat(planRow.first_amount)||0;
+  const startDate=planRow.start_date?new Date(planRow.start_date):new Date();
+  const {schedule,deadline}=computeSchedule(terms,v.total_debt,firstAmt,0,startDate);
+
+  const paidList=(installmentPayments||[]).slice().sort((a,b)=>new Date(a.date+' '+(a.time||''))-new Date(b.date+' '+(b.time||'')));
+  let remaining=paidList.reduce((s,p)=>s+(parseFloat(p.amount)||0),0);
+  let paidTerms=0;
+  for(const s of schedule){
+    if(remaining<=0) break;
+    const take=Math.min(remaining,s.amount);
+    s.paid=take; remaining-=take;
+    if(take>=s.amount){ s.status='paid'; s.paid_date=s.due; paidTerms++; }
+  }
+  const today=new Date();
+  schedule.forEach(s=>{ if(s.status!=='paid' && s.due<today) s.status='overdue'; });
+
+  return {terms, paid_terms:paidTerms, schedule, deadline};
+}
+
+async function loadData(){
+  const banner=document.getElementById('no-db-banner');
+  if(!getApiUrl()){
+    if(banner) banner.style.display='block';
+    VENDORS=[]; ALL_VENDORS=[];
+    return;
+  }
+  if(banner) banner.style.display='none';
+  const [vendorsRaw, plansRaw, paymentsRaw]=await Promise.all([
+    apiGet('getVendors'), apiGet('getInstallmentPlans'), apiGet('getPayments')
+  ]);
+  ALL_VENDORS=(vendorsRaw||[]).filter(v=>v.status!=='terminated');
+  const plansByLock={}; (plansRaw||[]).forEach(p=>{plansByLock[p.lock_id]=p;});
+  const paymentsByLock={};
+  (paymentsRaw||[]).filter(p=>p.type==='installment').forEach(p=>{
+    (paymentsByLock[p.lock_id]=paymentsByLock[p.lock_id]||[]).push(p);
+  });
+
+  VENDORS=ALL_VENDORS.map(v=>{
+    const totalDebt=(parseFloat(v.unpaid_penalty)||0)+(parseFloat(v.unpaid_other)||0);
+    const paidList=paymentsByLock[v.lock]||[];
+    const collected=paidList.reduce((s,p)=>s+(parseFloat(p.amount)||0),0);
+    return {
+      lock:v.lock, zone:v.zone, shop:v.name||'(ไม่ระบุชื่อ)',
+      total_debt:totalDebt, collected,
+      debt: buildDebtBreakdown(v),
+      plan:null,
+      _planRow: plansByLock[v.lock]||null,
+      _payments: paidList,
+    };
+  }).filter(v=>v.total_debt>0);
+
+  VENDORS.forEach(v=>{ v.plan=mergePlan(v, v._planRow, v._payments); });
+}
 
 let curMapZone='sa';
 function switchMapZone(z){
@@ -627,9 +618,11 @@ function switchMapZone(z){
 let payTarget=null;
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
-window.onload=()=>{
+window.onload=async ()=>{
+  await loadData();
   const sel=document.getElementById('ins-lock');
-  VENDORS.filter(v=>v.total_debt>0).forEach(v=>{
+  sel.innerHTML='<option value="">-- เลือกล็อคที่มียอดค้าง --</option>';
+  VENDORS.forEach(v=>{
     const o=document.createElement('option');
     o.value=v.lock;
     o.textContent=`${v.lock} — ${v.shop}  (คงค้าง ฿${baht(v.total_debt-v.collected)})`;
@@ -694,7 +687,6 @@ function renderOv(){
     return true;
   });
   if(ord==='remain_desc') list.sort((a,b)=>(b.total_debt-b.collected)-(a.total_debt-a.collected));
-  if(ord==='months_desc') list.sort((a,b)=>b.months-a.months);
   if(ord==='lock') list.sort((a,b)=>a.lock.localeCompare(b.lock));
 
   const tbody=document.getElementById('ov-tbody');
@@ -723,7 +715,7 @@ function renderOv(){
       <td style="text-align:right;font-weight:800;color:${rem>0?'var(--r)':'var(--gm)'}">${baht(rem)}</td>
       <td>
         <div class="prog"><div class="prog-fill ${progCls}" style="width:${p}%"></div></div>
-        <div style="font-size:.60rem;color:var(--txl);margin-top:2px">${p}% · ${v.months}เดือน</div>
+        <div style="font-size:.60rem;color:var(--txl);margin-top:2px">${p}%</div>
       </td>
       <td style="font-size:.70rem">${firstDate}</td>
       <td style="font-size:.70rem;color:${dl!=='—'?'var(--r)':'var(--txl)'}"><strong>${dl}</strong></td>
@@ -764,7 +756,7 @@ function loadDebt(){
   if(!v){info.style.display='none';bd.innerHTML='<div style="color:var(--txl);text-align:center;font-size:.74rem">เลือกล็อคเพื่อดูรายละเอียด</div>';di.style.display='none';document.getElementById('p-deadline-box').style.display='none';return;}
   info.style.display='block';
   const rem=v.total_debt-v.collected;
-  document.getElementById('ins-name').textContent=`${v.lock} — ${v.shop} · ค้าง ${v.months} เดือน`;
+  document.getElementById('ins-name').textContent=`${v.lock} — ${v.shop}`;
   document.getElementById('ins-det').textContent=`ยอดค้าง ${baht(v.total_debt)} | ชำระแล้ว ${baht(v.collected)} | คงเหลือ ${baht(rem)}`;
   let html=v.debt.map(d=>`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bd);font-size:.76rem"><span style="color:var(--txl)">${d.t}</span><span style="font-weight:700">${baht(d.a)}</span></div>`).join('');
   html+=`<div style="display:flex;justify-content:space-between;padding:5px 0 2px;font-weight:800;font-size:.80rem"><span>คงเหลือที่จะผ่อน</span><span style="color:var(--r)">${baht(rem)}</span></div>`;
@@ -797,9 +789,8 @@ function calcPlan(){
   const rem=v.total_debt-v.collected;
   const terms=parseInt(document.getElementById('ins-terms').value)||3;
   const firstAmt=parseFloat(document.getElementById('ins-first').value)||0;
-  const rate=parseFloat(document.getElementById('ins-rate').value)||0;
-  const {schedule,deadline,firstPayDate,totalWithInt,first,restAmt}=computeSchedule(terms,rem,firstAmt,rate);
-  const interestAmt=totalWithInt-rem;
+  // ไม่มีดอกเบี้ยในระบบจริง (interestRate=0 เสมอ) — ดู comment ที่ DATA ด้านบน
+  const {schedule,deadline,firstPayDate,totalWithInt,first,restAmt}=computeSchedule(terms,rem,firstAmt,0);
 
   document.getElementById('p-total').textContent=baht(rem);
   document.getElementById('p-lock').textContent=`${lock} — ${v.shop}`;
@@ -807,7 +798,6 @@ function calcPlan(){
   document.getElementById('p-d1').textContent=`${baht(first)} / ${fmtDate(firstPayDate)}`;
   document.getElementById('p-avg').textContent=baht(totalWithInt/terms);
   document.getElementById('p-deadline').textContent=fmtDate(deadline);
-  document.getElementById('p-interest').textContent=baht(interestAmt);
   document.getElementById('p-grand').textContent=baht(totalWithInt);
 
   // Preview schedule
@@ -826,18 +816,28 @@ function calcPlan(){
      </div>`;
 }
 
-function savePlan(){
+async function savePlan(){
   const lock=document.getElementById('ins-lock').value;
   if(!lock){showToast('กรุณาเลือกล็อค','error');return;}
   const v=VENDORS.find(v=>v.lock===lock);
   if(!v) return;
+  if(!getApiUrl()){showToast('ยังไม่ได้เชื่อมต่อฐานข้อมูล — ตั้งค่า pm-api-url ก่อน','error');return;}
   const rem=v.total_debt-v.collected;
   const terms=parseInt(document.getElementById('ins-terms').value)||3;
   const firstAmt=parseFloat(document.getElementById('ins-first').value)||0;
-  const rate=parseFloat(document.getElementById('ins-rate').value)||0;
-  const {schedule,deadline}=computeSchedule(terms,rem,firstAmt,rate);
-  v.plan={terms,paid_terms:0,schedule,deadline};
+  const {schedule,deadline}=computeSchedule(terms,rem,firstAmt,0);
+
+  const saveBtn=document.querySelector('button[onclick="savePlan()"]');
+  if(saveBtn) saveBtn.disabled=true;
+  const res=await apiPost('saveInstallmentPlan',{
+    lock_id:lock, terms, first_amount:firstAmt,
+    start_date:schedule[0].due.toISOString(), deadline:deadline.toISOString(), status:'active'
+  });
+  if(saveBtn) saveBtn.disabled=false;
+  if(!res||res.status!=='ok'){showToast('บันทึกแผนผ่อนไม่สำเร็จ ลองใหม่อีกครั้ง','error');return;}
+
   showToast(`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกแผนผ่อน ${terms} งวด ล็อค ${lock} — งวดแรก ${fmtDate(schedule[0].due)}`, 'success');
+  await loadData();
   renderOv();renderTracking();buildMap();updateKPI();resetForm();
   switchTab('t3');
 }
@@ -850,7 +850,6 @@ function resetForm(){
   document.getElementById('date-info-box').style.display='none';
   document.getElementById('p-deadline-box').style.display='none';
   document.getElementById('ins-first').value='';
-  document.getElementById('ins-rate').value='0';
 }
 
 // ─── Tracking ─────────────────────────────────────────────────────────────────
@@ -887,7 +886,7 @@ function renderTracking(){
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
         <div>
           <div style="font-size:.88rem;font-weight:800">${v.lock} — ${v.shop} <span class="badge b-gray">${v.zone}</span></div>
-          <div style="font-size:.68rem;color:var(--txl);margin-top:2px">แผน ${v.plan.terms} งวด · ค้างมา ${v.months} เดือน${overdue>0?` · <span style="color:var(--r);font-weight:700">ค้างงวด ${overdue} งวด</span>`:''}</div>
+          <div style="font-size:.68rem;color:var(--txl);margin-top:2px">แผน ${v.plan.terms} งวด${overdue>0?` · <span style="color:var(--r);font-weight:700">ค้างงวด ${overdue} งวด</span>`:''}</div>
         </div>
         <div style="text-align:right;flex-shrink:0">
           <div style="font-size:.86rem;font-weight:800;color:${rem>0?'var(--r)':'var(--gm)'}">${baht(rem)}</div>
@@ -932,30 +931,43 @@ function openPay(lock, term){
   document.getElementById('pay-modal').classList.add('show');
 }
 function closeModal(){document.getElementById('pay-modal').classList.remove('show');payTarget=null;}
-function doPayInstallment(){
+async function doPayInstallment(){
   if(!payTarget) return;
   const v=VENDORS.find(v=>v.lock===payTarget.lock);
   const s=v.plan.schedule.find(s=>s.term===payTarget.term);
   const amt=parseFloat(document.getElementById('pay-amt').value)||0;
-  s.paid=amt;s.paid_date=new Date();s.status='paid';v.collected+=amt;v.plan.paid_terms++;
-  closeModal();renderOv();renderTracking();buildMap();updateKPI();
+  const method=document.getElementById('pay-method').value;
+  const note=document.getElementById('pay-note').value||'';
+  if(!getApiUrl()){showToast('ยังไม่ได้เชื่อมต่อฐานข้อมูล — ตั้งค่า pm-api-url ก่อน','error');return;}
+  const now=new Date();
+  // บันทึกที่ชีต payments เดิม (type='installment') — ไม่มีชีตแยกสำหรับเงินผ่อนชำระ ตามที่ตกลงกับผู้ดูแลระบบ
+  const res=await apiPost('savePayment',{
+    lock_id:payTarget.lock, vendor_name:v.shop, product:'', type:'installment',
+    amount:amt, method, note, date:now.toISOString().split('T')[0], time:now.toTimeString().slice(0,5)
+  });
+  if(!res||res.status!=='ok'){showToast('บันทึกการชำระไม่สำเร็จ ลองใหม่อีกครั้ง','error');return;}
+  closeModal();
+  await loadData();
+  renderOv();renderTracking();buildMap();updateKPI();
   showToast(`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกงวดที่ ${payTarget.term} ล็อค ${payTarget.lock} ${baht(amt)}`,'success');
 }
 
-// ─── Map ──────────────────────────────────────────────────────────────────────
+// ─── Map (ใช้ข้อมูลผู้ค้าจริงจัดกลุ่มตามโซน — แทน SA_LOCKS/BIG_LOCKS/OUT_LOCKS mock เดิม) ──────
 function buildMap(){
-  const zoneData={sa:SA_LOCKS,big:BIG_LOCKS,out:OUT_LOCKS}[curMapZone]||SA_LOCKS;
+  const zones=ZONE_GROUPS[curMapZone]||ZONE_GROUPS.sa;
+  const list=ALL_VENDORS.filter(v=>zones.includes(v.zone));
   const grid=document.getElementById('map-grid');
-  grid.innerHTML=zoneData.map(lk=>{
-    const vd=VENDORS.find(v=>v.lock===lk.id);
-    let st=lk.st,owe='';
+  if(!list.length){grid.innerHTML='<div style="color:var(--txl);text-align:center;padding:14px;grid-column:1/-1">ไม่มีข้อมูลผู้ค้าในโซนนี้ (ยังไม่ได้เชื่อมฐานข้อมูล หรือยังไม่มีผู้ค้าในโซน)</div>';return;}
+  grid.innerHTML=list.map(v=>{
+    const vd=VENDORS.find(x=>x.lock===v.lock);
+    let st='full',owe='';
     if(vd&&vd.total_debt>0){
       const rem=vd.total_debt-vd.collected;
       st=vd.plan?'partial':'overdue';
       if(rem>0) owe=`<div class="owe-pill">฿${(rem/1000).toFixed(0)}K</div>`;
     }
     const cls={full:'m-full',partial:'m-partial',overdue:'m-overdue',vacant:'m-vacant'}[st]||'m-full';
-    return `<div class="lk-mini ${cls}" onclick="showMapDetailFor('${lk.id}')">${owe}<div class="lk-id">${lk.id}</div><div class="lk-shop">${lk.shop}</div></div>`;
+    return `<div class="lk-mini ${cls}" onclick="showMapDetailFor('${v.lock}')">${owe}<div class="lk-id">${v.lock}</div><div class="lk-shop">${v.name||'—'}</div></div>`;
   }).join('');
 }
 
@@ -963,12 +975,11 @@ function showMapDetailFor(lockId){
   const inMap=document.getElementById('t4').classList.contains('active');
   if(!inMap){switchTab('t4',document.querySelectorAll('.tab')[3]);setTimeout(()=>showMapDetailFor(lockId),100);return;}
   const vd=VENDORS.find(v=>v.lock===lockId);
-  const allLocks=[...SA_LOCKS,...BIG_LOCKS,...OUT_LOCKS];
-  const lk=allLocks.find(l=>l.id===lockId);
+  const lk=ALL_VENDORS.find(v=>v.lock===lockId);
   const det=document.getElementById('map-detail');
   det.style.display='block';
   if(!vd||vd.total_debt===0){
-    det.innerHTML=`<div class="card"><div class="card-title">${lockId} — ${lk?.shop||lockId}</div><div style="color:var(--gm);font-weight:700"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ชำระครบ ไม่มียอดค้าง</div></div>`;
+    det.innerHTML=`<div class="card"><div class="card-title">${lockId} — ${lk?.name||lockId}</div><div style="color:var(--gm);font-weight:700"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ชำระครบ ไม่มียอดค้าง</div></div>`;
     det.scrollIntoView({behavior:'smooth',block:'nearest'});return;
   }
   const rem=vd.total_debt-vd.collected;
@@ -982,7 +993,7 @@ function showMapDetailFor(lockId){
       <div style="background:var(--ol);border-radius:7px;padding:9px;text-align:center"><div style="font-size:1rem;font-weight:800;color:var(--o)">${baht(rem)}</div><div style="font-size:.62rem;color:var(--txl)">คงเหลือ</div></div>
     </div>
     <div class="prog" style="margin-bottom:5px"><div class="prog-fill ${progCls}" style="width:${p}%"></div></div>
-    <div style="font-size:.66rem;color:var(--txl);margin-bottom:10px">${p}% · ค้างมา ${vd.months} เดือน</div>`;
+    <div style="font-size:.66rem;color:var(--txl);margin-bottom:10px">${p}% ชำระแล้ว</div>`;
   vd.debt.forEach(d=>{html+=`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bd);font-size:.74rem"><span style="color:var(--txl)">${d.t}</span><span style="font-weight:700">${baht(d.a)}</span></div>`;});
   if(vd.plan){
     html+=`<div style="margin-top:10px;margin-bottom:6px"><span class="badge b-orange"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><polyline points="3 20 3 16 7 16"/><polyline points="21 4 21 8 17 8"/></svg> แผนผ่อน ${vd.plan.terms} งวด</span> <span style="font-size:.68rem;color:var(--r);font-weight:700">deadline: ${fmtDate(vd.plan.deadline)}</span></div>`;

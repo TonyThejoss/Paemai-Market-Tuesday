@@ -873,7 +873,9 @@ function updateEditTotal() {
     const pr = parseFloat(document.getElementById(`sp-price-${id}`)?.value)||0;
     if(pr>0) parts.push(`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15 9 22 9.3 16.5 14 18.2 21 12 17.3 5.8 21 7.5 14 2 9.3 9 9"/></svg> ${nm} = ${fmt(pr)}`);
   });
-  document.getElementById('editElecBreakdown').textContent = parts.join(' · ') || 'ยังไม่มีอุปกรณ์';
+  // แก้ 2026-07-14 (audit .textContent= ทั้งโปรเจกต์): parts[] มี raw SVG markup อยู่ข้างใน
+  // เดิมใช้ .textContent ทำให้เห็นโค้ด <svg...> เป็นข้อความดิบแทนไอคอน — บั๊กรูปแบบเดิมที่เกิดซ้ำ (ดู Bug Registry #14-#17)
+  document.getElementById('editElecBreakdown').innerHTML = parts.join(' · ') || 'ยังไม่มีอุปกรณ์';
 
   // Update bill preview
   const lockSel = document.getElementById('editLockSel').value;
@@ -1174,7 +1176,41 @@ function openAddModal() {
   showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.5.4.8 1 .8 1.6V17h6.4v-.7c0-.6.3-1.2.8-1.6A7 7 0 0 0 12 2Z"/></svg> ใช้หน้า "ลงทะเบียนผู้ค้าใหม่" เพื่อเพิ่มผู้ค้า', 'info');
 }
 
-function exportBill() { showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> กำลังสร้างไฟล์ Excel...', 'info'); }
+// แก้ 2026-07-14 (บั๊ก #22): เดิมปุ่มนี้แค่โชว์ toast ไม่มีไฟล์จริง
+// ส่งออกเป็น CSV (UTF-8 + BOM กันภาษาไทยเพี้ยน) แทน .xlsx จริง — เปิดได้ปกติทั้งใน Excel/Google Sheets
+// เลือก CSV เพราะไม่ต้องพึ่งไลบรารีภายนอก (สอดคล้องกับสถาปัตยกรรม vanilla JS ไม่มี build step ของระบบนี้)
+function exportBill() {
+  let fv = vendors;
+  if (zoneFilterBillActive) fv = fv.filter(v=>v.zone===zoneFilterBillActive);
+  if (!fv.length) { showToast('ไม่มีข้อมูลให้ส่งออกในตัวกรองนี้', 'error'); return; }
+
+  const monthSel   = document.getElementById('billMonth');
+  const monthLabel = monthSel.selectedOptions[0]?.textContent || monthSel.value;
+
+  const header = ['ลำดับ','ล็อค','ร้าน','โซน','ค่าเช่า','ค่าไฟ','รวม','สถานะ'];
+  let tRent=0, tElec=0;
+  const rows = fv.map((v,i) => {
+    const elec  = calcElec(v.elec);
+    const total = v.rent + elec;
+    tRent += v.rent; tElec += elec;
+    return [i+1, v.id, v.shop, v.zone, v.rent, elec, total, v.status==='paid'?'ชำระแล้ว':'ค้างชำระ'];
+  });
+  rows.push(['','','','รวม', tRent, tElec, tRent+tElec, '']);
+
+  const csvEscape = val => {
+    const s = String(val ?? '');
+    return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+  };
+  const csv = [header, ...rows].map(r => r.map(csvEscape).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `บิลค่าไฟ_${monthLabel}${zoneFilterBillActive ? '_โซน' + zoneFilterBillActive : ''}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast(`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> ส่งออก ${fv.length} รายการเรียบร้อย (เปิดได้ด้วย Excel)`, 'success');
+}
 
 // ══════════════════════════════════════
 //  MODAL HELPERS

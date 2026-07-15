@@ -593,11 +593,12 @@ function goTab(id){
 // ════════════════════════════════════════════════════
 // AUTH
 // ════════════════════════════════════════════════════
+// บัญชี "สาธิต" ใช้ได้เฉพาะตอนยังไม่ได้ตั้งค่า pm-api-url (โหมด Local/ทดสอบ ไม่เชื่อมฐานข้อมูลจริง)
+// ไม่ใช่บัญชีจริงของทีมงาน — บัญชีจริงตรวจสอบผ่าน backend (verifyUser) เท่านั้น ดู doLogin()
+// (แก้ 2026-07-14: เดิม hardcode รหัสผ่านจริงของทีมงานไว้ตรงนี้เป็น plain text บน public repo — บั๊ก #20)
 const DEFAULT_USERS=[
-  {username:'tony2568',password:'pm246810',role:'admin', displayName:'โทนี่',   roleLabel:'ผู้ดูแลระบบ'},
-  {username:'fon12345',password:'fn135790',role:'admin', displayName:'คุณฝน',   roleLabel:'ผู้จัดการ'},
-  {username:'too56789',password:'tu975310',role:'admin', displayName:'คุณตู่',   roleLabel:'ผู้จัดการ'},
-  {username:'aew98765',password:'ae864209',role:'viewer',displayName:'คุณแอ๋ว', roleLabel:'ผู้ดูแลโซนนอก (ดูอย่างเดียว)'},
+  {username:'demo_admin', password:'demo12345',role:'admin', displayName:'ผู้ดูแลระบบ (สาธิต)', roleLabel:'ผู้ดูแลระบบ'},
+  {username:'demo_viewer',password:'demo12345',role:'viewer',displayName:'ผู้ชม (สาธิต)',       roleLabel:'ดูอย่างเดียว'},
 ];
 function getUsers(){
   const s=localStorage.getItem('pm-users');
@@ -608,14 +609,16 @@ function saveUsers(u){localStorage.setItem('pm-users',JSON.stringify(u));}
 let currentUser=null;
 
 function checkSession(){
+  // เก็บ profile ผู้ใช้ทั้งหมด (username/role/displayName/roleLabel) ไว้ใน session ตอนล็อกอินสำเร็จแล้ว
+  // ไม่ต้องพึ่ง getUsers()/DEFAULT_USERS ตอน restore session อีกต่อไป เพราะบัญชีจริงตรวจผ่าน backend
+  // ไม่ได้อยู่ใน DEFAULT_USERS (แก้ 2026-07-14 พร้อมกับบั๊ก #20)
   const sess=sessionStorage.getItem('pm-session');
   if(sess){
     try{
       const u=JSON.parse(sess);
-      const found=getUsers().find(x=>x.username===u.username);
-      if(found){
+      if(u && u.username){
         document.getElementById('login-screen').style.display='none';
-        loginSuccess(found);
+        loginSuccess(u);
         return;
       }
     }catch(e){}
@@ -627,13 +630,31 @@ function checkSession(){
   ls.style.opacity='1';
 }
 
-function doLogin(){
+async function doLogin(){
   const uv=document.getElementById('login-user').value.trim();
   const pv=document.getElementById('login-pass').value;
   const err=document.getElementById('login-err');
+  const btn=document.querySelector('.login-btn');
   err.style.display='none';
   if(!uv||!pv){err.textContent='กรุณากรอก Username และ Password';err.style.display='block';return;}
-  const user=getUsers().find(u=>u.username===uv&&u.password===pv);
+
+  let user=null;
+  const apiUrl=localStorage.getItem('pm-api-url');
+  if(apiUrl){
+    // บัญชีจริงของทีมงาน: ตรวจสอบผ่าน backend (verifyUser) — รหัสผ่านถูก hash เก็บไว้ที่ Sheet ไม่ใช่ plain text ในโค้ด
+    if(btn){btn.disabled=true;btn.style.opacity='.6';}
+    try{
+      const res=await apiPost('verifyUser',{username:uv,password:pv});
+      if(res && res.status==='ok' && res.data) user=res.data;
+    }catch(e){ /* เชื่อมต่อ backend ไม่ได้ — จะลอง local fallback ด้านล่างต่อ */ }
+    if(btn){btn.disabled=false;btn.style.opacity='';}
+  }
+  if(!user){
+    // Local/offline fallback — ใช้ได้เฉพาะบัญชีสาธิตใน DEFAULT_USERS เท่านั้น (ดูคอมเมนต์ด้านบน)
+    const local=getUsers().find(u=>u.username===uv&&u.password===pv);
+    if(local) user=local;
+  }
+
   if(!user){
     err.textContent='Username หรือ Password ไม่ถูกต้อง';
     err.style.display='block';
@@ -641,7 +662,7 @@ function doLogin(){
     document.getElementById('login-pass').value='';
     return;
   }
-  sessionStorage.setItem('pm-session',JSON.stringify({username:user.username}));
+  sessionStorage.setItem('pm-session',JSON.stringify({username:user.username,role:user.role,displayName:user.displayName,roleLabel:user.roleLabel}));
   loginSuccess(user);
 }
 
@@ -721,16 +742,29 @@ function openChPw(){
   document.getElementById('chpw-modal').classList.add('show');
 }
 function closeChPw(){document.getElementById('chpw-modal').classList.remove('show');}
-function confirmChPw(){
+async function confirmChPw(){
   const o=document.getElementById('chpw-old').value;
   const n=document.getElementById('chpw-new').value;
   const c=document.getElementById('chpw-cfm').value;
   const err=document.getElementById('chpw-err');
-  if(o!==currentUser.password){err.textContent='Password ปัจจุบันไม่ถูกต้อง';return;}
+  err.textContent='';
   if(n.length<6){err.textContent='Password ใหม่ต้องมีอย่างน้อย 6 ตัว';return;}
   if(n!==c){err.textContent='Password ใหม่ไม่ตรงกัน';return;}
-  const users=getUsers(); const idx=users.findIndex(u=>u.username===currentUser.username);
-  if(idx>=0){users[idx].password=n;saveUsers(users);currentUser.password=n;}
+
+  const apiUrl=localStorage.getItem('pm-api-url');
+  if(apiUrl){
+    // บัญชีจริง: เปลี่ยนรหัสผ่านที่ backend (hash ใหม่เก็บที่ Sheet) — sync ข้ามอุปกรณ์ได้ทันที
+    // (แก้ 2026-07-14: เดิมบันทึกแค่ localStorage เครื่องเดียว เปิดเครื่องอื่นแล้วรหัสผ่านเก่ายังใช้ได้)
+    let res=null;
+    try{ res=await apiPost('changePassword',{username:currentUser.username,oldPw:o,newPw:n}); }
+    catch(e){ err.textContent='เชื่อมต่อฐานข้อมูลไม่ได้ ลองใหม่อีกครั้ง'; return; }
+    if(!res || res.status!=='ok'){ err.textContent=(res && res.message)||'Password ปัจจุบันไม่ถูกต้อง'; return; }
+  }else{
+    // Local/offline fallback — เฉพาะบัญชีสาธิต
+    if(o!==currentUser.password){err.textContent='Password ปัจจุบันไม่ถูกต้อง';return;}
+    const users=getUsers(); const idx=users.findIndex(u=>u.username===currentUser.username);
+    if(idx>=0){users[idx].password=n;saveUsers(users);currentUser.password=n;}
+  }
   closeChPw(); showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> เปลี่ยน Password เรียบร้อย','s');
   logAct('system','เปลี่ยน Password: '+currentUser.displayName);
 }
