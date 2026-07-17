@@ -238,7 +238,7 @@ textarea{resize:vertical;min-height:56px;}
 
 <div id="no-db-banner" style="display:none;background:var(--rl);border-bottom:2px solid var(--r);color:var(--r);text-align:center;font-weight:700;font-size:.78rem;padding:8px 14px">
   <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-  ยังไม่ได้เชื่อมต่อฐานข้อมูล (pm-api-url) — หน้านี้จะไม่แสดงข้อมูลจนกว่าจะตั้งค่าการเชื่อมต่อจากหน้าหลัก
+  ยังไม่ได้เชื่อมต่อฐานข้อมูล (pm-tue-api-url) — หน้านี้จะไม่แสดงข้อมูลจนกว่าจะตั้งค่าการเชื่อมต่อจากหน้าหลัก
 </div>
 
 <!-- ═══ TAB 1 ═══ -->
@@ -528,14 +528,14 @@ function computeSchedule(terms, debtRemain, firstAmt, interestRate, refDate=null
     var p=new URLSearchParams(location.search);
     var apiParam=p.get('api');
     if(apiParam){
-      localStorage.setItem('pm-api-url',decodeURIComponent(apiParam));
+      localStorage.setItem('pm-tue-api-url',decodeURIComponent(apiParam));
       p.delete('api');
       var clean=location.pathname+(p.toString()?('?'+p.toString()):'')+location.hash;
       history.replaceState(null,'',clean);
     }
   }catch(e){}
 })();
-function getApiUrl(){return localStorage.getItem('pm-api-url')||'';}
+function getApiUrl(){return localStorage.getItem('pm-tue-api-url')||'';}
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url)return null;
   try{const r=await fetch(url+'?'+new URLSearchParams({action,...params}));const j=await r.json();return j.status==='ok'?j.data:null;}catch(e){return null;}
@@ -836,7 +836,7 @@ async function savePlan(){
   if(!lock){showToast('กรุณาเลือกล็อค','error');return;}
   const v=VENDORS.find(v=>v.lock===lock);
   if(!v) return;
-  if(!getApiUrl()){showToast('ยังไม่ได้เชื่อมต่อฐานข้อมูล — ตั้งค่า pm-api-url ก่อน','error');return;}
+  if(!getApiUrl()){showToast('ยังไม่ได้เชื่อมต่อฐานข้อมูล — ตั้งค่า pm-tue-api-url ก่อน','error');return;}
   const rem=v.total_debt-v.collected;
   const terms=parseInt(document.getElementById('ins-terms').value)||3;
   const firstAmt=parseFloat(document.getElementById('ins-first').value)||0;
@@ -953,7 +953,7 @@ async function doPayInstallment(){
   const amt=parseFloat(document.getElementById('pay-amt').value)||0;
   const method=document.getElementById('pay-method').value;
   const note=document.getElementById('pay-note').value||'';
-  if(!getApiUrl()){showToast('ยังไม่ได้เชื่อมต่อฐานข้อมูล — ตั้งค่า pm-api-url ก่อน','error');return;}
+  if(!getApiUrl()){showToast('ยังไม่ได้เชื่อมต่อฐานข้อมูล — ตั้งค่า pm-tue-api-url ก่อน','error');return;}
   const now=new Date();
   // บันทึกที่ชีต payments เดิม (type='installment') — ไม่มีชีตแยกสำหรับเงินผ่อนชำระ ตามที่ตกลงกับผู้ดูแลระบบ
   const res=await apiPost('savePayment',{

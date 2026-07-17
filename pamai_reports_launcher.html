@@ -274,14 +274,14 @@ function toggleDark(){
     var p=new URLSearchParams(location.search);
     var apiParam=p.get('api');
     if(apiParam){
-      localStorage.setItem('pm-api-url',decodeURIComponent(apiParam));
+      localStorage.setItem('pm-tue-api-url',decodeURIComponent(apiParam));
       p.delete('api');
       var clean=location.pathname+(p.toString()?('?'+p.toString()):'')+location.hash;
       history.replaceState(null,'',clean);
     }
   }catch(e){}
 })();
-function getApiUrl(){ return localStorage.getItem('pm-api-url')||''; }
+function getApiUrl(){ return localStorage.getItem('pm-tue-api-url')||''; }
 
 function openReport(file){
   window.open(file, '_blank');
@@ -295,11 +295,11 @@ function goSetupSheets(){
   );
   if(url===null) return;
   if(url.trim()){
-    localStorage.setItem('pm-api-url', url.trim());
+    localStorage.setItem('pm-tue-api-url', url.trim());
     updateDbStatus();
     alert('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึก API URL แล้ว — รายงานทุกฉบับจะดึงข้อมูลจาก Sheets นี้');
   } else {
-    localStorage.removeItem('pm-api-url');
+    localStorage.removeItem('pm-tue-api-url');
     updateDbStatus();
   }
 }

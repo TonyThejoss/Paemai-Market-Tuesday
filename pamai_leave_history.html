@@ -202,7 +202,7 @@ function toggleDark(){const h=document.documentElement,d=h.getAttribute('data-th
 (()=>{const s=localStorage.getItem('pm-t');if(s)document.documentElement.setAttribute('data-theme',s);else if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark');})();
 
 // ════════════════════════════════════════════════════
-// GOOGLE SHEETS API — ใช้ key เดียวกับ pamai_app.html (pm-api-url)
+// GOOGLE SHEETS API — ใช้ key เดียวกับ pamai_app.html (pm-tue-api-url)
 // ════════════════════════════════════════════════════
 // ═══ AUTO-CONNECT v1.3: เชื่อมต่อ Google Sheets อัตโนมัติผ่านลิงก์ตั้งค่า (ตั้งครั้งเดียวต่อเครื่อง/เบราว์เซอร์) ═══
 // เปิดผ่านลิงก์พิเศษที่มี ?api=URL ต่อท้าย (ส่งให้พนักงานทางแชทภายใน ไม่เผยแพร่ในซอร์สโค้ดสาธารณะ)
@@ -212,14 +212,14 @@ function toggleDark(){const h=document.documentElement,d=h.getAttribute('data-th
     var p=new URLSearchParams(location.search);
     var apiParam=p.get('api');
     if(apiParam){
-      localStorage.setItem('pm-api-url',decodeURIComponent(apiParam));
+      localStorage.setItem('pm-tue-api-url',decodeURIComponent(apiParam));
       p.delete('api');
       var clean=location.pathname+(p.toString()?('?'+p.toString()):'')+location.hash;
       history.replaceState(null,'',clean);
     }
   }catch(e){}
 })();
-function getApiUrl(){return localStorage.getItem('pm-api-url')||'';}
+function getApiUrl(){return localStorage.getItem('pm-tue-api-url')||'';}
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url) return null;
   try{

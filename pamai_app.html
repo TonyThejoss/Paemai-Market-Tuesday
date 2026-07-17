@@ -593,7 +593,7 @@ function goTab(id){
 // ════════════════════════════════════════════════════
 // AUTH
 // ════════════════════════════════════════════════════
-// บัญชี "สาธิต" ใช้ได้เฉพาะตอนยังไม่ได้ตั้งค่า pm-api-url (โหมด Local/ทดสอบ ไม่เชื่อมฐานข้อมูลจริง)
+// บัญชี "สาธิต" ใช้ได้เฉพาะตอนยังไม่ได้ตั้งค่า pm-tue-api-url (โหมด Local/ทดสอบ ไม่เชื่อมฐานข้อมูลจริง)
 // ไม่ใช่บัญชีจริงของทีมงาน — บัญชีจริงตรวจสอบผ่าน backend (verifyUser) เท่านั้น ดู doLogin()
 // (แก้ 2026-07-14: เดิม hardcode รหัสผ่านจริงของทีมงานไว้ตรงนี้เป็น plain text บน public repo — บั๊ก #20)
 const DEFAULT_USERS=[
@@ -639,7 +639,7 @@ async function doLogin(){
   if(!uv||!pv){err.textContent='กรุณากรอก Username และ Password';err.style.display='block';return;}
 
   let user=null;
-  const apiUrl=localStorage.getItem('pm-api-url');
+  const apiUrl=localStorage.getItem('pm-tue-api-url');
   if(apiUrl){
     // บัญชีจริงของทีมงาน: ตรวจสอบผ่าน backend (verifyUser) — รหัสผ่านถูก hash เก็บไว้ที่ Sheet ไม่ใช่ plain text ในโค้ด
     if(btn){btn.disabled=true;btn.style.opacity='.6';}
@@ -680,7 +680,7 @@ function loginSuccess(user){
   applyRole(user.role);
   updateDbStatus();
   logAct('system','เข้าสู่ระบบ: '+user.displayName);
-  if(localStorage.getItem('pm-api-url')) setTimeout(loadVendorsFromSheets,600);
+  if(localStorage.getItem('pm-tue-api-url')) setTimeout(loadVendorsFromSheets,600);
 }
 
 function applyRole(role){
@@ -751,7 +751,7 @@ async function confirmChPw(){
   if(n.length<6){err.textContent='Password ใหม่ต้องมีอย่างน้อย 6 ตัว';return;}
   if(n!==c){err.textContent='Password ใหม่ไม่ตรงกัน';return;}
 
-  const apiUrl=localStorage.getItem('pm-api-url');
+  const apiUrl=localStorage.getItem('pm-tue-api-url');
   if(apiUrl){
     // บัญชีจริง: เปลี่ยนรหัสผ่านที่ backend (hash ใหม่เก็บที่ Sheet) — sync ข้ามอุปกรณ์ได้ทันที
     // (แก้ 2026-07-14: เดิมบันทึกแค่ localStorage เครื่องเดียว เปิดเครื่องอื่นแล้วรหัสผ่านเก่ายังใช้ได้)
@@ -935,14 +935,14 @@ function renderDashboard(){
     var p=new URLSearchParams(location.search);
     var apiParam=p.get('api');
     if(apiParam){
-      localStorage.setItem('pm-api-url',decodeURIComponent(apiParam));
+      localStorage.setItem('pm-tue-api-url',decodeURIComponent(apiParam));
       p.delete('api');
       var clean=location.pathname+(p.toString()?('?'+p.toString()):'')+location.hash;
       history.replaceState(null,'',clean);
     }
   }catch(e){}
 })();
-function getApiUrl(){return localStorage.getItem('pm-api-url')||'';}
+function getApiUrl(){return localStorage.getItem('pm-tue-api-url')||'';}
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url)return null;
   try{const r=await fetch(url+'?'+new URLSearchParams({action,...params}));const j=await r.json();return j.status==='ok'?j.data:null;}catch(e){return null;}
@@ -985,12 +985,12 @@ function showApiSetup(){
   const url=prompt('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.2"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.2"/></svg> Google Sheets API URL - วาง Web App URL จาก Apps Script (ปัจจุบัน: '+(existing||'ยังไม่ได้ตั้งค่า')+')',existing||'');
   if(url===null)return;
   if(url.trim()){
-    localStorage.setItem('pm-api-url',url.trim());
+    localStorage.setItem('pm-tue-api-url',url.trim());
     updateDbStatus();
     showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึก API URL — กำลังทดสอบ...','s');
     testConnection(url.trim());
   } else {
-    localStorage.removeItem('pm-api-url');
+    localStorage.removeItem('pm-tue-api-url');
     updateDbStatus();
     showToast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> ยกเลิกการเชื่อมต่อ Sheets','i');
   }

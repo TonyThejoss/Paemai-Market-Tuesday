@@ -443,14 +443,14 @@ select.filter-select:focus { border-color: #40916c; }
     var p=new URLSearchParams(location.search);
     var apiParam=p.get('api');
     if(apiParam){
-      localStorage.setItem('pm-api-url',decodeURIComponent(apiParam));
+      localStorage.setItem('pm-tue-api-url',decodeURIComponent(apiParam));
       p.delete('api');
       var clean=location.pathname+(p.toString()?('?'+p.toString()):'')+location.hash;
       history.replaceState(null,'',clean);
     }
   }catch(e){}
 })();
-function getApiUrl(){return localStorage.getItem('pm-api-url')||'';}
+function getApiUrl(){return localStorage.getItem('pm-tue-api-url')||'';}
 async function apiPost(action,data={}){
   const url=getApiUrl(); if(!url) return null;
   try{

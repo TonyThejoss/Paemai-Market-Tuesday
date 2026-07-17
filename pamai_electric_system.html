@@ -1247,14 +1247,14 @@ function thisMonthTuesdays(){const n=new Date();return countTuesdaysInMonth(n.ge
     var p=new URLSearchParams(location.search);
     var apiParam=p.get('api');
     if(apiParam){
-      localStorage.setItem('pm-api-url',decodeURIComponent(apiParam));
+      localStorage.setItem('pm-tue-api-url',decodeURIComponent(apiParam));
       p.delete('api');
       var clean=location.pathname+(p.toString()?('?'+p.toString()):'')+location.hash;
       history.replaceState(null,'',clean);
     }
   }catch(e){}
 })();
-function getApiUrl(){ return localStorage.getItem('pm-api-url')||''; }
+function getApiUrl(){ return localStorage.getItem('pm-tue-api-url')||''; }
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url) return null;
   try{ const r=await fetch(url+'?'+new URLSearchParams({action,...params})); const j=await r.json(); return j.status==='ok'?j.data:null; }
