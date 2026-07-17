@@ -90,6 +90,21 @@ const MONS=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ
 function nowTH(){const n=new Date();return n.getDate()+' '+MONS[n.getMonth()]+' '+(n.getFullYear()+543);}
 function nowTime(){const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');}
 
+// ═══ AUTO-CONNECT v1.3: เชื่อมต่อ Google Sheets อัตโนมัติผ่านลิงก์ตั้งค่า (ตั้งครั้งเดียวต่อเครื่อง/เบราว์เซอร์) ═══
+// เปิดผ่านลิงก์พิเศษที่มี ?api=URL ต่อท้าย (ส่งให้พนักงานทางแชทภายใน ไม่เผยแพร่ในซอร์สโค้ดสาธารณะ)
+// ระบบจะบันทึกอัตโนมัติแล้วลบพารามิเตอร์ออกจาก URL ทันที ครั้งต่อไปไม่ต้องกดซ้ำ (อ่านจาก localStorage เหมือนเดิม)
+(function(){
+  try{
+    var p=new URLSearchParams(location.search);
+    var apiParam=p.get('api');
+    if(apiParam){
+      localStorage.setItem('pm-api-url',decodeURIComponent(apiParam));
+      p.delete('api');
+      var clean=location.pathname+(p.toString()?('?'+p.toString()):'')+location.hash;
+      history.replaceState(null,'',clean);
+    }
+  }catch(e){}
+})();
 function getApiUrl(){return localStorage.getItem('pm-api-url')||'';}
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url) return null;
