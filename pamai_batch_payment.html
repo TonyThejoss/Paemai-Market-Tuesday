@@ -298,6 +298,7 @@ select.filter-select:focus { border-color: #40916c; }
         <input class="search-box" id="searchInput" placeholder="🔍 ค้นหาล็อค / ร้านค้า..." oninput="filterLocks()">
         <select class="filter-select" id="zoneFilter" onchange="filterLocks()">
           <option value="">ทุกโซน</option>
+<!--== MARKET_BLOCK:ZONE_OPT ==-->
           <option value="SA">โรงหน้า (SA)</option>
           <option value="SB">SB</option>
           <option value="SC">SC</option>
@@ -309,6 +310,7 @@ select.filter-select:focus { border-color: #40916c; }
           <option value="C">C</option>
           <option value="D">D</option>
           <option value="F">F</option>
+<!--== END_MARKET_BLOCK ==-->
         </select>
         <select class="filter-select" id="statusFilter" onchange="filterLocks()">
           <option value="">ทุกสถานะ</option>
@@ -451,17 +453,18 @@ select.filter-select:focus { border-color: #40916c; }
   }catch(e){}
 })();
 function getApiUrl(){return localStorage.getItem('pm-tue-api-url')||'';}
+function getApiToken(){return localStorage.getItem('pm-tue-api-token')||'';}
 async function apiPost(action,data={}){
   const url=getApiUrl(); if(!url) return null;
   try{
-    const r=await fetch(url,{method:'POST',body:JSON.stringify({action,...data})});
+    const r=await fetch(url,{method:'POST',body:JSON.stringify({action,token:getApiToken(),...data})});
     return await r.json();
   }catch(e){ console.error('apiPost error:',action,e); return null; }
 }
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url) return null;
   try{
-    const r=await fetch(url+'?'+new URLSearchParams({action,...params}));
+    const r=await fetch(url+'?'+new URLSearchParams({action,token:getApiToken(),...params}));
     const j=await r.json();
     return j.status==='ok'?j.data:null;
   }catch(e){ console.error('apiGet error:',action,e); return null; }

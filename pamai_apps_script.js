@@ -30,14 +30,27 @@ function makeErr(msg) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+
+// ── ACCESS TOKEN (B-13: ตั้งค่าจริงที่ Project Settings > Script Properties > API_TOKEN
+// ห้าม hardcode ค่าจริงในไฟล์นี้ — repo เป็น public) ──
+function getApiToken() {
+  return PropertiesService.getScriptProperties().getProperty('API_TOKEN') || '';
+}
+function checkToken(providedToken) {
+  const real = getApiToken();
+  if (!real) return true; // ยังไม่ตั้งค่า = โหมดผ่อนผัน (fail-open)
+  return providedToken === real;
+}
+
 // ── GET Router ──
 function doGet(e) {
   try {
+    if (!checkToken(e.parameter.token)) return makeErr('Unauthorized: invalid or missing token');
     const action = e.parameter.action || '';
     switch(action) {
       case 'getVendors':    return getVendors();
-      case 'getLeaveLog':   return getLeaveLog(e.parameter.date);
-      case 'getDailyBookings': return getDailyBookings(e.parameter.date);
+      case 'getLeaveLog':   return getLeaveLog(e.parameter.date, e.parameter.lockId);
+      case 'getDailyBookings': return getDailyBookings(e.parameter.date, e.parameter.lockId);
       case 'getPayments':   return getPayments(e.parameter.date);
       case 'getUsers':      return getUsers();
       case 'initSheets':    return initSheets();
@@ -54,6 +67,7 @@ function doGet(e) {
 function doPost(e) {
   try {
     const body   = JSON.parse(e.postData.contents);
+    if (!checkToken(body.token)) return makeErr('Unauthorized: invalid or missing token');
     const action = body.action || '';
     switch(action) {
       case 'saveVendor':       return saveVendor(body.data);
@@ -236,7 +250,7 @@ function deleteVendor(lockId) {
 // ════════════════════════════════════════
 // LEAVE LOG
 // ════════════════════════════════════════
-function getLeaveLog(date) {
+function getLeaveLog(date, lockId) {
   const sheet = getSheet(S.LEAVE);
   const rows  = sheet.getDataRange().getValues();
   if (rows.length <= 1) return makeRes([]);
@@ -245,6 +259,7 @@ function getLeaveLog(date) {
     const obj = {}; headers.forEach((h,i)=>obj[h]=row[i]); return obj;
   });
   if (date) data = data.filter(r => r.date === date);
+  if (lockId) data = data.filter(r => r.lock_id === lockId);
   return makeRes(data);
 }
 
@@ -260,7 +275,7 @@ function logLeave(data) {
 // ════════════════════════════════════════
 // DAILY BOOKINGS (ผู้ค้าจร)
 // ════════════════════════════════════════
-function getDailyBookings(date) {
+function getDailyBookings(date, lockId) {
   const sheet = getSheet(S.DAILY);
   const rows  = sheet.getDataRange().getValues();
   if (rows.length <= 1) return makeRes([]);
@@ -269,6 +284,7 @@ function getDailyBookings(date) {
     const obj = {}; headers.forEach((h,i)=>obj[h]=row[i]); return obj;
   }).filter(r => r.cancelled !== true && r.cancelled !== 'TRUE');
   if (date) data = data.filter(r => r.date === date);
+  if (lockId) data = data.filter(r => r.lock_id === lockId);
   return makeRes(data);
 }
 

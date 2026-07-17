@@ -432,9 +432,11 @@ textarea{resize:vertical;min-height:56px;}
     <div style="font-size:.68rem;color:var(--txl);margin-bottom:8px">ตัวเลขแดงมุมบนขวา = ยอดคงค้าง (หน่วยพัน) · กดล็อคเพื่อดูรายละเอียด</div>
     <!-- Zone tabs -->
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+<!--== MARKET_BLOCK:MAP_TABS ==-->
       <button id="mztab-sa" class="btn btn-primary btn-sm" style="padding:5px 12px;font-size:.68rem" onclick="switchMapZone('sa')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg> โรงหน้า SA</button>
       <button id="mztab-big" class="btn btn-secondary btn-sm" style="padding:5px 12px;font-size:.68rem" onclick="switchMapZone('big')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><path d="M9 22v-4h6v4"/></svg> โรงใหญ่ SB–SF</button>
       <button id="mztab-out" class="btn btn-secondary btn-sm" style="padding:5px 12px;font-size:.68rem" onclick="switchMapZone('out')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 6 12h4l-4 8h12l-4-8h4Z"/><line x1="12" y1="22" x2="12" y2="20"/></svg> โซนด้านนอก A–F</button>
+<!--== END_MARKET_BLOCK ==-->
     </div>
     <div class="map-grid" id="map-grid"></div>
   </div>
@@ -536,20 +538,23 @@ function computeSchedule(terms, debtRemain, firstAmt, interestRate, refDate=null
   }catch(e){}
 })();
 function getApiUrl(){return localStorage.getItem('pm-tue-api-url')||'';}
+function getApiToken(){return localStorage.getItem('pm-tue-api-token')||'';}
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url)return null;
-  try{const r=await fetch(url+'?'+new URLSearchParams({action,...params}));const j=await r.json();return j.status==='ok'?j.data:null;}catch(e){return null;}
+  try{const r=await fetch(url+'?'+new URLSearchParams({action,token:getApiToken(),...params}));const j=await r.json();return j.status==='ok'?j.data:null;}catch(e){return null;}
 }
 async function apiPost(action,data={}){
   const url=getApiUrl(); if(!url)return null;
-  try{const r=await fetch(url,{method:'POST',body:JSON.stringify({action,...data})});return await r.json();}catch(e){return null;}
+  try{const r=await fetch(url,{method:'POST',body:JSON.stringify({action,token:getApiToken(),...data})});return await r.json();}catch(e){return null;}
 }
 
 let VENDORS=[];     // ผู้ค้าที่มียอดค้างชำระ (total_debt>0) เท่านั้น
 let ALL_VENDORS=[];  // ผู้ค้าทั้งหมด (ไม่รวมล็อคที่ยกเลิก) — ใช้วาดแผนที่โซนในแท็บ 4
 
 // จัดกลุ่มโซนสำหรับปุ่มแท็บแผนที่ 3 ปุ่มเดิม (โรงหน้า SA / โรงใหญ่ SB-SF / โซนนอก A-F)
+//== MARKET_BLOCK:ZONE_GROUPS ==//
 const ZONE_GROUPS={sa:['SA'],big:['SB','SC','SD','SE','SF'],out:['A','B','C','D','F']};
+//== END_MARKET_BLOCK ==//
 
 function buildDebtBreakdown(v){
   const items=[];
@@ -620,7 +625,9 @@ async function loadData(){
   VENDORS.forEach(v=>{ v.plan=mergePlan(v, v._planRow, v._payments); });
 }
 
+//== MARKET_BLOCK:MAP_DEFAULT ==//
 let curMapZone='sa';
+//== END_MARKET_BLOCK ==//
 function switchMapZone(z){
   curMapZone=z;
   document.querySelectorAll('[id^=mztab-]').forEach(b=>{

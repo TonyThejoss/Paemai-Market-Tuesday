@@ -403,12 +403,14 @@ body {
       <input class="search-input" id="searchInput" placeholder="🔍 ค้นหาชื่อร้าน / ล็อค / สินค้า..." oninput="renderTable()">
       <select class="filter-sel" id="zoneFilter" onchange="renderTable()">
         <option value="">ทุกโซน</option>
+<!--== MARKET_BLOCK:ZONE_OPT ==-->
         <option value="SA">โรงหน้า (SA)</option>
         <option value="SB">SB</option><option value="SC">SC</option>
         <option value="SD">SD</option><option value="SE">SE</option>
         <option value="SF">SF</option><option value="A">A</option>
         <option value="B">B</option><option value="C">C</option>
         <option value="D">D</option><option value="F">F</option>
+<!--== END_MARKET_BLOCK ==-->
       </select>
       <select class="filter-sel" id="statusFilter" onchange="renderTable()">
         <option value="">ทุกสถานะ</option>
@@ -640,6 +642,7 @@ const ELEC_TYPES = [
 // ══════════════════════════════════════
 //  VENDOR DATABASE (mock — อิงจาก Excel)
 // ══════════════════════════════════════
+//== MARKET_BLOCK:SEED ==//
 let vendors = [
   {id:'SA1', zone:'SA', shop:'เส้นผัด ไส้กรอก', rent:1750, status:'unpaid',
    elec:{bulb:2,fan:0,small:0,large:0,special:[]}, phone:'—'},
@@ -686,6 +689,7 @@ let vendors = [
   {id:'F1', zone:'F', shop:'หมูทอด', rent:1000, status:'unpaid',
    elec:{bulb:1,fan:0,small:0,large:1,special:[]}, phone:'—'},
 ];
+//== END_MARKET_BLOCK ==//
 
 // ══════════════════════════════════════
 //  HELPERS
@@ -1072,7 +1076,9 @@ function renderBilling() {
   // build zone filter buttons
   const zones = [...new Set(vendors.map(v=>v.zone))];
   document.getElementById('zoneFilterBill').innerHTML =
+//== MARKET_BLOCK:EXPORT_ZONES ==//
     ['','SA','SB','SC','SD','SE','SF','A','B','C','D','F'].map(z=>
+//== END_MARKET_BLOCK ==//
       `<button class="zf-btn ${zoneFilterBillActive===z?'active':''}" onclick="setBillZone('${z}')">${z||'ทั้งหมด'}</button>`
     ).join('');
 }
@@ -1259,14 +1265,15 @@ function thisMonthTuesdays(){const n=new Date();return countTuesdaysInMonth(n.ge
   }catch(e){}
 })();
 function getApiUrl(){ return localStorage.getItem('pm-tue-api-url')||''; }
+function getApiToken(){return localStorage.getItem('pm-tue-api-token')||'';}
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url) return null;
-  try{ const r=await fetch(url+'?'+new URLSearchParams({action,...params})); const j=await r.json(); return j.status==='ok'?j.data:null; }
+  try{ const r=await fetch(url+'?'+new URLSearchParams({action,token:getApiToken(),...params})); const j=await r.json(); return j.status==='ok'?j.data:null; }
   catch(e){ console.error('apiGet error:',action,e); return null; }
 }
 async function apiPost(action,data={}){
   const url=getApiUrl(); if(!url) return null;
-  try{ const r=await fetch(url,{method:'POST',body:JSON.stringify({action,...data})}); return await r.json(); }
+  try{ const r=await fetch(url,{method:'POST',body:JSON.stringify({action,token:getApiToken(),...data})}); return await r.json(); }
   catch(e){ console.error('apiPost error:',action,e); return null; }
 }
 

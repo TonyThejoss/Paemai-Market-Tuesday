@@ -903,6 +903,7 @@ textarea { resize: vertical; min-height: 70px; }
 // ══════════════════════════════════
 //  DATA
 // ══════════════════════════════════
+//== MARKET_BLOCK:LOCKS ==//
 const LOCKS = {
   SA:{label:'โรงหน้า (SA)', data:[
     {id:'SA1',o:1},{id:'SA2',o:1},{id:'SA3',o:1},{id:'SA4',o:1},{id:'SA5',o:1},
@@ -925,6 +926,7 @@ const LOCKS = {
   F: {label:'F',  data: [{id:'F1',o:1},{id:'F2',o:1},{id:'F3',o:1},{id:'F4',o:1},
     {id:'F5',o:1},{id:'F6',o:0},{id:'F13',o:1},{id:'F14',o:1},{id:'F15',o:1},{id:'F16',o:1}]},
 };
+//== END_MARKET_BLOCK ==//
 function arr(n,p,vacant){ return Array.from({length:n},(_,i)=>({id:`${p}${i+1}`,o:!vacant.includes(i+1)?1:0})); }
 
 let currentStep = 1;
@@ -985,15 +987,16 @@ function updateRentHint(){
   }catch(e){}
 })();
 function getApiUrl(){ return localStorage.getItem('pm-tue-api-url')||''; }
+function getApiToken(){return localStorage.getItem('pm-tue-api-token')||'';}
 function getCurrentUserName(){ try{const s=sessionStorage.getItem('pm-session');if(s){const u=JSON.parse(s);return u.username||'ผู้ใช้';}}catch(e){} return 'ผู้ใช้'; }
 async function apiPost(action,data={}){
   const url=getApiUrl(); if(!url) return null;
-  try{ const r=await fetch(url,{method:'POST',body:JSON.stringify({action,...data})}); return await r.json(); }
+  try{ const r=await fetch(url,{method:'POST',body:JSON.stringify({action,token:getApiToken(),...data})}); return await r.json(); }
   catch(e){ console.error('apiPost error:',action,e); return null; }
 }
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url) return null;
-  try{ const r=await fetch(url+'?'+new URLSearchParams({action,...params})); const j=await r.json(); return j.status==='ok'?j.data:null; }
+  try{ const r=await fetch(url+'?'+new URLSearchParams({action,token:getApiToken(),...params})); const j=await r.json(); return j.status==='ok'?j.data:null; }
   catch(e){ console.error('apiGet error:',action,e); return null; }
 }
 
