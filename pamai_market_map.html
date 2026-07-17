@@ -1074,7 +1074,7 @@ function emAddSpecial(item){
   const div=document.createElement('div');
   div.id='es-'+id; div.style.cssText='display:flex;gap:5px';
   div.innerHTML='<input type="text" placeholder="ชื่ออุปกรณ์ เช่น ตู้แช่ไอศกรีม..." id="esn-'+id+'" oninput="emUpdateHint()" style="flex:2;min-width:0;box-sizing:border-box;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:.78rem;background:var(--sf2);color:var(--tx);font-family:inherit">'
-    +'<input type="number" placeholder="฿/เดือน" min="0" id="esp-'+id+'" oninput="emUpdateHint()" style="flex:1;min-width:0;box-sizing:border-box;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:.78rem;background:var(--sf2);color:var(--tx);font-family:inherit;text-align:right">'
+    +'<input type="number" placeholder="฿/อังคาร" min="0" id="esp-'+id+'" oninput="emUpdateHint()" style="flex:1;min-width:0;box-sizing:border-box;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:.78rem;background:var(--sf2);color:var(--tx);font-family:inherit;text-align:right">'
     +'<button type="button" onclick="emRemoveSpecial('+id+')" style="border:none;background:var(--rl);color:var(--r);border-radius:6px;width:30px;flex-shrink:0;cursor:pointer" title="ลบ"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
   document.getElementById('ev-specialList').appendChild(div);
   if(item){document.getElementById('esn-'+id).value=item.name||'';document.getElementById('esp-'+id).value=item.price||'';}
@@ -1089,7 +1089,8 @@ function emUpdateHint(){
   const rate=parseFloat(document.getElementById('ev-rate').value)||0;
   document.getElementById('ev-s-rent').textContent=fmt(calcMonthlyRentMap(rate));
   const {total}=emGetElecInputs();
-  document.getElementById('ev-s-elec').textContent=fmt(total*5); // ประมาณ 5 อังคาร/เดือน (สอดคล้องกับหน้าลงทะเบียน/ค่าไฟ)
+  const n=new Date();
+  document.getElementById('ev-s-elec').textContent=fmt(Math.round(total*countTuesdaysInMonthMap(n.getFullYear(),n.getMonth()))); // ค่าไฟ/เดือน = ราคา/อังคาร × จำนวนอังคารจริงของเดือน (แก้ 2026-07-17 บั๊ก #27 — เดิม hardcode ×5)
 }
 
 function openEditVendorModal(lockId){

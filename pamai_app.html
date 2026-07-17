@@ -864,7 +864,9 @@ let VENDORS=[
   {lock:'D1',  zone:'D', name:'(ยังไม่ระบุ)',phone:'—',line:'—',product:'น้ำยาปู',type:'regular',dailyRate:400,elec:{bulb:1,fan:0,small:0,large:0,special:[]},status:'active'},
 ];
 
-function calcElec(e){if(!e)return 0;return(e.bulb||0)*10+(e.fan||0)*20+(e.small||0)*50+(e.large||0)*100+(e.special||[]).reduce((s,x)=>s+(x.price||0),0);}
+function calcElec(e){if(!e)return 0;return(e.bulb||0)*10+(e.fan||0)*20+(e.small||0)*50+(e.large||0)*100+(e.special||[]).reduce((s,x)=>s+(x.price||0),0);} // ราคา/อังคาร 1 วัน
+// ค่าไฟรายเดือน = ราคา/อังคาร × จำนวนอังคารของเดือน (เหมือน calcMonthlyRent) — แก้ 2026-07-17 บั๊ก #27
+function calcElecMonthly(e){return Math.round(calcElec(e)*currentTuesdayCount());}
 function elecStr(e){if(!e)return'—';const p=[];if(e.bulb)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.5.4.8 1 .8 1.6V17h6.4v-.7c0-.6.3-1.2.8-1.6A7 7 0 0 0 12 2Z"/></svg>×'+e.bulb);if(e.fan)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7a5 5 0 1 0 5 5"/></svg>×'+e.fan);if(e.small)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v6"/><path d="M8 8h8v4a4 4 0 0 1-8 0V8Z"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/></svg>×'+e.small);if(e.large)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.37a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.63 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.63 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.63a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.37 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>×'+e.large);(e.special||[]).forEach(x=>{if(x.price>0)p.push('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15 9 22 9.3 16.5 14 18.2 21 12 17.3 5.8 21 7.5 14 2 9.3 9 9"/></svg>'+x.name);});return p.join(' ')||'—';}
 function baht(n){return'฿'+Math.round(n).toLocaleString();}
 
@@ -897,7 +899,7 @@ function renderDashboard(){
 
   setText('rev-month', currentMonthLabelTH());
   const rentSum=live.reduce((s,v)=>s+calcMonthlyRent(v.dailyRate),0);
-  const elecSum=live.reduce((s,v)=>s+calcElec(v.elec),0);
+  const elecSum=live.reduce((s,v)=>s+calcElecMonthly(v.elec),0); // รายได้ค่าไฟ/เดือน (บั๊ก #27)
   const dailySum=live.filter(v=>v.type==='daily').reduce((s,v)=>s+calcMonthlyRent(v.dailyRate),0);
   const regularSum=rentSum-dailySum;
   setText('rev-total', baht(rentSum+elecSum));
@@ -917,7 +919,7 @@ function renderDashboard(){
         const list=byZone[z];
         const zLive=list.filter(v=>v.status!=='terminated');
         const zUnpaid=list.filter(v=>v.status==='unpaid').length;
-        const zValue=zLive.reduce((s,v)=>s+calcMonthlyRent(v.dailyRate)+calcElec(v.elec),0);
+        const zValue=zLive.reduce((s,v)=>s+calcMonthlyRent(v.dailyRate)+calcElecMonthly(v.elec),0); // มูลค่าโซน/เดือน (บั๊ก #27)
         return `<div class="zone-row" style="${i===zoneKeys.length-1?'margin-bottom:0':''}"><div class="zone-name"><span>โซน ${z}</span><span style="color:var(--txl)">${list.length} ราย</span></div><div class="zone-detail">${baht(zValue)}/เดือน${zUnpaid?' · <span style="color:var(--o)">ค้างชำระ '+zUnpaid+' ราย</span>':''}</div></div>`;
       }).join('');
     }

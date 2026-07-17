@@ -123,14 +123,18 @@ async function apiGet(action,params={}){
   }catch(e){ console.error('apiGet error:',action,e); return null; }
 }
 
-// ค่าไฟรายเดือน: หลอดไฟ 10฿/ดวง · พัดลม 20฿/ตัว · เครื่องเล็ก 50฿ · เครื่องใหญ่ 100฿ · อุปกรณ์พิเศษตามที่ตั้งราคาไว้
+// อัตราค่าไฟต่อวันอังคาร: หลอดไฟ 10฿/ดวง · พัดลม 20฿/ตัว · เครื่องเล็ก 50฿ · เครื่องใหญ่ 100฿ · อุปกรณ์พิเศษตามที่ตั้งราคาไว้
+// ค่าไฟรายเดือน (monthly) = ราคา/อังคาร × จำนวนวันอังคารของเดือน (แก้ 2026-07-17 บั๊ก #27 — เดิมใช้ราคา 1 อังคารเป็นรายเดือน)
+function countTuesdaysInMonth(year,month){let c=0;const d=new Date(year,month,1);while(d.getMonth()===month){if(d.getDay()===2)c++;d.setDate(d.getDate()+1);}return c;}
+function thisMonthTuesdays(){const n=new Date();return countTuesdaysInMonth(n.getFullYear(),n.getMonth())||4;}
 function calcElec(v){
   const bulb=parseInt(v.elec_bulb)||0, fan=parseInt(v.elec_fan)||0,
         small=parseInt(v.elec_small)||0, large=parseInt(v.elec_large)||0;
   const base = bulb*10 + fan*20 + small*50 + large*100;
   const special = Array.isArray(v.elec_special) ? v.elec_special : [];
   const sp = special.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
-  return { bulb, fan, small, large, special, total: base+sp };
+  const total = base+sp; // ราคา/อังคาร
+  return { bulb, fan, small, large, special, total, monthly: Math.round(total*thisMonthTuesdays()) };
 }
 
 // ลำดับโซนตามผังตลาดจริง: โรงหน้า → โรงใหญ่ → โซนด้านนอก
@@ -169,7 +173,7 @@ async function render(){
     .map(v=>({ ...v, elec: calcElec(v) }))
     .filter(v=>v.elec.total>0);
 
-  const totalRevenue = withElec.reduce((s,v)=>s+v.elec.total,0);
+  const totalRevenue = withElec.reduce((s,v)=>s+v.elec.monthly,0); // รายได้/เดือน (บั๊ก #27)
   const zonesWithElec = [...new Set(withElec.map(v=>v.zone))].length;
   const equipTotals = withElec.reduce((acc,v)=>{
     acc.bulb+=v.elec.bulb; acc.fan+=v.elec.fan; acc.small+=v.elec.small; acc.large+=v.elec.large;
@@ -207,7 +211,7 @@ async function render(){
 
     zoneKeys.forEach(zone=>{
       const list = byZone[zone].sort((a,b)=>a.lock.localeCompare(b.lock,undefined,{numeric:true}));
-      const zoneTotal = list.reduce((s,v)=>s+v.elec.total,0);
+      const zoneTotal = list.reduce((s,v)=>s+v.elec.monthly,0); // รวมโซน/เดือน (บั๊ก #27)
       const groupName = ZONE_GROUP_NAME[zone] || '—';
 
       html += `<div class="zone-section">
@@ -232,7 +236,7 @@ async function render(){
           <td><strong>${v.lock}</strong></td>
           <td>${v.name||v.product||'(ยังไม่ระบุ)'}</td>
           <td>${eqHtml||'—'}</td>
-          <td style="text-align:right;font-weight:800;color:var(--o)">${baht(e.total)}</td>
+          <td style="text-align:right;font-weight:800;color:var(--o)">${baht(e.monthly)}</td>
         </tr>`;
       });
 

@@ -795,7 +795,7 @@ textarea { resize: vertical; min-height: 70px; }
           <button type="button" class="btn-add-extra" onclick="addElecSpecial()">＋ เพิ่มอุปกรณ์พิเศษ (ราคากำหนดเอง)</button>
           <div class="elec-display" id="elecDisplay">
             <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 11 14 10 22 21 10 13 10 13 2"/></svg> <span id="elecPerTue" class="elec-num">฿0</span>/อังคาร &nbsp;|&nbsp;
-            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <span id="elecPerMonth" class="elec-num">฿0</span>/เดือน (5 อังคาร)
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <span id="elecPerMonth" class="elec-num">฿0</span>/เดือน (<span id="elecTueCount">–</span> อังคาร)
           </div>
         </div>
 
@@ -1191,8 +1191,11 @@ function getElecInputs() {
     price: parseFloat(document.getElementById(`esp-${id}`)?.value)||0,
   })).filter(s => s.price > 0);
   const specialSum = special.reduce((s,x)=>s+x.price, 0);
-  const total = bulb*10 + fan*20 + small*50 + large*100 + specialSum;
-  return { bulb, fan, small, large, special, total };
+  const total = bulb*10 + fan*20 + small*50 + large*100 + specialSum; // ราคาต่อวันอังคาร 1 วัน
+  // ค่าไฟที่เรียกเก็บจริงเป็นรายเดือน = ราคา/อังคาร × จำนวนวันอังคารของเดือนนี้ (เหมือนค่าเช่า)
+  // แก้ 2026-07-17 บั๊ก #27 — เดิมเก็บเงินแค่ total (1 อังคาร) ทำให้ผู้ค้าจ่ายค่าไฟแค่ 1 สัปดาห์
+  const monthly = Math.round(total * thisMonthTuesdays());
+  return { bulb, fan, small, large, special, total, monthly };
 }
 
 function addElecSpecial() {
@@ -1202,7 +1205,7 @@ function addElecSpecial() {
   div.className = 'extra-item'; div.id = `es-${id}`;
   div.innerHTML = `
     <input type="text" placeholder="ชื่ออุปกรณ์ เช่น ตู้แช่ไอศกรีม..." oninput="calcElectric()" id="esn-${id}">
-    <input type="number" placeholder="฿ ราคา/เดือน" min="0" oninput="calcElectric()" id="esp-${id}" style="text-align:right">
+    <input type="number" placeholder="฿ ราคา/อังคาร" min="0" oninput="calcElectric()" id="esp-${id}" style="text-align:right">
     <button class="btn-rm" onclick="removeElecSpecial(${id})" title="ลบ"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
   document.getElementById('elecSpecialList').appendChild(div);
   document.getElementById(`esn-${id}`).focus();
@@ -1216,9 +1219,11 @@ function removeElecSpecial(id) {
 }
 
 function calcElectric() {
-  const { total } = getElecInputs();
-  document.getElementById('elecPerTue').textContent   = `฿${total}`;
-  document.getElementById('elecPerMonth').textContent = `฿${total*5}`;
+  const { total, monthly } = getElecInputs();
+  document.getElementById('elecPerTue').textContent   = `฿${total.toLocaleString()}`;
+  document.getElementById('elecPerMonth').textContent = `฿${monthly.toLocaleString()}`;
+  const tc = document.getElementById('elecTueCount');
+  if (tc) tc.textContent = thisMonthTuesdays();
   recalc();
 }
 
@@ -1264,7 +1269,7 @@ function recalc() {
   const entry  = parse('feeEntryAmt');
   const annual = parse('feeAnnualAmt');
   const rent   = parse('feeFirstRentAmt');
-  const elec = getElecInputs().total;
+  const elec = getElecInputs().monthly; // เก็บค่าไฟเดือนแรกเต็มเดือน (บั๊ก #27)
 
   let extSum = 0;
   extras.forEach(id => { extSum += parse(`exa-${id}`); });
@@ -1299,7 +1304,7 @@ function buildConfirm() {
   const entry   = parse('feeEntryAmt');
   const annual  = parse('feeAnnualAmt');
   const fRent   = parse('feeFirstRentAmt');
-  const elec = getElecInputs().total;
+  const elec = getElecInputs().monthly; // ค่าไฟเดือนแรกเต็มเดือน (บั๊ก #27)
   let extSum = 0, extRows = '';
   extras.forEach(id => {
     const lbl = document.getElementById(`exl-${id}`)?.value||'ค่าอื่น ๆ';
@@ -1353,7 +1358,7 @@ async function submitForm(btn) {
   const annual  = parse('feeAnnualAmt');
   const fRent   = parse('feeFirstRentAmt');
   const ei = getElecInputs();
-  const elec = ei.total;
+  const elec = ei.monthly; // ยอดเรียกเก็บจริง = รายเดือน (บั๊ก #27) — ส่วน ei.bulb/fan/... ที่บันทึกลง vendors ยังเป็นจำนวนอุปกรณ์เหมือนเดิม
   let extSum = 0; const extItems=[];
   extras.forEach(id => {
     const amt = parse(`exa-${id}`);

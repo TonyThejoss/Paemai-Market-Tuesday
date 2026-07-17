@@ -125,8 +125,10 @@ function countTuesdaysInMonth(year, month){
   return count;
 }
 function thisMonthTuesdays(){ const n=new Date(); return countTuesdaysInMonth(n.getFullYear(), n.getMonth()); }
-function calcElec(v){
-  return (parseInt(v.elec_bulb)||0)*10+(parseInt(v.elec_fan)||0)*20+(parseInt(v.elec_small)||0)*50+(parseInt(v.elec_large)||0)*100;
+function calcElec(v){ // ค่าไฟรายเดือน = ราคา/อังคาร × จำนวนอังคาร + รวม elec_special ที่เดิมตกหล่น (แก้ 2026-07-17 บั๊ก #27)
+  const sp = (Array.isArray(v.elec_special)?v.elec_special:[]).reduce((s,x)=>s+(parseFloat(x.price)||0),0);
+  const perTue = (parseInt(v.elec_bulb)||0)*10+(parseInt(v.elec_fan)||0)*20+(parseInt(v.elec_small)||0)*50+(parseInt(v.elec_large)||0)*100+sp;
+  return Math.round(perTue * thisMonthTuesdays());
 }
 function monthlyRent(v){ return (parseFloat(v.dailyRate)||0) * thisMonthTuesdays(); }
 

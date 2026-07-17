@@ -483,8 +483,9 @@ function countTuesdaysInMonth(year, month){
   return count;
 }
 function thisMonthTuesdays(){ const n=new Date(); return countTuesdaysInMonth(n.getFullYear(), n.getMonth()); }
-function calcElecFromVendor(v){
-  return (parseInt(v.elec_bulb)||0)*10 + (parseInt(v.elec_fan)||0)*20 + (parseInt(v.elec_small)||0)*50 + (parseInt(v.elec_large)||0)*100;
+function calcElecFromVendor(v){ // ราคา/อังคาร 1 วัน — เพิ่ม elec_special ที่เดิมตกหล่น (แก้ 2026-07-17 บั๊ก #27)
+  const sp = (Array.isArray(v.elec_special)?v.elec_special:[]).reduce((s,x)=>s+(parseFloat(x.price)||0),0);
+  return (parseInt(v.elec_bulb)||0)*10 + (parseInt(v.elec_fan)||0)*20 + (parseInt(v.elec_small)||0)*50 + (parseInt(v.elec_large)||0)*100 + sp;
 }
 
 // ── DATA — โหลดจาก Google Sheets จริง (แทน mock data เดิม) ──
@@ -510,7 +511,7 @@ async function loadLocksFromSheets(){
     vendor: v.name || '(ยังไม่ระบุชื่อ)',
     status: v.status==='unpaid' ? 'unpaid' : 'paid', // ใช้สถานะจาก Sheets เป็นจุดเริ่มต้น
     due: Math.round((parseFloat(v.dailyRate)||0) * tuesdays),
-    electric: calcElecFromVendor(v),
+    electric: Math.round(calcElecFromVendor(v) * tuesdays), // ค่าไฟรายเดือน = ราคา/อังคาร × จำนวนอังคาร (บั๊ก #27)
   }));
   filteredLocks=[...ALL_LOCKS];
   renderLockList();
