@@ -430,9 +430,18 @@ async function apiPost(action,data={}){
   const url=getApiUrl(); if(!url) return null;
   try{
     const r=await fetch(url,{method:'POST',body:JSON.stringify({action,token:getApiToken(),...data})});
-    return await r.json();
+    const result=await r.json();
+    // แก้บั๊ก 2569-07-23: แจ้ง shell (pamai_app.html) เมื่อบันทึกสำเร็จ เพื่อให้แท็บ/iframe อื่น
+    // ที่เปิดค้างไว้ (เช่น หน้าหลัก/ทะเบียนผู้ค้า) รีเฟรชข้อมูลตาม ไม่ต้องกด F5 ทั้งหน้าเอง
+    if(result && result.status==='ok' && window.parent && window.parent!==window){
+      try{ window.parent.postMessage({type:'pm-data-changed', action}, '*'); }catch(err){}
+    }
+    return result;
   }catch(e){ console.error('apiPost error:',action,e); return null; }
 }
+window.addEventListener('message', function(e){
+  if(e && e.data && e.data.type==='pm-refresh' && typeof syncRealVendors==='function') syncRealVendors();
+});
 async function apiGet(action,params={}){
   const url=getApiUrl(); if(!url) return null;
   try{
@@ -874,18 +883,39 @@ function openCancelLeaseModal(lockId){
   closePopup();
   document.getElementById('cancelLeaseModal').classList.add('show');
 }
-function confirmCancelLease(){
+async function confirmCancelLease(){
   if(!pendingCancelId)return;
   const lockId=pendingCancelId;
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
   const isDaily=!!dailyBookings[lockId];
   const note=document.getElementById('cl-note').value.trim();
+  const btn=document.querySelector('#cancelLeaseModal .m-btn:not(.secondary)');
+  if(btn){btn.disabled=true;btn.dataset.origHtml=btn.innerHTML;btn.innerHTML='กำลังบันทึก...';}
+  // แก้บั๊ก 2569-07-23: เดิมฟังก์ชันนี้แก้แค่สถานะในหน้าเว็บ (dataset/class) ไม่เคยเรียก apiPost
+  // บันทึกลง Google Sheets เลย ทำให้พอโหลดหน้าใหม่/ข้อมูลผู้ค้าซิงก์จาก Sheets ล็อคจะกลับมาแสดง
+  // มีผู้เช่าเหมือนเดิม (ข้อมูลจริงไม่เคยถูกยกเลิก) — เพิ่ม apiPost('saveVendor'/'cancelDailyBooking')
+  // ให้ตรงกับที่หน้าผังตลาดวันพฤหัสฯ ทำอยู่แล้ว โดยใช้ status:'terminated' ให้ตรงกับค่ามาตรฐาน
+  // ที่ pamai_app.html/vendor_registration.html/apps_script.js ใช้อยู่แล้ว
   if(isDaily){
     const db=dailyBookings[lockId];
+    const cancelRes=await apiPost('cancelDailyBooking',{lockId,date:db?db.date:nowTH()});
+    if(!cancelRes||cancelRes.status!=='ok'){
+      toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ยกเลิกล็อคจรไม่สำเร็จ — ตรวจสอบการเชื่อมต่อแล้วลองใหม่','e');
+      if(btn){btn.disabled=false;btn.innerHTML=btn.dataset.origHtml;}
+      return;
+    }
     addHist(lockId,{type:'daily',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกจร: '+db.name,note:note||'ยกเลิก'});
     delete dailyBookings[lockId];
     el.dataset.daily='';
   } else {
+    const oldZone=el.dataset.zone||'', oldShop=el.dataset.shop||'';
+    const saveRes=await apiPost('saveVendor',{data:{lock:lockId,status:'terminated'}});
+    if(!saveRes||saveRes.status!=='ok'){
+      toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> บันทึกยกเลิกการเช่าไม่สำเร็จ — ตรวจสอบการเชื่อมต่อแล้วลองใหม่','e');
+      if(btn){btn.disabled=false;btn.innerHTML=btn.dataset.origHtml;}
+      return;
+    }
+    await apiPost('logLeave',{data:{lock_id:lockId,zone:oldZone,shop:oldShop,type:'lease_cancel',note:note||'สิ้นสุดสัญญา',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
     addHist(lockId,{type:'absent',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกการเช่า',note:note||'สิ้นสุดสัญญา'});
     el.dataset.status='vacant'; el.dataset.shop='ว่าง'; el.dataset.rent='0';
     el.querySelector('.lk-shop').textContent='ว่าง';
@@ -894,6 +924,7 @@ function confirmCancelLease(){
     lockAbsent[lockId]='';
   }
   refreshLk(el); saveMarketState();
+  if(btn){btn.disabled=false;btn.innerHTML=btn.dataset.origHtml;}
   document.getElementById('cancelLeaseModal').classList.remove('show');
   toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกการเช่าล็อค '+lockId+' แล้ว','i');
   updateStats(); pendingCancelId=null;
