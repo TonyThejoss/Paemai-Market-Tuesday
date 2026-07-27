@@ -1086,7 +1086,7 @@ function openMoveModal(lockId){
     if(isDaily&&(lockAbsent[el.dataset.id]==='leave'||lockAbsent[el.dataset.id]==='absent')) return true;
     return false;
   });
-  if(!vacants.length){sel.innerHTML='<option value="">ไม่มีล็อคที่ย้ายไปได้ (ไม่มีข้อมูล/ว่าง)</option>';}
+  if(!vacants.length){sel.innerHTML='<option value="">ไม่มีล็อคที่ย้ายไปได้ (ไม่มีล็อคว่าง)</option>';}
   else{vacants.forEach(el=>{const o=document.createElement('option');o.value=el.dataset.id;o.textContent=el.dataset.id+' — '+el.dataset.shop+' ('+el.dataset.zone+')';sel.appendChild(o);});}
   const info=document.getElementById('mv-target-info');
   sel.onchange=()=>{const t=document.querySelector('.lk[data-id="'+sel.value+'"]');if(t){info.textContent='ปลายทาง: '+sel.value+' · ค่าเช่า ฿'+parseInt(t.dataset.rent||0)+'/เดือน';info.style.display='block';}else info.style.display='none';};
@@ -1461,7 +1461,7 @@ function showPopup(el,ev){
   document.getElementById('ppRoof').innerHTML=d.roof==='1'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีหลังคา+โต๊ะ':'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ไม่มี';
   document.getElementById('ppRent').textContent=parseInt(d.rent)>0?fmt(parseInt(d.rent))+'/เดือน':'—';
 
-  const stM={occupied:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีผู้เช่า',vacant:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--txl)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ไม่มีข้อมูล',cancelled:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ยกเลิก',unpaid:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:#c2410c"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ค้างชำระ'};
+  const stM={occupied:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีผู้เช่า',vacant:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--txl)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ล็อคว่าง',cancelled:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ยกเลิก',unpaid:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:#c2410c"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ค้างชำระ'};
   const stC={occupied:'background:#d8f3dc;color:#1b4332',vacant:'background:#e5e7eb;color:#475569',cancelled:'background:#fee2e2;color:#7f1d1d',unpaid:'background:#ffedd5;color:#7c2d12'};
   let stTxt=stM[d.status]||d.status;
   if(isDaily)stTxt+=' · <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg>จร';
@@ -1669,7 +1669,7 @@ function updateStats(){
   const rent=all.reduce(function(s,l){return s+(parseInt(l.dataset.rent)||0);},0);
   document.getElementById('statsBar').innerHTML=
     '<div class="sm"><div class="n" style="color:var(--gm)">'+occ+'</div><div class="l">มีผู้เช่า</div></div>'+
-    '<div class="sm"><div class="n" style="color:var(--txl)">'+vac+'</div><div class="l">ไม่มีข้อมูล</div></div>'+
+    '<div class="sm"><div class="n" style="color:var(--txl)">'+vac+'</div><div class="l">ล็อคว่าง</div></div>'+
     '<div class="sm"><div class="n" style="color:#7c3aed">'+nL+'</div><div class="l">แจ้งลา</div></div>'+
     '<div class="sm"><div class="n" style="color:var(--r)">'+nA+'</div><div class="l">ขาดล็อค</div></div>'+
     '<div class="sm"><div class="n" style="color:var(--y)">'+nD+'</div><div class="l">จร</div></div>'+
