@@ -1085,7 +1085,9 @@ async function loadFromSheets(){
 
     // snapshot เดียวกันมีสถานะผู้ค้าประจำด้วย จึงวาด "ค้างจ่าย" ได้แม้คำขอรายชื่อผู้ค้าอีกชุดยังโหลดไม่เสร็จ
     const unpaidLocks=new Set(snapshot&&Array.isArray(snapshot.unpaidLocks)?snapshot.unpaidLocks:[]);
-    if(Array.isArray(vendorRows)) vendorRows.forEach(v=>{
+    // ถ้าข้อมูลผู้ค้าแบบล็อกอินโหลดสำเร็จแล้ว ห้าม snapshot สาธารณะ (ซึ่งตั้งใจ mask unpaid)
+    // วิ่งตามหลังแล้วทับสถานะค้างชำระกลับเป็นปกติ
+    if(Array.isArray(vendorRows) && !pmVendorLoaded) vendorRows.forEach(v=>{
       const el=document.querySelector('.lk[data-id="'+v.lock+'"]');if(!el)return;
       const st=(v.status==='terminated'||v.status==='vacant')?'vacant':(v.status==='unpaid'||unpaidLocks.has(v.lock)?'unpaid':'occupied');
       el.dataset.status=st;el.dataset.shop=v.product||el.dataset.shop||'ผู้ค้า';
