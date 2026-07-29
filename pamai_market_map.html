@@ -1072,8 +1072,8 @@ async function loadFromSheets(){
         if(!id) return;
         nextDaily[id]={
           lockId:id, name:row.vendor_name, product:row.product,
-          phone:row.phone||'—', price:parseFloat(row.price)||0,
-          elec:parseFloat(row.elec)||0, total:parseFloat(row.total)||0,
+          phone:row.phone||'—', price:parseFloat(row.price||row.total)||0,
+          elec:parseFloat(row.elec)||0, total:parseFloat(row.total||row.price)||0,
           method:row.method, date:row.date||row.market_date||row.date_iso||today, time:row.time,
         };
       });
@@ -2160,6 +2160,7 @@ async function manualSync(){
 window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);setTimeout(loadFullLeaveHistory,700);};
 
 </script>
+
 
 
 
