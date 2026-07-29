@@ -910,8 +910,12 @@ function getCurrentUserName(){
 // ════════════════════════════════════════════════════
 const lockHistory={}, dailyBookings={}, lockAbsent={};
 const MONS=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-function nowTH(){const n=new Date();return n.getDate()+' '+MONS[n.getMonth()]+' '+(n.getFullYear()+543);}
-function nowTime(){const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');}
+let PM_MAP_CLOCK={manual:false,offsetMs:0};
+try{const c=JSON.parse(localStorage.getItem('pm-system-clock')||'null');if(c)PM_MAP_CLOCK={manual:!!c.manual,offsetMs:parseInt(c.offsetMs,10)||0};}catch(e){}
+function pmMapNow(){try{if(window.parent&&window.parent!==window&&typeof window.parent.pmNow==='function')return window.parent.pmNow();}catch(e){}return new Date(Date.now()+(PM_MAP_CLOCK.manual?PM_MAP_CLOCK.offsetMs:0));}
+window.addEventListener('message',function(e){if(e&&e.data&&e.data.type==='pm-system-clock'){PM_MAP_CLOCK=e.data.clock||PM_MAP_CLOCK;loadFromSheets();}});
+function nowTH(){const n=pmMapNow();return n.getDate()+' '+MONS[n.getMonth()]+' '+(n.getFullYear()+543);}
+function nowTime(){const n=pmMapNow();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');}
 function addHist(id,e){if(!lockHistory[id])lockHistory[id]=[];lockHistory[id].unshift({...e,date:nowTH(),time:nowTime()});if(lockHistory[id].length>30)lockHistory[id].pop();}
 function fmt(n){return '฿'+Math.round(n).toLocaleString();}
 
@@ -919,7 +923,7 @@ const STATE_KEY='pm-mkt-state';
 const STATE_EXPIRE_DAYS=3;
 
 function getLastTuesday(){
-  const d=new Date();
+  const d=pmMapNow();
   const dow=d.getDay(); // 0=Sun,2=Tue
   d.setDate(d.getDate()-(dow>=2?dow-2:7-(2-dow)));
   d.setHours(0,0,0,0); return d;
@@ -934,7 +938,7 @@ window.PM_MARKET_DAY_TH = marketDayTH;
 function addDays(date,n){const d=new Date(date);d.setDate(d.getDate()+n);return d;}
 // สถานะลา/ขาดแสดงถึงก่อน 00:00 ของวันศุกร์ (สามวันหลังวันอังคาร)
 // ประวัติในฐานข้อมูลไม่ถูกลบ เพื่อให้รายงานย้อนหลังยังครบ
-function isMarketStatusActive(){ return new Date() < addDays(getLastTuesday(),STATE_EXPIRE_DAYS); }
+function isMarketStatusActive(){ return pmMapNow() < addDays(getLastTuesday(),STATE_EXPIRE_DAYS); }
 
 function saveMarketState(){
   try{
@@ -952,7 +956,7 @@ function loadMarketState(){
   try{
     const data=JSON.parse(saved);
     const expiry=addDays(new Date(data.tuesdayISO),STATE_EXPIRE_DAYS);
-    if(new Date()>expiry){
+    if(pmMapNow()>expiry){
       localStorage.removeItem(STATE_KEY);
       toast('รีเซ็ตสถานะวันอังคาร (ครบ '+STATE_EXPIRE_DAYS+' วัน)','i');
       return;
@@ -1016,7 +1020,7 @@ function checkTuesdayCycle(){
   if(saved){
     try{
       const data=JSON.parse(saved);
-      if(new Date()>addDays(new Date(data.tuesdayISO),STATE_EXPIRE_DAYS)){
+      if(pmMapNow()>addDays(new Date(data.tuesdayISO),STATE_EXPIRE_DAYS)){
         localStorage.removeItem(STATE_KEY); return;
       }
     }catch(e){}
@@ -1030,15 +1034,17 @@ function checkTuesdayCycle(){
 // (เรียกตอนเปิดหน้า และให้กดรีเฟรชเองได้ด้วย)
 // ════════════════════════════════════════════════════
 async function loadFromSheets(){
-  if(!getApiUrl()) return; // ยังไม่ได้ตั้งค่า Sheets — ใช้ local state อย่างเดียว
+  if(!pmHasBackend()) return; // ยังไม่ได้เชื่อมต่อฐานข้อมูล — ใช้ local state อย่างเดียว
   // แก้ 2026-07-26 (บั๊ก #31): เดิมใช้ nowTH() = "วันนี้" ทำให้วันที่ไม่ใช่วันอังคาร
   // จะหาสถานะลา/ขาด/จร ไม่เจอเลย (ตลาดเปิดสัปดาห์ละวัน) — ต้องอ้างอิงวันตลาดล่าสุด
   const today=marketDayTH();
   try{
-    const [leaveRows, dailyRows] = await Promise.all([
-      apiGet('getLeaveLog', {date: today}),
-      apiGet('getDailyBookings', {date: today}),
-    ]);
+    const snapshot=await apiGet('getPublicStatus',{date:today});
+    let leaveRows=snapshot&&snapshot.leave,dailyRows=snapshot&&snapshot.sold,vendorRows=snapshot&&snapshot.vendors;
+    if(!Array.isArray(leaveRows)||!Array.isArray(dailyRows)){
+      [leaveRows,dailyRows]=await Promise.all([apiGet('getLeaveLog',{date:today}),apiGet('getDailyBookings',{date:today})]);
+    }
+    if(!Array.isArray(leaveRows)||!Array.isArray(dailyRows))throw new Error('โหลดสถานะผังตลาดไม่สำเร็จ');
 
     // Reconcile จากฐานข้อมูลทุกครั้ง: ห้ามแก้เฉพาะบางล็อค เพราะสถานะเก่าในเครื่องจะค้าง
     // หรือการกดยกเลิกหนึ่งล็อคอาจทำให้ state ทั้งชุดถูกล้างตามวงจร localStorage เดิม
@@ -1068,6 +1074,15 @@ async function loadFromSheets(){
     Object.assign(lockAbsent,nextLeave);
     Object.assign(dailyBookings,nextDaily);
 
+    // snapshot เดียวกันมีสถานะผู้ค้าประจำด้วย จึงวาด "ค้างจ่าย" ได้แม้คำขอรายชื่อผู้ค้าอีกชุดยังโหลดไม่เสร็จ
+    if(Array.isArray(vendorRows)) vendorRows.forEach(v=>{
+      const el=document.querySelector('.lk[data-id="'+v.lock+'"]');if(!el)return;
+      const st=(v.status==='terminated'||v.status==='vacant')?'vacant':(v.status==='unpaid'?'unpaid':'occupied');
+      el.dataset.status=st;el.dataset.shop=v.product||el.dataset.shop||'ผู้ค้า';
+      ['vacant','occupied','unpaid','cancelled'].forEach(c=>el.classList.remove(c));el.classList.add(st);
+      const shop=el.querySelector('.lk-shop');if(shop)shop.textContent=st==='vacant'?'—':el.dataset.shop;
+    });
+
     // อัปเดตหน้าจอ + บันทึกลง localStorage เพื่อให้ใช้ต่อได้แม้ offline
     document.querySelectorAll('.lk').forEach(el=>{
       const id=el.dataset.id;
@@ -1077,6 +1092,7 @@ async function loadFromSheets(){
     saveMarketState();
   }catch(e){
     console.error('loadFromSheets error:',e);
+    toast('โหลดสถานะผังตลาดไม่สำเร็จ — คงข้อมูลล่าสุดไว้และกรุณาลองซิงค์อีกครั้ง','e');
   }
 }
 
