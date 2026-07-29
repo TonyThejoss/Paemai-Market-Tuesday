@@ -508,7 +508,9 @@ input, select, textarea, button { font-family: inherit; max-width: 100%; }
         /* ผังเริ่มโหลดข้อมูลตั้งแต่ window.onload ซึ่งอาจเร็วกว่าข้อความจากหน้าแม่
            จึงต้องสั่งดึงใหม่ทันทีหลังรับ token ไม่รอ retry รอบเดิมหมดก่อน. */
         if (typeof window.loadVendorOccupancy === 'function') window.loadVendorOccupancy();
-        else if (typeof window.syncRealVendors === 'function') window.syncRealVendors();
+        if (typeof window.syncRealVendors === 'function') window.syncRealVendors();
+        if (typeof window.loadFromSheets === 'function') window.loadFromSheets();
+        if (typeof window.loadAll === 'function') window.loadAll();
       }
     } catch (e) {}
   });
@@ -925,7 +927,10 @@ const STATE_EXPIRE_DAYS=3;
 function getLastTuesday(){
   const d=pmMapNow();
   const dow=d.getDay(); // 0=Sun,2=Tue
-  d.setDate(d.getDate()-(dow>=2?dow-2:7-(2-dow)));
+  // รอบตลาดอังคารเริ่มวันศุกร์: ศ.–จ. ใช้อังคารที่กำลังจะถึง,
+  // อ.–พฤ. ใช้อังคารของสัปดาห์นี้ แล้วหมดอายุเมื่อเข้าวันศุกร์
+  const delta=(dow===0||dow===1)?2-dow:(dow>=5?9-dow:2-dow);
+  d.setDate(d.getDate()+delta);
   d.setHours(0,0,0,0); return d;
 }
 
@@ -1041,6 +1046,10 @@ async function loadFromSheets(){
   try{
     const snapshot=await apiGet('getPublicStatus',{date:today});
     let leaveRows=snapshot&&snapshot.leave,dailyRows=snapshot&&snapshot.sold,vendorRows=snapshot&&snapshot.vendors;
+    // Supabase public endpoint ส่งสถานะลา/ขาดแบบ object keyed by lock เพื่อไม่เปิดข้อมูลส่วนตัว
+    if(!Array.isArray(leaveRows)&&snapshot&&snapshot.leaveStatus&&typeof snapshot.leaveStatus==='object'){
+      leaveRows=Object.entries(snapshot.leaveStatus).map(([lock_id,v])=>({lock_id,type:v&&v.type}));
+    }
     if(!Array.isArray(leaveRows)||!Array.isArray(dailyRows)){
       [leaveRows,dailyRows]=await Promise.all([apiGet('getLeaveLog',{date:today}),apiGet('getDailyBookings',{date:today})]);
     }
@@ -1075,9 +1084,10 @@ async function loadFromSheets(){
     Object.assign(dailyBookings,nextDaily);
 
     // snapshot เดียวกันมีสถานะผู้ค้าประจำด้วย จึงวาด "ค้างจ่าย" ได้แม้คำขอรายชื่อผู้ค้าอีกชุดยังโหลดไม่เสร็จ
+    const unpaidLocks=new Set(snapshot&&Array.isArray(snapshot.unpaidLocks)?snapshot.unpaidLocks:[]);
     if(Array.isArray(vendorRows)) vendorRows.forEach(v=>{
       const el=document.querySelector('.lk[data-id="'+v.lock+'"]');if(!el)return;
-      const st=(v.status==='terminated'||v.status==='vacant')?'vacant':(v.status==='unpaid'?'unpaid':'occupied');
+      const st=(v.status==='terminated'||v.status==='vacant')?'vacant':(v.status==='unpaid'||unpaidLocks.has(v.lock)?'unpaid':'occupied');
       el.dataset.status=st;el.dataset.shop=v.product||el.dataset.shop||'ผู้ค้า';
       ['vacant','occupied','unpaid','cancelled'].forEach(c=>el.classList.remove(c));el.classList.add(st);
       const shop=el.querySelector('.lk-shop');if(shop)shop.textContent=st==='vacant'?'—':el.dataset.shop;
@@ -1204,13 +1214,15 @@ function openLeaveModal(lockId){
   closePopup();
   document.getElementById('leaveModal').classList.add('show');
 }
-function confirmLeave(){
+async function confirmLeave(){
   if(!pendingLeaveId)return;
   const id=pendingLeaveId;
   const note=document.getElementById('lm-note').value.trim();
   const el=document.querySelector('.lk[data-id="'+id+'"]');
   const zone=el?.dataset.zone||'';
   const shop=el?.dataset.shop||'';
+  const res=await apiPost('logLeave',{data:{lock_id:id,zone,shop,type:'leave',note:note||'—',manager:getCurrentUserName(),date:marketDayTH(),time:nowTime()}});
+  if(!res||res.status!=='ok'){toast('บันทึกแจ้งลาไม่สำเร็จ — กรุณาลองใหม่','e');return;}
   lockAbsent[id]='leave';
   addHist(id,{type:'leave',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลา',note:note||'—'});
   if(el) refreshLk(el);
@@ -1218,14 +1230,15 @@ function confirmLeave(){
   saveMarketState(); updateExpireBanner();
   toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> บันทึกแจ้งลาล็อค '+id+' (คงอยู่ 3 วัน)','s');
   updateStats(); pendingLeaveId=null;
-  apiPost('logLeave',{data:{lock_id:id,zone,shop,type:'leave',note:note||'—',manager:getCurrentUserName(),date:marketDayTH(),time:nowTime()}});
   const qv=checkQuotaViolation(id,[{lock_id:id,type:'leave',created_at:new Date().toISOString()}]);
   if(qv.anyViolation) showQuotaAlert(id,shop,qv);
 }
-function doAbsent(lockId){
+async function doAbsent(lockId){
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
   const zone=el?.dataset.zone||'';
   const shop=el?.dataset.shop||'';
+  const res=await apiPost('logLeave',{data:{lock_id:lockId,zone,shop,type:'absent',note:'บันทึกโดยผู้ดูแล',manager:getCurrentUserName(),date:marketDayTH(),time:nowTime()}});
+  if(!res||res.status!=='ok'){toast('บันทึกขาดล็อคไม่สำเร็จ — กรุณาลองใหม่','e');return;}
   lockAbsent[lockId]='absent';
   addHist(lockId,{type:'absent',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ขาดล็อค (ไม่แจ้ง)',note:'บันทึกโดยผู้ดูแล'});
   if(el) refreshLk(el);
@@ -1233,7 +1246,6 @@ function doAbsent(lockId){
   closePopup();
   toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> บันทึกขาดล็อค '+lockId+' (คงอยู่ 3 วัน)','e');
   updateStats();
-  apiPost('logLeave',{data:{lock_id:lockId,zone,shop,type:'absent',note:'บันทึกโดยผู้ดูแล',manager:getCurrentUserName(),date:marketDayTH(),time:nowTime()}});
   const qv=checkQuotaViolation(lockId,[{lock_id:lockId,type:'absent',created_at:new Date().toISOString()}]);
   if(qv.anyViolation) showQuotaAlert(lockId,shop,qv);
 }
@@ -2131,6 +2143,8 @@ async function manualSync(){
 window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);setTimeout(loadFullLeaveHistory,700);};
 
 </script>
+
+
 
 
 
