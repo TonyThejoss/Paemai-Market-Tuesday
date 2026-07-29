@@ -512,6 +512,12 @@ input, select, textarea, button { font-family: inherit; max-width: 100%; }
       }
     } catch (e) {}
   });
+  /* ขอ token แบบ active เพื่อกันกรณี parent ส่งตอน iframe ยังไม่พร้อมรับข้อความ */
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'pm-session-request' }, window.location.origin);
+    }
+  } catch (e) {}
 
   /* โหมดปัจจุบัน: sheets (เดิม) · parallel (อ่าน Supabase เขียนสองที่) · supabase (ใหม่ล้วน)
      เปลี่ยนได้จาก console ด้วย PM_API.setMode('parallel') โดยไม่ต้อง deploy ใหม่ */
@@ -2106,6 +2112,7 @@ async function manualSync(){
 window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);setTimeout(loadFullLeaveHistory,700);};
 
 </script>
+
 
 
 
