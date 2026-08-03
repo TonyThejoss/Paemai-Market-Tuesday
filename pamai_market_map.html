@@ -1876,7 +1876,8 @@ const CL_=[{id:'C1',s:'น้ำอัดลม',r:500,st:'occupied'},{id:'C2',s
 const CR_=[{id:'C21',s:'นกย่าง',r:1500,st:'occupied'},{id:'C20',s:'นกย่าง',r:1000,st:'occupied'},{id:'C19',s:'ข้าวปลา',r:1500,st:'occupied'},{id:'C18',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C17',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C16',s:'ยากิโซบะ',r:1500,st:'occupied'},{id:'C15',s:'สุกี้โรล',r:1500,st:'occupied'},{id:'C14',s:'ปลาไข่ทอด',r:1500,st:'occupied'},{id:'C13',s:'ยำลูกชิ้น',r:1500,st:'occupied'},{id:'C12',s:'แมลงทอด',r:1000,st:'occupied'}];
 const DC_=[{id:'D11',s:'เคบับ',r:1500,st:'occupied'},{id:'D10',s:'เกี้ยวต้ม',r:1000,st:'occupied'},{id:'D9',s:'หอยทอด',r:1500,st:'occupied'},{id:'D8',s:'หอยทอด',r:1500,st:'occupied'},{id:'D7',s:'เฉาก๊วย',r:1500,st:'occupied'},{id:'D6',s:'แพนเค้ก',r:1500,st:'occupied'},{id:'D5',s:'น้ำส้ม',r:1500,st:'occupied'},{id:'D4',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D3',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D2',s:'ข้าวมันกุ้ง',r:1500,st:'occupied'},{id:'D1',s:'น้ำยาปู',r:1500,st:'occupied'}];
 const FT_=[{id:'F16',s:'น้ำส้ม',r:1000,st:'occupied'},{id:'F15',s:'โตเกียว',r:1000,st:'occupied'},{id:'F14',s:'โดนัท',r:1000,st:'occupied'},{id:'F13',s:'โดนัท',r:1000,st:'occupied'}];
-const FB_=[{id:'F1',s:'หมูทอด',r:1000,st:'occupied'},{id:'F2',s:'ไก่แซ่บ',r:1000,st:'occupied'},{id:'F3',s:'แซลม่อน',r:1000,st:'occupied'},{id:'F4',s:'ข้าวโพด',r:1000,st:'occupied'},{id:'F5',s:'บาบีคิว',r:1000,st:'occupied'},{id:'F6',s:'ยกเลิก',r:0,st:'cancelled'}];
+// แถวโซนนอกวางจากซ้ายไปขวา F6 → F1 เพื่อให้ F1 อยู่ด้านขวาสุดตามผังจริง
+const FB_=[{id:'F6',s:'ยกเลิก',r:0,st:'cancelled'},{id:'F5',s:'บาบีคิว',r:1000,st:'occupied'},{id:'F4',s:'ข้าวโพด',r:1000,st:'occupied'},{id:'F3',s:'แซลม่อน',r:1000,st:'occupied'},{id:'F2',s:'ไก่แซ่บ',r:1000,st:'occupied'},{id:'F1',s:'หมูทอด',r:1000,st:'occupied'}];
 
 function mk(d,zone,roof){
   const div=document.createElement('div');
