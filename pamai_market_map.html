@@ -76,6 +76,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 /* POPUP */
 #popupWrap{display:none;position:absolute;z-index:500;}
 #popupWrap.show{display:block;}
+.pp-fin{margin:8px 10px;padding:10px;border:1px solid var(--bd);border-radius:9px;background:var(--sf2);font-size:.78rem}.pp-fin-title{font-weight:900;color:var(--gm);margin-bottom:7px}.pp-fin-row{display:flex;gap:6px;margin-top:7px}.pp-fin-row input,.pp-fin-row select{min-width:0;padding:6px;border:1px solid var(--bd2);border-radius:6px;font-family:inherit}.pp-fin-row input{width:90px}.pp-fin-row select{flex:1}.pp-fin-row button{border:0;border-radius:6px;background:var(--gm);color:#fff;font-weight:800;padding:6px 9px;cursor:pointer}.pp-fin-hist{margin-top:7px;display:grid;gap:3px;color:var(--txm)}
 .popup-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:14px;width:290px;box-shadow:0 8px 32px rgba(0,0,0,.22);overflow:hidden;animation:popIn .17s var(--ease);}
 @keyframes popIn{from{transform:scale(.88) translateY(-6px);opacity:0}to{transform:scale(1);opacity:1}}
 .pp-hdr{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:linear-gradient(135deg,var(--g),var(--gm));color:#fff;}
@@ -655,6 +656,7 @@ input, select, textarea, button { font-family: inherit; max-width: 100%; }
         <div id="ppLeaveBadge" style="display:none;margin-top:6px"></div>
         <div class="pp-daily-info" id="ppDailyInfo" style="display:none"></div>
       </div>
+      <div class="pp-fin" id="ppFinance" style="display:none"></div>
       <div class="pp-hist" id="ppHist"></div>
       <div class="pp-actions" id="ppActions"></div>
     </div>
@@ -1474,7 +1476,7 @@ async function confirmCancelLease(){
     el.dataset.daily='';
   } else {
     const oldZone=el.dataset.zone||'', oldShop=el.dataset.shop||'';
-    const saveRes=await apiPost('deleteVendor',{lockId});
+    const saveRes=await apiPost('closeVendorLease',{data:{lock_id:lockId}});
     if(!saveRes||saveRes.status!=='ok'){
       toast('<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> บันทึกยกเลิกการเช่าไม่สำเร็จ — ตรวจสอบการเชื่อมต่อแล้วลองใหม่','e');
       if(btn){btn.disabled=false;btn.innerHTML=btn.dataset.origHtml;}
@@ -1797,7 +1799,9 @@ function showPopup(el,ev){
     acts+='<button class="pp-btn" style="background:var(--gm);color:#fff;flex-basis:100%" onclick="requestAddVendor(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> เพิ่มผู้ค้าประจำล็อคนี้</button>';
   }
   if(isOccupied){
+    acts+='<div style="flex-basis:100%;font-size:.68rem;font-weight:900;color:var(--txl);border-bottom:1px solid var(--bd);padding:3px 0">ข้อมูลผู้ค้า</div>';
     acts+='<button class="pp-btn" style="background:var(--bl);color:var(--b);flex-basis:100%" onclick="openEditVendorModal(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg> แก้ไขข้อมูลผู้ค้า</button>';
+    acts+='<div style="flex-basis:100%;font-size:.68rem;font-weight:900;color:var(--txl);border-bottom:1px solid var(--bd);padding:3px 0">การลาและการใช้ล็อค</div>';
     if(!at){
       acts+='<button class="pp-btn b-leave" onclick="openLeaveModal(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/></svg> แจ้งลา</button>';
       acts+='<button class="pp-btn b-absent" onclick="doAbsent(\''+lockId+'\')"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ขาดล็อค</button>';
@@ -1817,6 +1821,7 @@ function showPopup(el,ev){
     acts+='<button class="pp-btn" data-action="move-daily" style="background:var(--yl);color:#78350f;flex-basis:48%" onclick="openMoveModal(\''+lockId+'\',\'daily\')">\u{1F504} ย้ายล็อคจร</button>';
   }
   if(isOccupied){
+    acts+='<div style="flex-basis:100%;font-size:.68rem;font-weight:900;color:var(--txl);border-bottom:1px solid var(--bd);padding:3px 0">จัดการสัญญา</div>';
     // PM_MOVE_BTNS (v2.5): แยกเป็นสองปุ่ม — "ย้ายล็อคจร" แสดงเฉพาะล็อคที่ขายล็อคจรไปแล้ว
     // ตามที่ผู้ดูแลตลาดสั่ง ส่วนล็อคที่มีทั้งผู้ค้าประจำและขายจรทับ จะเห็นทั้งสองปุ่มแยกกันชัดเจน
     if(isOccupied) acts+='<button class="pp-btn" style="background:var(--bl);color:var(--b)" onclick="openMoveModal(\''+lockId+'\',\'vendor\')">\u{1F504} ย้ายผู้ค้าประจำ</button>';
@@ -1824,6 +1829,7 @@ function showPopup(el,ev){
   }
   const actEl=document.getElementById('ppActions');
   actEl.innerHTML=acts||'<span style="font-size:.84rem;color:var(--txl)">ล็อคนี้ไม่มีผู้เช่า</span>';
+  loadPopupFinance(lockId,isOccupied);
 
   // POSITION
   const er=el.getBoundingClientRect(), ar=mapArea.getBoundingClientRect();
@@ -1838,6 +1844,32 @@ function showPopup(el,ev){
   popWrap.style.left=left+'px'; popWrap.style.top=top+'px';
   popWrap.classList.add('show');
 }
+async function loadPopupFinance(lockId,isOccupied){
+  const box=document.getElementById('ppFinance'); if(!box)return;
+  if(!isOccupied){box.style.display='none';box.innerHTML='';return}
+  box.style.display='block';box.innerHTML='<div class="pp-fin-title">การเงิน</div>กำลังโหลดยอดค้าง…';
+  const rent=parseFloat(document.querySelector('.lk[data-id="'+lockId+'"]')?.dataset.rent)||0;
+  const n=new Date(), month=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-01';
+  await apiPost('ensureVendorCharges',{data:{rows:[{lock_id:lockId,billing_month:month,type:'ยอดเรียกเก็บประจำเดือน',description:'ยอดรวมประจำเดือน',amount:rent}]}});
+  const accounts=await apiGet('getVendorAccounts',{lockId});
+  const a=Array.isArray(accounts)?accounts.find(x=>!x.ended_at):null;
+  if(!a){box.innerHTML='<div class="pp-fin-title">การเงิน</div><span style="color:var(--r)">โหลดบัญชีผู้ค้าไม่สำเร็จ</span>';return}
+  const due=parseFloat(a.outstanding)||0;
+  const hist=await apiGet('getVendorPaymentHistory',{leaseId:a.lease_id});
+  const latest=(Array.isArray(hist)?hist:[]).slice(0,5);
+  box.innerHTML='<div class="pp-fin-title">การเงิน · ยอดค้าง <strong style="color:var(--r)">'+fmt(due)+'</strong></div>'+
+    (due>0?'<div class="pp-fin-row"><input id="ppPayAmt" type="number" min="1" max="'+due+'" value="'+due+'"><select id="ppPayMethod"><option>เงินสด</option><option>โอนเงิน</option></select><button onclick="receivePopupPayment(\''+lockId+'\','+a.lease_id+','+due+')">รับชำระ</button></div>':'<div style="color:var(--gm);font-weight:800">✓ ไม่มียอดค้าง</div>')+
+    '<div class="pp-fin-hist"><b>5 รายการล่าสุด</b>'+(latest.length?latest.map(x=>'<span>'+x.date+' · '+x.method+' · '+fmt(x.amount)+'</span>').join(''):'<span>ยังไม่มีประวัติรับชำระ</span>')+
+    '<a href="#" onclick="openPaymentHistory(\''+lockId+'\','+a.lease_id+');return false">ดูประวัติการชำระทั้งหมด</a></div>';
+}
+async function receivePopupPayment(lockId,leaseId,due){
+  const amount=parseFloat(document.getElementById('ppPayAmt')?.value)||0, method=document.getElementById('ppPayMethod')?.value||'';
+  if(amount<=0||amount>due){toast('จำนวนเงินต้องไม่เกินยอดค้าง','e');return}
+  const res=await apiPost('recordVendorPayment',{data:{lock_id:lockId,amount,method,date:nowTH(),time:nowTime(),note:'รับชำระจากป๊อปอัพผังตลาด · ผู้รับ: '+getCurrentUserName()}});
+  if(!res||res.status!=='ok'){toast(res?.message||'รับชำระไม่สำเร็จ','e');return}
+  toast('รับชำระ '+fmt(amount)+' สำเร็จ','s'); await syncRealVendors(); await loadPopupFinance(lockId,true);
+}
+function openPaymentHistory(lockId,leaseId){if(window.parent&&window.parent!==window&&typeof window.parent.openPaymentHistoryForLock==='function')window.parent.openPaymentHistoryForLock(lockId,leaseId);else window.open('pamai_report_10.html?lock='+encodeURIComponent(lockId)+'&lease='+encodeURIComponent(leaseId),'_blank')}
 function closePopup(){if(popWrap)popWrap.classList.remove('show');curLk=null;}
 
 // เปิดหน้า "ลงทะเบียนผู้ค้าใหม่" พร้อมเลือกล็อคนี้ให้อัตโนมัติ
@@ -1871,9 +1903,9 @@ const SF=[{id:'SF1',s:'ทุเรียน',r:1500,st:'occupied'},{id:'SF2',s:
 const AL=[{id:'A1',s:'ไก่แซบ',r:1000,st:'occupied'},{id:'A2',s:'ปลาไข่',r:1000,st:'occupied'},{id:'A3',s:'เฟรนฟราย',r:1500,st:'occupied'},{id:'A4',s:'น้ำมะนาว',r:1000,st:'occupied'},{id:'A5',s:'กุ้งเผา',r:1500,st:'occupied'},{id:'A6',s:'หอยลวก',r:1500,st:'occupied'},{id:'A7',s:'ทะเลถัง',r:1500,st:'occupied'},{id:'A8',s:'เนื้อย่าง',r:1000,st:'occupied'},{id:'A9',s:'เมี่ยงปลา',r:1500,st:'occupied'},{id:'A10',s:'หอยทอด',r:1000,st:'occupied'}];
 const AR=[{id:'A20',s:'กระเพาปลา',r:1000,st:'occupied'},{id:'A19',s:'กระเพาปลา',r:1000,st:'occupied'},{id:'A18',s:'กระเพาปลา',r:1000,st:'occupied'},{id:'A17',s:'ยำปู',r:1000,st:'occupied'},{id:'A16',s:'ยำขนมจีน',r:1000,st:'occupied'},{id:'A15',s:'ทอดมันกุ้ง',r:1500,st:'occupied'},{id:'A14',s:'พิซซ่า',r:1500,st:'occupied'},{id:'A13',s:'พิซซ่า',r:1500,st:'occupied'},{id:'A12',s:'จับไม้',r:1000,st:'occupied'},{id:'A11',s:'นมปั่น',r:1000,st:'occupied'}];
 const BL_=[{id:'B1',s:'ไส้กรอกเม',r:1000,st:'occupied'},{id:'B2',s:'ไส้กรอก',r:1000,st:'occupied'},{id:'B3',s:'หมูกระทะ',r:1500,st:'occupied'},{id:'B4',s:'ทะเลดอง',r:1500,st:'occupied'},{id:'B5',s:'กะเพรา',r:1000,st:'occupied'},{id:'B6',s:'ข้าวปลา',r:1500,st:'occupied'},{id:'B7',s:'น้ำพริก',r:1500,st:'occupied'},{id:'B8',s:'น้ำพริก',r:1000,st:'occupied'},{id:'B9',s:'ทะเลดอง',r:1500,st:'occupied'},{id:'B10',s:'จ้อปู',r:1000,st:'occupied'}];
-const BR_=[{id:'B20',s:'เนื้อย่าง',r:1000,st:'occupied'},{id:'B19',s:'กุ้งอบ',r:1500,st:'occupied'},{id:'B18',s:'กุ้งอบ',r:1500,st:'occupied'},{id:'B17',s:'ข้าวหมก',r:1000,st:'occupied'},{id:'B16',s:'ข้าวหมก',r:1000,st:'occupied'},{id:'B15',s:'ปลาดุกฟู',r:1500,st:'occupied'},{id:'B14',s:'ไก่ย่าง',r:1500,st:'occupied'},{id:'B13',s:'ทะเลดอง',r:1500,st:'occupied'},{id:'B12',s:'น้ำปั่น',r:1500,st:'occupied'},{id:'B11',s:'เขียวหวาน',r:1000,st:'occupied'}];
-const CL_=[{id:'C1',s:'น้ำอัดลม',r:500,st:'occupied'},{id:'C2',s:'น้ำอัดลม',r:1000,st:'occupied'},{id:'C3',s:'ชาชีส',r:1500,st:'occupied'},{id:'C4',s:'ปลาแซลม่อน',r:1500,st:'occupied'},{id:'C5',s:'หม่าล่า',r:1500,st:'occupied'},{id:'C6',s:'กรีกโยเกิร์ต',r:1500,st:'occupied'},{id:'C7',s:'ซูชิ',r:1500,st:'occupied'},{id:'C8',s:'ซูชิ',r:1500,st:'occupied'},{id:'C9',s:'ทะเลทอด',r:1500,st:'occupied'},{id:'C10',s:'กุยฉ่าย',r:1000,st:'occupied'}];
-const CR_=[{id:'C21',s:'นกย่าง',r:1500,st:'occupied'},{id:'C20',s:'นกย่าง',r:1000,st:'occupied'},{id:'C19',s:'ข้าวปลา',r:1500,st:'occupied'},{id:'C18',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C17',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C16',s:'ยากิโซบะ',r:1500,st:'occupied'},{id:'C15',s:'สุกี้โรล',r:1500,st:'occupied'},{id:'C14',s:'ปลาไข่ทอด',r:1500,st:'occupied'},{id:'C13',s:'ยำลูกชิ้น',r:1500,st:'occupied'},{id:'C12',s:'แมลงทอด',r:1000,st:'occupied'}];
+const BR_=[{id:'B20',s:'เนื้อย่าง',r:1000,st:'occupied'},{id:'B19',s:'กุ้งอบ',r:1500,st:'occupied'},{id:'B18',s:'กุ้งอบ',r:1500,st:'occupied'},{id:'B17',s:'ข้าวหมก',r:1000,st:'occupied'},{id:'B16',s:'ข้าวหมก',r:1000,st:'occupied'},{id:'B15',s:'ปลาดุกฟู',r:1500,st:'occupied'},{id:'B14',s:'ไก่ย่าง',r:1500,st:'occupied'},{id:'B13',s:'ทะเลดอง',r:1500,st:'occupied'},{id:'B12',s:'น้ำปั่น',r:1500,st:'occupied'},{id:'B11',s:'เขียวหวาน',r:1000,st:'occupied'},{id:'BX',s:'ว่าง',r:0,st:'vacant'}];
+const CL_=[{id:'C1',s:'น้ำอัดลม',r:500,st:'occupied'},{id:'C2',s:'น้ำอัดลม',r:1000,st:'occupied'},{id:'C3',s:'ชาชีส',r:1500,st:'occupied'},{id:'C4',s:'ปลาแซลม่อน',r:1500,st:'occupied'},{id:'C5',s:'หม่าล่า',r:1500,st:'occupied'},{id:'C6',s:'กรีกโยเกิร์ต',r:1500,st:'occupied'},{id:'C7',s:'ซูชิ',r:1500,st:'occupied'},{id:'C8',s:'ซูชิ',r:1500,st:'occupied'},{id:'C9',s:'ทะเลทอด',r:1500,st:'occupied'},{id:'C10',s:'กุยฉ่าย',r:1000,st:'occupied'},{id:'CX',s:'ว่าง',r:0,st:'vacant'}];
+const CR_=[{id:'C21',s:'นกย่าง',r:1500,st:'occupied'},{id:'C20',s:'นกย่าง',r:1000,st:'occupied'},{id:'C19',s:'ข้าวปลา',r:1500,st:'occupied'},{id:'C18',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C17',s:'ไก่ทอด',r:1000,st:'occupied'},{id:'C16',s:'ยากิโซบะ',r:1500,st:'occupied'},{id:'C15',s:'สุกี้โรล',r:1500,st:'occupied'},{id:'C14',s:'ปลาไข่ทอด',r:1500,st:'occupied'},{id:'C13',s:'ยำลูกชิ้น',r:1500,st:'occupied'},{id:'C12',s:'แมลงทอด',r:1000,st:'occupied'},{id:'C11',s:'ว่าง',r:0,st:'vacant'}];
 const DC_=[{id:'D11',s:'เคบับ',r:1500,st:'occupied'},{id:'D10',s:'เกี้ยวต้ม',r:1000,st:'occupied'},{id:'D9',s:'หอยทอด',r:1500,st:'occupied'},{id:'D8',s:'หอยทอด',r:1500,st:'occupied'},{id:'D7',s:'เฉาก๊วย',r:1500,st:'occupied'},{id:'D6',s:'แพนเค้ก',r:1500,st:'occupied'},{id:'D5',s:'น้ำส้ม',r:1500,st:'occupied'},{id:'D4',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D3',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D2',s:'ข้าวมันกุ้ง',r:1500,st:'occupied'},{id:'D1',s:'น้ำยาปู',r:1500,st:'occupied'}];
 const FT_=[{id:'F16',s:'น้ำส้ม',r:1000,st:'occupied'},{id:'F15',s:'โตเกียว',r:1000,st:'occupied'},{id:'F14',s:'โดนัท',r:1000,st:'occupied'},{id:'F13',s:'โดนัท',r:1000,st:'occupied'}];
 // แถวโซนนอกวางจากซ้ายไปขวา F6 → F1 เพื่อให้ F1 อยู่ด้านขวาสุดตามผังจริง
@@ -2082,8 +2114,7 @@ function pmHasBackend(){
   return pmBackendMode()!=='sheets' ? true : !!getApiUrl();
 }
 /** ดึง getVendors พร้อม timeout + retry — คืน array ถ้าสำเร็จ, null ถ้าไม่สำเร็จ
-    โหมด Supabase เรียก PM_API โดยตรง: ผังเป็น iframe และ apiGet ของหน้าเดิมอาจยังชี้
-    ไปที่ Apps Script/คืน null ได้ แม้หน้าแม่ดึง Supabase สำเร็จแล้ว */
+    โหมด Supabase เรียก PM_API โดยตรง เพราะผังอยู่ใน iframe และ apiGet เดิมอาจคืน null */
 async function pmFetchVendors(){
   const viaApi = pmBackendMode()!=='sheets';
   if(!viaApi && !getApiUrl()) return null;
@@ -2161,6 +2192,7 @@ async function manualSync(){
 window.onload=function(){buildAll();setTimeout(checkTuesdayCycle,400);setTimeout(loadFromSheets,700);setTimeout(syncRealVendors,700);setTimeout(loadFullLeaveHistory,700);};
 
 </script>
+
 
 
 
