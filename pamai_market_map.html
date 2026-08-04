@@ -1757,7 +1757,8 @@ function showPopup(el,ev){
   if(phone&&isOccupied){phEl.innerHTML='<a href="tel:'+phone+'" style="color:var(--gm);font-weight:700">'+phone+'</a>';cBtn.href='tel:'+phone;cBtn.style.display='flex';}
   else{phEl.innerHTML='<span style="color:var(--txl)">'+(isOccupied?'ยังไม่ระบุเบอร์':'—')+'</span>';cBtn.style.display='none';}
 
-  document.getElementById('ppShop').textContent=d.shop||'—';
+  // d.shop คือข้อความย่อบนตัวล็อค (บางผังตั้งเป็นชื่อผู้ค้า) ไม่ใช่แหล่งข้อมูลสินค้า
+  document.getElementById('ppShop').textContent=isOccupied?(v.product||'—'):'—';
   document.getElementById('ppRoof').innerHTML=d.roof==='1'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีหลังคา+โต๊ะ':'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ไม่มี';
   document.getElementById('ppRent').textContent=parseInt(d.rent)>0?fmt(parseInt(d.rent))+'/เดือน':'—';
 
