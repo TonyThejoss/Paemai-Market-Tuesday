@@ -45,14 +45,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .lk:hover{transform:translateY(-3px) scale(1.08);z-index:20;box-shadow:0 5px 14px rgba(0,0,0,.16);}
 .lk.occupied{background:var(--gl);border-color:var(--gb);color:#1b4332;}
 .lk.vacant{background:var(--sf2);border-color:var(--bd2);color:var(--txl);}
-.lk.cancelled{background:var(--rl);border-color:var(--r);color:#7f1d1d;}
+.lk.cancelled,.lk.excluded{background:var(--rl);border-color:var(--r);color:#7f1d1d;}
 .lk.unpaid{background:var(--ol);border-color:var(--o);color:#7c2d12;}
 .lk.is-leave{outline:2.5px solid #7c3aed;outline-offset:1px;}
 .lk.is-absent{outline:2.5px solid var(--r);outline-offset:1px;}
 .lk.is-daily{filter:brightness(.88) saturate(1.2);}
 [data-theme="dark"] .lk.occupied{background:#132a1d;border-color:var(--gm);color:#86efac;}
 [data-theme="dark"] .lk.vacant{background:#1c2333;border-color:#484f58;color:#8b949e;}
-[data-theme="dark"] .lk.cancelled{background:#2d0a0a;border-color:var(--r);color:#fca5a5;}
+[data-theme="dark"] .lk.cancelled,[data-theme="dark"] .lk.excluded{background:#2d0a0a;border-color:var(--r);color:#fca5a5;}
 [data-theme="dark"] .lk.unpaid{background:#2d1200;border-color:var(--o);color:#fdba74;}
 .lk.has-roof::after{content:'';position:absolute;top:2px;right:2px;width:10px;height:10px;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232d6a4f%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2011%2012%203l9%208%22%2F%3E%3Cpath%20d%3D%22M5%2010v10h14V10%22%2F%3E%3Cpath%20d%3D%22M9%2020v-6h6v6%22%2F%3E%3C%2Fsvg%3E");background-size:contain;background-repeat:no-repeat;pointer-events:none;}
 .lk-id{font-size:.81rem;font-weight:800;}
@@ -62,13 +62,17 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .lk-badges{position:absolute;top:-6px;left:50%;transform:translateX(-50%);display:flex;gap:2px;z-index:5;white-space:nowrap;}
 .lk-badge{padding:1px 5px;border-radius:8px;font-size:.74rem;font-weight:800;color:#fff;}
 .lb-leave{background:#7c3aed;}.lb-absent{background:var(--r);}.lb-daily{background:#d97706;}
-.outdoor-strip{display:flex;gap:0;margin-bottom:14px;overflow-x:auto;}
+.outdoor-strip{display:flex;gap:34px;margin-bottom:14px;overflow-x:auto;padding:0 4px 8px;}
 .outdoor-strip::-webkit-scrollbar{height:4px;}
 .outdoor-strip::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
 .oz-col{flex-shrink:0;}
-.oz-col+.oz-col{border-left:2px dashed var(--bd2);margin-left:8px;padding-left:8px;}
+.oz-col+.oz-col{position:relative;}
+.oz-col+.oz-col::before{content:'ทางเดิน';position:absolute;left:-27px;top:30px;bottom:0;width:20px;
+  border-left:1.5px dashed var(--bd2);border-right:1.5px dashed var(--bd2);color:var(--txl);
+  display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-size:.72rem;font-weight:800;
+  letter-spacing:.08em;background:var(--sf2);border-radius:8px;}
 .oz-hdr{font-size:.87rem;font-weight:800;padding:2px 7px;border-radius:16px;margin-bottom:6px;display:inline-block;}
-.ff-wrap{display:flex;gap:12px;}
+.ff-wrap{display:flex;gap:3px;}
 .ff-side{display:flex;flex-direction:column;gap:3px;}
 .ff-div{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 2px;}
 .ff-line{flex:1;width:1.5px;background:repeating-linear-gradient(180deg,var(--bd) 0,var(--bd) 4px,transparent 4px,transparent 8px);}
@@ -704,7 +708,7 @@ input, select, textarea, button { font-family: inherit; max-width: 100%; }
             <div class="lk has-roof" data-id="SA17" data-zone="SA" data-shop="ล็อคว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA17</div><div class="lk-shop">—</div></div>
             <div class="lk has-roof" data-id="SA16" data-zone="SA" data-shop="ล็อคว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA16</div><div class="lk-shop">—</div></div>
             <div style="width:5px"></div>
-            <div class="lk has-roof" data-id="SA9" data-zone="SA" data-shop="ล็อคว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA9</div><div class="lk-shop">—</div></div>
+            <div class="lk has-roof excluded" data-id="SA9" data-zone="SA" data-shop="ยกเลิกการขาย" data-rent="0" data-roof="1" data-status="excluded"><div class="lk-id">SA9</div><div class="lk-shop">ยกเลิกการขาย</div></div>
             <div class="lk has-roof" data-id="SA8" data-zone="SA" data-shop="ล็อคว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA8</div><div class="lk-shop">—</div></div>
             <div style="width:5px"></div>
             <div class="lk has-roof" data-id="SA1" data-zone="SA" data-shop="ล็อคว่าง" data-rent="0" data-roof="1" data-status="vacant"><div class="lk-id">SA1</div><div class="lk-shop">—</div></div>
@@ -1098,8 +1102,15 @@ async function loadFromSheets(){
     // วิ่งตามหลังแล้วทับสถานะค้างชำระกลับเป็นปกติ
     if(Array.isArray(vendorRows) && !pmVendorLoaded) vendorRows.forEach(v=>{
       const el=document.querySelector('.lk[data-id="'+v.lock+'"]');if(!el)return;
+      if(el.dataset.status==='excluded') return;
       const st=(v.status==='terminated'||v.status==='vacant')?'vacant':(v.status==='unpaid'||unpaidLocks.has(v.lock)?'unpaid':'occupied');
-      el.dataset.status=st;el.dataset.shop=v.product||el.dataset.shop||'ผู้ค้า';
+      el.dataset.status=st;
+      if(st==='vacant'){
+        el.dataset.shop='ล็อคว่าง';el.dataset.rent='0';
+        el.dataset.vname='';el.dataset.vphone='';el.dataset.vproduct='';
+      }else{
+        el.dataset.shop=v.product||el.dataset.shop||'ผู้ค้า';
+      }
       ['vacant','occupied','unpaid','cancelled'].forEach(c=>el.classList.remove(c));el.classList.add(st);
       const shop=el.querySelector('.lk-shop');if(shop)shop.textContent=st==='vacant'?'—':el.dataset.shop;
     });
@@ -1491,11 +1502,14 @@ async function confirmCancelLease(){
     }
     await apiPost('logLeave',{data:{lock_id:lockId,zone:oldZone,shop:oldShop,type:'lease_cancel',note:note||'สิ้นสุดสัญญา',manager:getCurrentUserName(),date:nowTH(),time:nowTime()}});
     addHist(lockId,{type:'absent',label:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg> ยกเลิกการเช่า',note:note||'สิ้นสุดสัญญา'});
-    el.dataset.status='vacant'; el.dataset.shop='ว่าง'; el.dataset.rent='0';
-    el.querySelector('.lk-shop').textContent='ว่าง';
+    el.dataset.status='vacant'; el.dataset.shop='ล็อคว่าง'; el.dataset.rent='0';
+    el.dataset.vname=''; el.dataset.vphone=''; el.dataset.vproduct='';
+    el.querySelector('.lk-shop').textContent='—';
     ['occupied','unpaid','cancelled'].forEach(c=>el.classList.remove(c));
     el.classList.add('vacant');
     lockAbsent[lockId]='';
+    const closedVendor=REAL_VENDORS.find(v=>v.lock===lockId);
+    if(closedVendor) closedVendor.status='terminated';
     // กันผลตอบกลับ fetch เก่าที่กำลังวิ่งอยู่เขียนผู้ค้าเดิมกลับทับผัง
     await syncRealVendors();
   }
@@ -1538,10 +1552,16 @@ function applyRealVendorData(){
     const v=byId[id];
     const shopEl=el.querySelector('.lk-shop');
     ['occupied','vacant','unpaid','cancelled'].forEach(c=>el.classList.remove(c));
-    if(v){
-      // แก้ 2026-07-26: ล็อคที่ยกเลิกสัญญาแล้วต้องแสดงเป็น "ล็อคว่าง" ทันที (พร้อมให้เช่าใหม่)
-      // ไม่ใช่ 'cancelled' (สีแดง) ซึ่งทำให้ผู้จัดเข้าใจผิดว่าล็อคนั้นใช้งานไม่ได้
-      const st = v.status==='terminated' ? 'vacant' : (v.status==='unpaid' ? 'unpaid' : 'occupied');
+    if(el.dataset.status==='excluded'){
+      el.dataset.shop='ยกเลิกการขาย';el.dataset.rent='0';
+      el.dataset.vname='';el.dataset.vphone='';el.dataset.vproduct='';
+      el.classList.add('excluded','cancelled');
+      if(shopEl) shopEl.textContent='ยกเลิกการขาย';
+      refreshLk(el);
+      return;
+    }
+    if(v && v.status!=='terminated' && v.status!=='vacant'){
+      const st = v.status==='unpaid' ? 'unpaid' : 'occupied';
       el.dataset.status=st;
       el.dataset.shop=(v.name&&v.name!=='(ยังไม่ระบุ)')?v.name:(v.product||'—');
       el.dataset.rent=String(calcMonthlyRentMap(v.dailyRate));
@@ -1595,7 +1615,7 @@ async function syncRealVendors(){
 // คืนข้อมูลผู้ค้าปัจจุบันของล็อคหนึ่ง ๆ (ใช้เตรียมข้อมูลตั้งต้นของฟอร์มแก้ไข)
 // ถ้าล็อคนี้ยังไม่มีข้อมูลจริงใน Sheets จะ fallback ไปใช้ค่าตั้งต้นจาก data attribute ของล็อคในผัง (ซึ่งมาจาก HTML ตั้งต้น)
 function getVendorForEdit(lockId){
-  const real=REAL_VENDORS.find(v=>v.lock===lockId);
+  const real=REAL_VENDORS.find(v=>v.lock===lockId&&v.status!=='terminated'&&v.status!=='vacant');
   if(real) return real;
   const el=document.querySelector('.lk[data-id="'+lockId+'"]');
   const d=el?el.dataset:{};
@@ -1745,7 +1765,7 @@ function showPopup(el,ev){
   }
 
   // Header
-  const hc={occupied:'linear-gradient(135deg,#1a3d2b,#2d6a4f)',vacant:'linear-gradient(135deg,#475569,#64748b)',cancelled:'linear-gradient(135deg,#7f1d1d,#b91c1c)',unpaid:'linear-gradient(135deg,#7c2d12,#c2410c)'};
+  const hc={occupied:'linear-gradient(135deg,#1a3d2b,#2d6a4f)',vacant:'linear-gradient(135deg,#475569,#64748b)',cancelled:'linear-gradient(135deg,#7f1d1d,#b91c1c)',excluded:'linear-gradient(135deg,#7f1d1d,#b91c1c)',unpaid:'linear-gradient(135deg,#7c2d12,#c2410c)'};
   const extraH=at==='leave'?' (ลา)':at==='absent'?' (ขาด)':isDaily?' +จร':'';
   document.getElementById('ppHdr').style.background=hc[d.status]||hc.occupied;
   document.getElementById('ppLock').textContent=lockId+extraH;
@@ -1755,7 +1775,7 @@ function showPopup(el,ev){
   const vname=v.name||'(ยังไม่ระบุ)';
   const noName=!v.name||vname.includes('รอกรอก')||vname.includes('ยังไม่');
   const vEl=document.getElementById('ppVname');
-  vEl.textContent=isOccupied?vname:(isVacant?'ล็อคว่าง (ยังไม่มีผู้ค้าประจำ)':'ล็อคยกเลิก');
+  vEl.textContent=isOccupied?vname:(isVacant?'ล็อคว่าง (ยังไม่มีผู้ค้าประจำ)':'ยกเลิกการขาย');
   vEl.style.color=isOccupied&&!noName?'var(--tx)':'var(--txl)';
   vEl.style.fontStyle=noName||!isOccupied?'italic':'normal';
 
@@ -1769,8 +1789,8 @@ function showPopup(el,ev){
   document.getElementById('ppRoof').innerHTML=d.roof==='1'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีหลังคา+โต๊ะ':'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ไม่มี';
   document.getElementById('ppRent').textContent=parseInt(d.rent)>0?fmt(parseInt(d.rent))+'/เดือน':'—';
 
-  const stM={occupied:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีผู้เช่า',vacant:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--txl)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ล็อคว่าง',cancelled:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ยกเลิก',unpaid:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:#c2410c"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ค้างชำระ'};
-  const stC={occupied:'background:#d8f3dc;color:#1b4332',vacant:'background:#e5e7eb;color:#475569',cancelled:'background:#fee2e2;color:#7f1d1d',unpaid:'background:#ffedd5;color:#7c2d12'};
+  const stM={occupied:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> มีผู้เช่า',vacant:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--txl)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ล็อคว่าง',cancelled:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ยกเลิก',excluded:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--r)"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ยกเลิกการขาย',unpaid:'<svg class="ic ic-dot" viewBox="0 0 24 24" aria-hidden="true" style="color:#c2410c"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg> ค้างชำระ'};
+  const stC={occupied:'background:#d8f3dc;color:#1b4332',vacant:'background:#e5e7eb;color:#475569',cancelled:'background:#fee2e2;color:#7f1d1d',excluded:'background:#fee2e2;color:#7f1d1d',unpaid:'background:#ffedd5;color:#7c2d12'};
   let stTxt=stM[d.status]||d.status;
   if(isDaily)stTxt+=' · <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10 12 2H4v8l8 8 8-8Z" transform="translate(0 2)"/><circle cx="7.5" cy="7.5" r="1" transform="translate(0 2)"/></svg>จร';
   const stEl=document.getElementById('ppStatus');
@@ -1902,7 +1922,7 @@ function viewFullHistory(lockId){
 // ════════════════════════════════════════════════════
 // LOCK DATA
 // ════════════════════════════════════════════════════
-const SE=[{id:'SE1',s:'พี่ฝน',r:1000,st:'occupied'},{id:'SE2',s:'พี่ฝน',r:1000,st:'occupied'},{id:'SE3',s:'กุยฉ่าย',r:1000,st:'occupied'},{id:'SE4',s:'ว่าง',r:0,st:'vacant'},{id:'SE5',s:'ส้มตำ',r:1500,st:'occupied'},{id:'SE6',s:'สลัด',r:1000,st:'occupied'},{id:'SE7',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE8',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE9',s:'ผลไม้',r:500,st:'occupied'},{id:'SE10',s:'ผักใต้',r:1000,st:'occupied'},{id:'SE11',s:'ผักใต้',r:1000,st:'occupied'},{id:'SE12',s:'ผักใต้',r:500,st:'occupied'},{id:'SE13',s:'ยกเลิก',r:0,st:'cancelled'},{id:'SE14',s:'น้ำพริก',r:750,st:'occupied'},{id:'SE15',s:'น้ำพริก',r:1000,st:'occupied'},{id:'SE16',s:'ถุง',r:1000,st:'occupied'},{id:'SE17',s:'ว่าง',r:0,st:'vacant'},{id:'SE18',s:'ว่าง',r:0,st:'vacant'},{id:'SE19',s:'ว่าง',r:0,st:'vacant'},{id:'SE20',s:'ว่าง',r:0,st:'vacant'},{id:'SE21',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE22',s:'เป็ดย่าง',r:1000,st:'occupied'},{id:'SE23',s:'ว่าง',r:0,st:'vacant'}];
+const SE=[{id:'SE1',s:'พี่ฝน',r:1000,st:'occupied'},{id:'SE2',s:'พี่ฝน',r:1000,st:'occupied'},{id:'SE3',s:'กุยฉ่าย',r:1000,st:'occupied'},{id:'SE4',s:'ว่าง',r:0,st:'vacant'},{id:'SE5',s:'ส้มตำ',r:1500,st:'occupied'},{id:'SE6',s:'สลัด',r:1000,st:'occupied'},{id:'SE7',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE8',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE9',s:'ผลไม้',r:500,st:'occupied'},{id:'SE10',s:'ผักใต้',r:1000,st:'occupied'},{id:'SE11',s:'ผักใต้',r:1000,st:'occupied'},{id:'SE12',s:'ผักใต้',r:500,st:'occupied'},{id:'SE13',s:'ยกเลิกการขาย',r:0,st:'excluded'},{id:'SE14',s:'น้ำพริก',r:750,st:'occupied'},{id:'SE15',s:'น้ำพริก',r:1000,st:'occupied'},{id:'SE16',s:'ถุง',r:1000,st:'occupied'},{id:'SE17',s:'ว่าง',r:0,st:'vacant'},{id:'SE18',s:'ว่าง',r:0,st:'vacant'},{id:'SE19',s:'ว่าง',r:0,st:'vacant'},{id:'SE20',s:'ว่าง',r:0,st:'vacant'},{id:'SE21',s:'ผลไม้',r:1000,st:'occupied'},{id:'SE22',s:'เป็ดย่าง',r:1000,st:'occupied'},{id:'SE23',s:'ว่าง',r:0,st:'vacant'}];
 const SD=[{id:'SD1',s:'ก๋วยเตี๋ยว',r:1500,st:'occupied'},{id:'SD2',s:'ว่าง',r:0,st:'vacant'},{id:'SD3',s:'ขนมไทย',r:1000,st:'occupied'},{id:'SD4',s:'ขนมไทย',r:1000,st:'occupied'},{id:'SD5',s:'ขนมไทย',r:500,st:'occupied'},{id:'SD6',s:'ลาบก้อย',r:1500,st:'occupied'},{id:'SD7',s:'ข้าวนึ่ง',r:1500,st:'occupied'},{id:'SD8',s:'โดนัท',r:1500,st:'occupied'},{id:'SD9',s:'ว่าง',r:0,st:'vacant'},{id:'SD10',s:'ผักสด',r:500,st:'occupied'},{id:'SD11',s:'ผักสด',r:1000,st:'occupied'},{id:'SD12',s:'ผักสด',r:500,st:'occupied'},{id:'SD13',s:'ผักสด',r:500,st:'occupied'},{id:'SD14',s:'ดอกไม้',r:1000,st:'occupied'},{id:'SD15',s:'หน่อไม้',r:1000,st:'occupied'},{id:'SD16',s:'ว่าง',r:0,st:'vacant'},{id:'SD17',s:'ผลไม้',r:1500,st:'occupied'},{id:'SD18',s:'ผลไม้',r:1500,st:'occupied'},{id:'SD19',s:'ผลไม้',r:1500,st:'occupied'},{id:'SD20',s:'ว่าง',r:0,st:'vacant'},{id:'SD21',s:'ผลไม้',r:1000,st:'occupied'},{id:'SD22',s:'ผลไม้',r:750,st:'occupied'},{id:'SD23',s:'ว่าง',r:0,st:'vacant'}];
 const SC=[{id:'SC1',s:'เป็ดพะโล้',r:2000,st:'occupied'},{id:'SC2',s:'เป็ดพะโล้',r:100,st:'occupied'},{id:'SC3',s:'สลัด',r:1500,st:'occupied'},{id:'SC4',s:'หมูทอด',r:1500,st:'occupied'},{id:'SC5',s:'ไก่อบ',r:1250,st:'occupied'},{id:'SC6',s:'ไก่อบ',r:1250,st:'occupied'},{id:'SC7',s:'ของเล่น',r:1250,st:'occupied'},{id:'SC8',s:'ขนมปังปิ้ง',r:1250,st:'occupied'},{id:'SC9',s:'ว่าง',r:0,st:'vacant'},{id:'SC10',s:'น้ำส้ม',r:200,st:'occupied'},{id:'SC11',s:'น้ำส้ม',r:150,st:'occupied'},{id:'SC12',s:'ลูกชิ้น',r:1000,st:'occupied'},{id:'SC13',s:'ลูกชิ้น',r:1000,st:'occupied'},{id:'SC14',s:'ว่าง',r:0,st:'vacant'},{id:'SC15',s:'ข้าวเหนียว',r:1000,st:'occupied'},{id:'SC16',s:'ผลไม้',r:1500,st:'occupied'},{id:'SC17',s:'เค้กชา',r:1000,st:'occupied'},{id:'SC18',s:'ขนมหวาน',r:1000,st:'occupied'},{id:'SC19',s:'น้ำยาปู',r:1000,st:'occupied'},{id:'SC20',s:'ทะเลทอด',r:1000,st:'occupied'},{id:'SC21',s:'ผลไม้',r:1000,st:'occupied'},{id:'SC22',s:'ผลไม้',r:750,st:'occupied'},{id:'SC23',s:'ว่าง',r:0,st:'vacant'}];
 const SB=[{id:'SB1',s:'อาหารเหนือ',r:1400,st:'occupied'},{id:'SB2',s:'สาหราย',r:1000,st:'occupied'},{id:'SB3',s:'สาหราย',r:750,st:'occupied'},{id:'SB4',s:'สปาเก็ตตี้',r:1000,st:'occupied'},{id:'SB5',s:'ขนมเบื่อง',r:1000,st:'occupied'},{id:'SB6',s:'ผลไม้แกะ',r:1500,st:'occupied'},{id:'SB7',s:'ยำ',r:1500,st:'occupied'},{id:'SB8',s:'กับข้าว',r:1000,st:'occupied'},{id:'SB9',s:'กับข้าว',r:500,st:'occupied'},{id:'SB10',s:'ว่าง',r:0,st:'vacant'},{id:'SB11',s:'ไดฟุกุ',r:1500,st:'occupied'},{id:'SB12',s:'หมี่ไก่',r:1500,st:'occupied'},{id:'SB13',s:'ขนมไทย',r:1000,st:'occupied'},{id:'SB14',s:'หมูทอด',r:1000,st:'occupied'},{id:'SB15',s:'กะเพรา',r:1000,st:'occupied'},{id:'SB16',s:'มะม่วง',r:1000,st:'occupied'},{id:'SB17',s:'ไส้กรอก',r:1000,st:'occupied'},{id:'SB18',s:'ปลาเผา',r:1000,st:'occupied'},{id:'SB19',s:'หมูสเต๊ะ',r:1000,st:'occupied'},{id:'SB20',s:'ขนมไทย',r:750,st:'occupied'},{id:'SB21',s:'ปลาทอด',r:1000,st:'occupied'},{id:'SB22',s:'ปลาทอด',r:750,st:'occupied'},{id:'SB23',s:'ว่าง',r:0,st:'vacant'}];
@@ -1917,7 +1937,7 @@ const CR_=[{id:'C21',s:'นกย่าง',r:1500,st:'occupied'},{id:'C20',s:'�
 const DC_=[{id:'D11',s:'เคบับ',r:1500,st:'occupied'},{id:'D10',s:'เกี้ยวต้ม',r:1000,st:'occupied'},{id:'D9',s:'หอยทอด',r:1500,st:'occupied'},{id:'D8',s:'หอยทอด',r:1500,st:'occupied'},{id:'D7',s:'เฉาก๊วย',r:1500,st:'occupied'},{id:'D6',s:'แพนเค้ก',r:1500,st:'occupied'},{id:'D5',s:'น้ำส้ม',r:1500,st:'occupied'},{id:'D4',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D3',s:'บ้าบิ่น',r:1500,st:'occupied'},{id:'D2',s:'ข้าวมันกุ้ง',r:1500,st:'occupied'},{id:'D1',s:'น้ำยาปู',r:1500,st:'occupied'}];
 const FT_=[{id:'F16',s:'น้ำส้ม',r:1000,st:'occupied'},{id:'F15',s:'โตเกียว',r:1000,st:'occupied'},{id:'F14',s:'โดนัท',r:1000,st:'occupied'},{id:'F13',s:'โดนัท',r:1000,st:'occupied'}];
 // แถวโซนนอกวางจากซ้ายไปขวา F6 → F1 เพื่อให้ F1 อยู่ด้านขวาสุดตามผังจริง
-const FB_=[{id:'F6',s:'ยกเลิก',r:0,st:'cancelled'},{id:'F5',s:'บาบีคิว',r:1000,st:'occupied'},{id:'F4',s:'ข้าวโพด',r:1000,st:'occupied'},{id:'F3',s:'แซลม่อน',r:1000,st:'occupied'},{id:'F2',s:'ไก่แซ่บ',r:1000,st:'occupied'},{id:'F1',s:'หมูทอด',r:1000,st:'occupied'}];
+const FB_=[{id:'F6',s:'ยกเลิกการขาย',r:0,st:'excluded'},{id:'F5',s:'บาบีคิว',r:1000,st:'occupied'},{id:'F4',s:'ข้าวโพด',r:1000,st:'occupied'},{id:'F3',s:'แซลม่อน',r:1000,st:'occupied'},{id:'F2',s:'ไก่แซ่บ',r:1000,st:'occupied'},{id:'F1',s:'หมูทอด',r:1000,st:'occupied'}];
 
 function mk(d,zone,roof){
   const div=document.createElement('div');
@@ -1947,12 +1967,10 @@ function buildAll(){
     if(oz.R){
       const wrap=document.createElement('div');wrap.className='ff-wrap';
       const left=document.createElement('div');left.className='ff-side';
-      const divEl=document.createElement('div');divEl.className='ff-div';
-      divEl.innerHTML='<div class="ff-line"></div><div class="ff-arrow">↔</div><div class="ff-line"></div>';
       const right=document.createElement('div');right.className='ff-side';
       oz.L.forEach(function(d){left.appendChild(mk(d,oz.z,false));});
       oz.R.forEach(function(d){right.appendChild(mk(d,oz.z,false));});
-      wrap.appendChild(left);wrap.appendChild(divEl);wrap.appendChild(right);col_el.appendChild(wrap);
+      wrap.appendChild(left);wrap.appendChild(right);col_el.appendChild(wrap);
     } else {
       const side=document.createElement('div');side.className='ff-side';
       oz.L.forEach(function(d){side.appendChild(mk(d,oz.z,false));});col_el.appendChild(side);
